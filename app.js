@@ -4,26 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var partials = require('express-partials')
-//var WebSocketServer = require("ws").Server
-var http = require("http")
-var debug = require('debug')('app4');
-var port = process.env.PORT || 3000
 
-//var EventEmitter = require("events").EventEmitter
-//GLOBAL.myEmitter = new EventEmitter()
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
-var app = express()
-
-var routes = require('./routes/index')
-var users = require('./routes/users')
-
-app.set('port', port);
-
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-});
-
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
