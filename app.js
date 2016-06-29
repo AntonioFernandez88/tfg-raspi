@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var partials = require('express-partials')
 //var WebSocketServer = require("ws").Server
 //var http = require("http")
 var debug = require('debug')('app4');
@@ -32,9 +31,6 @@ var server = app.listen(app.get('port'), function() {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//usar express-partials
-//Para poder utilizar el template
-app.use(partials());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
