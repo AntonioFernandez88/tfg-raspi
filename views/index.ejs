@@ -21,7 +21,7 @@
         <span class="icon-bar"></span>
       </button>
       <a href="/">
-        <img src="/images/RaspiLogo.png"><!---.........................ESTO HAY QUE CAMBIARLO PARA HEROKU-->
+        <img src="/images/RaspiLogo.png">
       </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -39,18 +39,35 @@
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <script type="text/javascript">function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ')
+                        c = c.substring(1);
+                    if (c.indexOf(name) == 0)
+                        return c.substring(name.length, c.length);
+                }
+                return "";
+            }
+
+            function checkCookie() {
+                var nombre = getCookie("nombre");
+                var usuario = getCookie("usuario");
+                if (nombre != "" && usuario != "") {
+                    alert("Hola " + nombre + " tu usuario es: " + usuario);
+                    document.write("<li><a href="#"><span class="glyphicon glyphicon-user"></span>"). nombre . document.write("</a></li>");
+
+                } else {
+                    document.write("<li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Vincular</a></li>");
+                }
+            }</script>
+        
       </ul>
     </div>
   </div>
 </nav>
-
-<div class="container">
-  <h3>Collapsible Navbar</h3>
-  <p>In this example, the navigation bar is hidden on small screens and replaced by a button in the top right corner (try to re-size this window).
-  <p>Only when the button is clicked, the navigation bar will be displayed.</p>
-</div>
 
 </body>
 </html>
