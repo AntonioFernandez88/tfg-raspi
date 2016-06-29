@@ -39,7 +39,9 @@
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      <script type="text/javascript">function getCookie(cname) {
+      <script type="text/javascript">
+
+      		function getCookie(cname) {
                 var name = cname + "=";
                 var ca = document.cookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
@@ -57,10 +59,10 @@
                 var usuario = getCookie("usuario");
                 if (nombre != "" && usuario != "") {
                     alert("Hola " + nombre + " tu usuario es: " + usuario);
-                    document.write("<li><a href="#"><span class="glyphicon glyphicon-user"></span>"). nombre . document.write("</a></li>");
+                    document.write('<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>');
 
                 } else {
-                    document.write("<li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Vincular</a></li>");
+                    document.write('<li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Vincular</a></li>');
                 }
             }</script>
         
