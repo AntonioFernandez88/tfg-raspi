@@ -39,9 +39,15 @@
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      <script type="text/javascript">
+      <script>
 
-      		function getCookie(cname) {
+      		function deleteCookie() {
+                document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                location.reload();
+            }
+
+           function getCookie(cname) {
                 var name = cname + "=";
                 var ca = document.cookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
@@ -58,14 +64,14 @@
                 var nombre = getCookie("nombre");
                 var usuario = getCookie("usuario");
                 if (nombre != "" && usuario != "") {
-                    alert("Hola " + nombre + " tu usuario es: " + usuario);
-                    document.write('<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>');
-
+                    document.write('<li><span class="glyphicon glyphicon-user"></span>') + nombre + document.write('</a></li>');
+                    document.write('<li><button onclick="deleteCookie()"><span class="glyphicon glyphicon-off"></span></button></li>');
                 } else {
-                    document.write('<li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Vincular</a></li>');
+                	document.write('<li><a href="/vincular"><span class="glyphicon glyphicon-plus-sign "></span> Vincular</a></li>');
                 }
-            }</script>
-        
+            }
+            checkCookie();
+        </script>
       </ul>
     </div>
   </div>
