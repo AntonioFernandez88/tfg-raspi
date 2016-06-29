@@ -17,7 +17,7 @@ var app = express()
 
 var routes = require('./routes/index')
 var users = require('./routes/users')
-var vincular = require('-/routes/vincular')
+var vincular = require('/routes/vincular')
 
 app.set('port', port);
 
