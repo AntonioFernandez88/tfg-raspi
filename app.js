@@ -34,7 +34,7 @@ app.set('view engine', 'ejs');
 
 //usar express-partials
 //Para poder utilizar el template
-//app.use(partials());
+app.use(partials());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
