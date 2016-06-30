@@ -10,9 +10,10 @@ router.get('/', function(req, res, next) {
 /* GET home page. */
 router.get('/vincular', function(req, res, next) {
   res.render('vincular');
-  
+
+  req.query.nombre;
+  req.query.mac;
+
 });
-
-
 
 module.exports = router;
