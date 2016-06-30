@@ -15,8 +15,6 @@ GLOBAL.myEmitter = new EventEmitter()
 var app = express()
 
 var routes = require('./routes/index')
-var users = require('./routes/users')
-var vincular = require('./routes/vincular')
 
 app.set('port', port);
 
@@ -41,9 +39,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/vincular', vincular);
-
 
 
 // catch 404 and forward to error handler

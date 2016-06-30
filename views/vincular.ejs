@@ -11,12 +11,34 @@
 	<% include ../views/template/nav %>
 </nav>
 
-    <main>
-        <div class="jumbotron">
-            <h1 style="margin-top: 200px;">JHojaijaiosdf</h1>
-        </div>
-    </main>
+	<h2>Vincular</h2>
+	<form class="form-horizontal" method="get" action="/vincular">
+     <div class="form-group">
+         <label for="inputName" class="control-label col-xs-2">Nombre de Usuario:</label>
+         <div class="col-xs-10">
+             <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">
+         </div>
+     </div>
+     <div class="form-group">
+         <label for="inputEmail" class="control-label col-xs-2">Mac Pi:</label>
+         <div class="col-xs-10">
+             <input type="text" id="mac" name="mac" class="form-control" placeholder="Mac Pi">
+         </div>
+     </div>
+     <div class="form-group">
+         <label for="inputPassword" class="control-label col-xs-2">Nº Serie:</label>
+         <div class="col-xs-10">
+             <input type="text" id="nserie" name="nserie" class="form-control" placeholder="Nº Serie">
+         </div>
+     </div>
+     <div class="form-group">
+         <div class="col-xs-offset-2 col-xs-10">
+             <button type="submit" class="btn btn-primary">Enviar</button>
+         </div>
+     </div>
+</form>
     
 </body>
 </html>
+
 
