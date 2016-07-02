@@ -75,6 +75,18 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 }, false);
 
+MediaStreamTrack.getSources(gotSources);
+
+var constraints = {
+  audio: {
+    optional: [{sourceId: audioSource}]
+  },
+  video: {
+    optional: [{sourceId: videoSource}]
+  }
+};
+navigator.getUserMedia(constraints, successCallback, errorCallback);
+
 // Trigger photo take
 document.getElementById("snap").addEventListener("click", function() {
     context.drawImage(video, 0, 0, 640, 480);
