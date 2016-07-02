@@ -14,7 +14,6 @@ router.post('/', function(req, res, next) {
 //PARA CARGAR LA VISTA
 router.get('/vincular', function(req, res, next) {
   res.render('vincular');
-  console.log('holA');
 
 });
 
