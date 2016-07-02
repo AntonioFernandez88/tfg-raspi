@@ -30,8 +30,9 @@
       <script>
 
       		function deleteCookie() {
-                document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                document.cookie = "Nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                document.cookie = "Mac=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                document.cookie = "Nserie=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                 location.reload();
             }
 
@@ -49,12 +50,15 @@
             }
 
             function checkCookie() {
-                var nombre = getCookie("nombre");
-                var usuario = getCookie("usuario");
-                if (nombre != "" && usuario != "") {
-                    document.write('<li><span class="glyphicon glyphicon-user"></span>') + nombre + document.write('</a></li>');
-                    document.write('<li><button onclick="deleteCookie()"><span class="glyphicon glyphicon-off"></span></button></li>');
+                var nombre = getCookie("Nombre");
+                var mac = getCookie("Mac");
+                var nserie = getCookie("Nserie");
+                if (nombre != "" && mac != "") {
+                  console.log('hola');
+                    document.write('<li><a><span class="glyphicon glyphicon-user"> ' + nombre +'</span></a></li>');
+                    document.write('<li><a href="#" onclick="deleteCookie()" disabled><span class="glyphicon glyphicon-off"></span></a></li>');
                 } else {
+                  console.log('adios');
                 	document.write('<li><a href="/vincular"><span class="glyphicon glyphicon-plus-sign "></span> Vincular</a></li>');
                 }
             }
