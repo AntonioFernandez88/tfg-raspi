@@ -6,25 +6,25 @@
 
 <% include ../views/template/nav %>
 
-        <div class="container">
-            <h1>Camera API</h1>
+    <h3 class="center">QR code Reader Demo</h3>
 
-            <section class="main-content">
-                <p>A demo of the Camera API, currently implemented in Firefox and Google Chrome on Android. Choose to take a picture with your device's camera and a preview will be shown through createObjectURL or a FileReader object (choosing local files supported too).</p>
-                
-                <p>
-                    <input type="file" accept="image/*; capture=camera">
-                </p>
+    <div  class="center" id="reader" style="width:300px;height:250px;"></div>
 
-                <h2>Preview:</h2>
-                <p>
-                    <img src="about:blank" alt="" id="show-picture">
-                </p>
+    <h6 class="center">Result</h6>
+    <span id="read" class="center"></span>
+    <br>
 
-                <p id="error"></p>
+    <h6 class="center">Read Error (Debug only)</h6>
+    <span class="center">Will constantly show a message, can be ignored</span>
+    <span id="read_error" class="center"></span>
 
-            </section>
-        </div>
+    <br>
+    <h6 class="center">Video Error</h6>
+    <span id="vid_error" class="center"></span>
+
+    <br>
+    <br>
+    <br>
 
     <script src="javascripts/jquery-1.9.1.min.js"></script>
     <script src="javascripts/html5-qrcode.min.js"></script>
