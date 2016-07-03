@@ -38,16 +38,9 @@
      </div>
 </form>
 
-<video id="video" width="300" height="250" autoplay></video>
-
-
-<canvas id="canvas" width="300" height="250"></canvas>
-
-<h6 class="center">Result</h6>
-    <span id="read" class="center"></span>
-    <br>
-
-<script src="javascripts/html5-qrcode.min.js"></script>
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
 
 <script type="text/javascript">
     
@@ -85,19 +78,6 @@ window.addEventListener("DOMContentLoaded", function() {
 // Trigger photo take
 document.getElementById("snap").addEventListener("click", function() {
     context.drawImage(video, 0, 0, 640, 480);
-});
-</script>
-<script type="text/javascript">
-    $(document).ready(function(){
-    $('#canvas').html5_qrcode(function(data){
-            $('#read').html(data);
-        },
-        function(error){
-            $('#read_error').html(error);
-        }, function(videoError){
-            $('#vid_error').html(videoError);
-        }
-    );
 });
 </script>
     
