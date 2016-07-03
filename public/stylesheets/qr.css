@@ -1,4 +1,7 @@
-
+body{
+    width:100%;
+    text-align:center;
+}
 img{
     border:0;
 }
@@ -6,7 +9,7 @@ img{
     margin: 15px auto;
     background:white;
     overflow: auto;
-	width: 100%;
+    width: 100%;
 }
 #header{
     background:white;
@@ -15,7 +18,7 @@ img{
 #mainbody{
     background: white;
     width:100%;
-	display:none;
+    display:none;
 }
 #footer{
     background:white;
@@ -42,11 +45,11 @@ img{
     z-index:100;
     font:18px arial,sans-serif;
     background:#f0f0f0;
-	margin-left:35px;
-	margin-right:35px;
-	padding-top:10px;
-	padding-bottom:10px;
-	border-radius:20px;
+    margin-left:35px;
+    margin-right:35px;
+    padding-top:10px;
+    padding-bottom:10px;
+    border-radius:20px;
 }
 .selector{
     margin:0;
@@ -58,14 +61,14 @@ img{
 {
     width:320px;
     height:240px;
-	border: solid;
-	border-width: 3px 3px 3px 3px;
+    border: solid;
+    border-width: 3px 3px 3px 3px;
 }
 #result{
-  border: solid;
-	border-width: 1px 1px 1px 1px;
-	padding:20px;
-	width:320px;
+    border: solid;
+    border-width: 1px 1px 1px 1px;
+    padding:20px;
+    width:70%;
 }
 
 ul{
@@ -85,7 +88,7 @@ li a{
 }
 
 #footer a{
-	color: black;
+    color: black;
 }
 .tsel{
     padding:0;
