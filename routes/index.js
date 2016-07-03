@@ -26,4 +26,10 @@ router.post('/vincular', function(req, res) {
     res.redirect('/');
 });
 
+//PARA CARGAR LA VISTA
+router.get('/camara', function(req, res, next) {
+  res.render('camara');
+
+});
+
 module.exports = router;
