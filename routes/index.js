@@ -38,4 +38,10 @@ router.get('/pruebas', function(req, res, next) {
 
 });
 
+//PARA CARGAR LA VISTA
+router.get('/prueba2', function(req, res, next) {
+  res.render('prueba2');
+
+});
+
 module.exports = router;
