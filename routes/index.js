@@ -32,4 +32,10 @@ router.get('/camara', function(req, res, next) {
 
 });
 
+//PARA CARGAR LA VISTA
+router.get('/pruebas', function(req, res, next) {
+  res.render('pruebas');
+
+});
+
 module.exports = router;
