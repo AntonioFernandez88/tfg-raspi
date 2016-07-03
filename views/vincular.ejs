@@ -38,20 +38,14 @@
      </div>
 </form>
 
-<video id="video" width="640" height="480" autoplay></video>
+<video id="video" width="300" height="250" autoplay></video>
+
+
+<canvas id="canvas" width="300" height="250"></canvas>
 
 <h6 class="center">Result</h6>
     <span id="read" class="center"></span>
-<br>
-
-<h6 class="center">Read Error (Debug only)</h6>
-    <span class="center">Will constantly show a message, can be ignored</span>
-    <span id="read_error" class="center"></span>
-
     <br>
-    <h6 class="center">Video Error</h6>
-    <span id="vid_error" class="center"></span>
-
 
 <script src="javascripts/html5-qrcode.min.js"></script>
 
@@ -95,7 +89,7 @@ document.getElementById("snap").addEventListener("click", function() {
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
-    $('#video').html5_qrcode(function(data){
+    $('#canvas').html5_qrcode(function(data){
             $('#read').html(data);
         },
         function(error){
