@@ -1,0 +1,64 @@
+<html>
+
+<% include ../views/template/head %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/qr.css">
+
+<script type="text/javascript" src="javascripts/llqrcode.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="javascripts/webqr.js"></script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24451557-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<body>
+<% include ../views/template/nav %>
+<div id="main">
+<div id="header">
+<p id="mp1">
+QR Code scanner
+</p>
+
+</div>
+<div id="mainbody">
+<table class="tsel" border="0" width="100%">
+<tr>
+<td valign="top" align="center" width="50%">
+<table class="tsel" border="0">
+<tr>
+<td><span class="selector" id="webcamimg" src="vid.png" onclick="setwebcam()" align="left"> </span></td>
+<td><span class="selector" id="qrimg" src="cam.png" onclick="setimg()" align="right"></span></td></tr>
+<tr><td colspan="2" align="center">
+<div id="outdiv">
+</div></td></tr>
+</table>
+</td>
+</tr>
+
+<tr><td colspan="3" align="center">
+<div id="result"></div>
+</td></tr>
+</table>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- webqr_2016 -->
+
+</div>
+
+</div>
+<canvas id="qr-canvas" width="800" height="600"></canvas>
+<script type="text/javascript">load();</script>
+</body>
+
+</html>
