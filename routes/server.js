@@ -13,6 +13,9 @@ const server = express()
 
 const wss = new SocketServer({ server });
 
+router.get('/server', function(req, res, next) {
+  
+
 wss.on('connection', function(ws) {
 
 console.log('Cliente conectado...');
@@ -28,3 +31,5 @@ console.log('Cliente conectado...');
         console.log('Cliente desconectado...');
       });
     });
+  
+});
