@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const SocketServer = require("ws").Server
+const SocketServer = require("ws")
 var http = require("http")
 var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
@@ -23,7 +23,8 @@ app.set('port', port);
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });
-const ws = new SocketServer({server: server});
+//const ws = new SocketServer({server: server});
+const ws = new SocketServer("https://serverwss.herokuapp.com/");
 
 var message = '{"src" : "80:C1:45:A5:1B:7F", "dst" : "D4:B2:54:E2:24:2D" , "path" : "/led/on"}';
 ws.onopen = function()
