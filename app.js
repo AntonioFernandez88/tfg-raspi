@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const SocketServer = require("ws")
+const SocketServer = require("ws").Server
 var http = require("http")
 var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
@@ -18,27 +18,12 @@ var routes = require('./routes/index')
 
 app.set('port', port);
 
-//Para eliminar bin
-app.set('port', process.env.PORT || 3000);
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', routes);
-
-
 //----------------------------------------------------------------------------------------WS-------------------
-const ws = new SocketServer("https://serverwss.herokuapp.com/");
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+const ws = new SocketServer({server: server});
 
 var message = '{"src" : "80:C1:45:A5:1B:7F", "dst" : "D4:B2:54:E2:24:2D" , "path" : "/led/on"}';
 ws.onopen = function()
@@ -97,6 +82,22 @@ function waitForSocketConnection(socket, callback){
 }
 
 //-------------------------------------------------------------------------------------------------------------------
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
 
 
 // catch 404 and forward to error handler
