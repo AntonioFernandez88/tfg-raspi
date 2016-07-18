@@ -1,11 +1,11 @@
 var express = require('express');
-var path = require('path');
+const path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var WebSocketServer = require("ws").Server
-//var http = require("http")
+const SocketServer = require("ws")
+var http = require("http")
 var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
 
@@ -21,10 +21,6 @@ app.set('port', port);
 //Para eliminar bin
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-});
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,6 +35,68 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+
+
+//----------------------------------------------------------------------------------------WS-------------------
+const ws = new SocketServer("https://serverwss.herokuapp.com/");
+
+var message = '{"src" : "80:C1:45:A5:1B:7F", "dst" : "D4:B2:54:E2:24:2D" , "path" : "/led/on"}';
+ws.onopen = function()
+               {
+
+                  console.log("Connection is open...");
+
+            
+            }
+
+ws.onmessage = function (msg) 
+               { 
+
+                  var received_msg = JSON.parse(msg.data);
+
+                  
+                  if(received_msg.dst == "80:C1:45:A5:1B:7F"){
+                    console.log("Destination: " + received_msg.dst);
+                  }
+               };
+        
+ws.onclose = function()
+               { 
+                  console.log("Connection is closed..."); 
+
+               };
+
+sendMessage(message);
+//Funciones envio de mensajes
+
+function sendMessage(msg){
+    // Wait until the state of the socket is not ready and send the message when it is...
+    waitForSocketConnection(ws, function(){
+        console.log("message sent!!!");
+        ws.send(msg);
+    });
+}
+
+// Make the function wait until the connection is made...
+function waitForSocketConnection(socket, callback){
+    setTimeout(
+        function () {
+            if (socket.readyState === 1) {
+                console.log("Connection is made")
+                if(callback != null){
+                    callback();
+                }
+                return;
+
+            } else {
+                //console.log("wait for connection...")
+                waitForSocketConnection(socket, callback);
+            }
+
+        }, 5); // wait 5 milisecond for the connection...
+}
+
+//-------------------------------------------------------------------------------------------------------------------
 
 
 // catch 404 and forward to error handler

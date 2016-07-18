@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
 	var nombre = req.query.nombre || '';
 
 	if(nombre != ''){
+		console.log('hola');
 		var name = res.cookie('Nombre', req.query.nombre, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.redirect('/');
 	}else{
@@ -32,6 +33,18 @@ router.get('/vincular', function(req, res, next) {
 	    res.redirect('/');
 	}else{res.render('vincular');}
   
+});
+
+//PARA CARGAR LA VISTA
+router.get('/camara', function(req, res, next) {
+  res.render('camara');
+
+});
+
+//PARA CARGAR LA VISTA
+router.get('/pruebas', function(req, res, next) {
+  res.render('pruebas');
+
 });
 
 //PARA CARGAR LA VISTA
