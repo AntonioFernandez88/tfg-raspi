@@ -1,0 +1,21 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../views/template/head %>
+</head>
+<body>
+
+<nav>
+	<% include ../views/template/nav %>
+</nav>
+
+    <form method="get" action="/led">
+      <button type="submit" name="opcion" value="on">Encender Led</button>
+      <button type="submit" name="opcion" value="off">Apagar Led</button>
+      <button type="submit" name="opcion" value="blink">Parpadear Led</button>
+    </form>
+    
+</body>
+</html>

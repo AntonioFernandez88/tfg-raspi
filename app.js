@@ -52,7 +52,11 @@ ws.onclose = function()
 
                };
 
-sendMessage(message);
+myEmitter.on('event', function(msg){
+
+        sendMessage(msg);
+});
+
 //Funciones envio de mensajes
 
 function sendMessage(msg){

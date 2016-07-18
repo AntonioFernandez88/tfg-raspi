@@ -53,4 +53,31 @@ router.get('/qr', function(req, res, next) {
 
 });
 
+//WEBSOCKET
+
+router.get('/led', function(req, res, next){
+
+	var led = req.query.opcion || '';
+	if(led != ''){
+		if(led == 'on'){
+			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/on"}';
+			myEmitter.emit('event', msg);
+			res.render('led',{opcion: 'Led On'});
+		}else if(led === 'off'){
+
+			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/off"}';
+			myEmitter.emit('event', msg);
+			res.render('led',{opcion: 'Led Off'});
+		}else if(led === 'blink'){
+
+			var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/blink"}';
+			myEmitter.emit('event', msg);
+			res.render('led',{opcion: 'Led Parpadeando'});
+		}
+	}else{
+		res.render('led');
+	}
+
+});
+
 module.exports = router;
