@@ -27,24 +27,26 @@
                 var nombre = getCookie("Nombre");
                 if (nombre != "") {
                 	document.write('<h1>Bienvenido '+ nombre + '</h1>')
-                } else {  		
-                    document.write('<div id="center" class="container center_div">')	
-                	document.write('<h3>Bienvenido a Raspberry Pi Controller</h1>')
-           			 document.write('<h4>Por favor Introduzca un nombre de Usuario</h2>')
-           			 document.write('<form class="form-horizontal" method="get" action="/">')
-					      
-					          document.write('<label class="control-label col-xs-2">Nombre de Usuario:</label>')
-                              document.write('<div class="form-group" >')
-					          document.write('<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">')
-					          document.write('</div>')
-					      document.write('</div>')
-					      document.write('<div class="form-group">')
-					          document.write('<div class="col-xs-offset-2 col-xs-10">')
-					              document.write('<button type="submit" class="btn btn-primary">Enviar</button>')
-					          document.write('</div>')
-					      document.write('</div>')
-                     document.write('</div>')
-					 document.write('</form>')
+                } else {  	
+                var html;
+                   html ='<div id="center" class="container center_div">';
+                html +='<h3>Bienvenido a Raspberry Pi Controller</h1>';
+           			html +='<h4>Por favor Introduzca un nombre de Usuario</h2>';
+           			html +='<form class="form-horizontal" method="get" action="/">';
+    					   html +='<label class="control-label col-xs-2">Nombre de Usuario:</label>';
+                                html +='<div class="form-group" >';
+    					           html +='<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">';
+    					        html +='</div>';
+    					html +='</div>';
+    					   html +='<div class="form-group">';
+    					       html +='<div class="col-xs-offset-2 col-xs-10">';
+    					           html +='<button type="submit" class="btn btn-primary">Enviar</button>';
+    					       html +='</div>';
+    					   html +='</div>';
+                        html +='</div>';
+					html +='</form>';
+
+                    document.write(html);
                 }
             }
             checkCookie();
