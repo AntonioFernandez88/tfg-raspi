@@ -29,20 +29,14 @@
            document.write('<h1>Bienvenido '+ nombre + '</h1>')
        } else {  	
         var html;
-        html ='<div id="center" class="container center_div">';
-        html +='<h3>Bienvenido a Raspberry Pi Controller</h1>';
-        html +='<h4>Por favor Introduzca un nombre de Usuario</h2>';
-        html +='<form class="form-horizontal" method="get" action="/">';
-        html +='<label class="control-label col-xs-2">Nombre de Usuario:</label>';
+        html ='<h4>Bienvenido a Raspberry Pi Controller</h4>';
+        html +='<h5>Por favor Introduzca los datos</h5>';
+        html +='<form method="get" action="/">';
         html +='<div class="form-group" >';
+        html +='<label">Nombre de Usuario:</label>';
         html +='<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">';
         html +='</div>';
-        html +='</div>';
-        html +='<div class="form-group">';
-        html +='<div class="col-xs-offset-2 col-xs-10">';
         html +='<button type="submit" class="btn btn-primary">Enviar</button>';
-        html +='</div>';
-        html +='</div>';
         html +='</div>';
         html +='</form>';
 
