@@ -7,51 +7,51 @@
 
 <body>
 
-<% include ../views/template/nav %>
+    <% include ../views/template/nav %>
 
-         <script>
-           function getCookie(cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ')
-                        c = c.substring(1);
-                    if (c.indexOf(name) == 0)
-                        return c.substring(name.length, c.length);
-                }
-                return "";
-            }
+    <script>
+     function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1);
+            if (c.indexOf(name) == 0)
+                return c.substring(name.length, c.length);
+        }
+        return "";
+    }
 
-            function checkCookie() {
-                var nombre = getCookie("Nombre");
-                if (nombre != "") {
-                	document.write('<h1>Bienvenido '+ nombre + '</h1>')
-                } else {  	
-                var html;
-                   html ='<div id="center" class="container center_div">';
-                html +='<h3>Bienvenido a Raspberry Pi Controller</h1>';
-           			html +='<h4>Por favor Introduzca un nombre de Usuario</h2>';
-           			html +='<form class="form-horizontal" method="get" action="/">';
-    					   html +='<label class="control-label col-xs-2">Nombre de Usuario:</label>';
-                                html +='<div class="form-group" >';
-    					           html +='<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">';
-    					        html +='</div>';
-    					html +='</div>';
-    					   html +='<div class="form-group">';
-    					       html +='<div class="col-xs-offset-2 col-xs-10">';
-    					           html +='<button type="submit" class="btn btn-primary">Enviar</button>';
-    					       html +='</div>';
-    					   html +='</div>';
-                        html +='</div>';
-					html +='</form>';
+    function checkCookie() {
+        var nombre = getCookie("Nombre");
+        if (nombre != "") {
+           document.write('<h1>Bienvenido '+ nombre + '</h1>')
+       } else {  	
+        var html;
+        html ='<div id="center" class="container center_div">';
+        html +='<h3>Bienvenido a Raspberry Pi Controller</h1>';
+        html +='<h4>Por favor Introduzca un nombre de Usuario</h2>';
+        html +='<form class="form-horizontal" method="get" action="/">';
+        html +='<label class="control-label col-xs-2">Nombre de Usuario:</label>';
+        html +='<div class="form-group" >';
+        html +='<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">';
+        html +='</div>';
+        html +='</div>';
+        html +='<div class="form-group">';
+        html +='<div class="col-xs-offset-2 col-xs-10">';
+        html +='<button type="submit" class="btn btn-primary">Enviar</button>';
+        html +='</div>';
+        html +='</div>';
+        html +='</div>';
+        html +='</form>';
 
-                    document.write(html);
-                }
-            }
-            checkCookie();
-        </script>
+        document.write(html);
+    }
+}
+checkCookie();
+</script>
 
-  
+
 </body>
 </html>

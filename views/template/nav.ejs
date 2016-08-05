@@ -7,46 +7,44 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
-      <a href="/">
+    </button>
+    <a href="/">
         <img src="/images/RaspiLogo.png">
-      </a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="/qr">Leer QR</a></li>
+    </a>
+</div>
+<div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="nav navbar-nav">
+        <li><a href="/vincular">Vincular</a></li>
+        <li><a href="#">Que es RaspBeryPi</a></li>
         <li><a href="/led">Led</a></li>
-      </ul>
-      
-      <script>
+    </ul>
+    <script>
+        function deleteCookie() {
+            document.cookie = "Nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            document.cookie = "Mac=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            document.cookie = "Nserie=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            location.reload();
+        }
 
-      		function deleteCookie() {
-                document.cookie = "Nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                document.cookie = "Mac=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                document.cookie = "Nserie=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                location.reload();
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ')
+                    c = c.substring(1);
+                if (c.indexOf(name) == 0)
+                    return c.substring(name.length, c.length);
             }
+            return "";
+        }
 
-           function getCookie(cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ')
-                        c = c.substring(1);
-                    if (c.indexOf(name) == 0)
-                        return c.substring(name.length, c.length);
-                }
-                return "";
-            }
+        function checkCookie() {
+            var nombre = getCookie("Nombre");
+            var mac = getCookie("Mac");
+            var nserie = getCookie("Nserie");
+            if (nombre != "") {
 
-            function checkCookie() {
-                var nombre = getCookie("Nombre");
-                var mac = getCookie("Mac");
-                var nserie = getCookie("Nserie");
-                if (nombre != "") {
-          
                   /*document.write('<ul class="nav navbar-nav navbar-right">
                     <li class="dropdown nav navbar-nav navbar-right">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"> ' + nombre + ' </span></a>
@@ -57,23 +55,22 @@
                     <li><a href="#" onclick="deleteCookie()" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a></li>
                     </ul>
                     </li>
-                    </ul>');'*/
-
-                  document.write('<ul class="nav navbar-nav navbar-right">');
-                    document.write('<li class="dropdown nav navbar-nav navbar-right">');
-                    document.write('<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"> ' + nombre + ' </span></a>');
-                    document.write('<ul class="dropdown-menu">');
-                    document.write('<li><a href="#">Page 1-1</a></li>');
-                    document.write('<li><a href="#">Page 1-2</a></li>');
-                    document.write('<li><a href="#">Page 1-3</a></li>');
-                    document.write('<li><a href="#" onclick="deleteCookie()" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a></li>');
-                    document.write('</ul>');
-                    document.write('</li>');
-                    document.write('</ul>');
-                }
+                </ul>');'*/
+                document.write('<ul class="nav navbar-nav navbar-right">');
+                document.write('<li class="dropdown nav navbar-nav navbar-right">');
+                document.write('<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"> ' + nombre + ' </span></a>');
+                document.write('<ul class="dropdown-menu">');
+                document.write('<li><a href="#">Page 1-1</a></li>');
+                document.write('<li><a href="#">Page 1-2</a></li>');
+                document.write('<li><a href="#">Page 1-3</a></li>');
+                document.write('<li><a href="#" onclick="deleteCookie()" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a></li>');
+                document.write('</ul>');
+                document.write('</li>');
+                document.write('</ul>');
             }
-            checkCookie();
-        </script>
-    </div>
-  </div>
+        }
+        checkCookie();
+    </script>
+</div>
+</div>
 </nav>

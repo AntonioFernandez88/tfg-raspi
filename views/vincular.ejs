@@ -7,38 +7,55 @@
 </head>
 <body>
 
-<nav>
-	<% include ../views/template/nav %>
-</nav>
+    <nav>
+     <% include ../views/template/nav %>
+ </nav>
 
-	<form class="form-horizontal" method="get" action="/vincular">
-     <div class="form-group">
-         <h2 class="control-label col-xs-2">Vincular</h2>
-     </div>
-     <div class="form-group">
-         <label for="inputName" class="control-label col-xs-2">Nombre de Usuario:</label>
-         <div class="col-xs-5">
-             <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">
+ <form method="get" action="/vincular">
+ <!--
+         <div class="form-group">
+             <h2 class="control-label col-xs-2">Vincular</h2>
          </div>
-     </div>
-     <div class="form-group">
-         <label for="inputEmail" class="control-label col-xs-2">Mac Pi:</label>
-         <div class="col-xs-5">
-             <input type="text" id="mac" name="mac" class="form-control" placeholder="Mac Pi">
+         <div class="form-group">
+             <label for="inputName" class="control-label col-xs-2">Nombre de Usuario:</label>
+             <div class="col-xs-5">
+                 <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">
+             </div>
          </div>
-     </div>
-     <div class="form-group">
-         <label for="inputPassword" class="control-label col-xs-2">Nº Serie:</label>
-         <div class="col-xs-5">
-             <input type="text" id="nserie" name="nserie" class="form-control" placeholder="Nº Serie">
+         <div class="form-group">
+             <label for="inputEmail" class="control-label col-xs-2">Mac Pi:</label>
+             <div class="col-xs-5">
+                 <input type="text" id="mac" name="mac" class="form-control" placeholder="Mac Pi">
+             </div>
          </div>
-     </div>
-     <div class="form-group">
-         <div class="col-xs-offset-2 col-xs-10">
-             <button type="submit" class="btn btn-primary">Enviar</button>
+         <div class="form-group">
+             <label for="inputPassword" class="control-label col-xs-2">Nº Serie:</label>
+             <div class="col-xs-5">
+                 <input type="text" id="nserie" name="nserie" class="form-control" placeholder="Nº Serie">
+             </div>
          </div>
-     </div>
-</form>
+         <div class="form-group">
+             <div class="col-xs-offset-2 col-xs-10">
+                 <button type="submit" class="btn btn-primary">Enviar</button>
+             </div>
+         </div>-->
+           <div class="form-group has-success">
+    <label for="Name">Name (With has-success class)</label>
+    <input type="name" class="form-control" id="Name" placeholder="Name">
+  </div>
+  <div class="form-group has-warning">
+    <label for="Email1">Email (With has-warning class)</label>
+    <input type="email" class="form-control" id="Email1" placeholder="Email">
+  </div>  
+  <div class="form-group has-error">
+    <label for="Password1">Password (With has-error class)</label>
+    <input type="password" class="form-control" id="Password1" placeholder="Password">
+  </div>  
+
+  <button type="submit" class="btn btn-info">Enviar</button>
+
+  </form>
+ </form>
 </body>
 </html>
 
