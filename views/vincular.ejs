@@ -8,54 +8,27 @@
 <body>
 
     <nav>
-     <% include ../views/template/nav %>
- </nav>
+       <% include ../views/template/nav %>
+   </nav>
 
- <form method="get" action="/vincular">
- <!--
-         <div class="form-group">
-             <h2 class="control-label col-xs-2">Vincular</h2>
-         </div>
-         <div class="form-group">
-             <label for="inputName" class="control-label col-xs-2">Nombre de Usuario:</label>
-             <div class="col-xs-5">
-                 <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">
-             </div>
-         </div>
-         <div class="form-group">
-             <label for="inputEmail" class="control-label col-xs-2">Mac Pi:</label>
-             <div class="col-xs-5">
-                 <input type="text" id="mac" name="mac" class="form-control" placeholder="Mac Pi">
-             </div>
-         </div>
-         <div class="form-group">
-             <label for="inputPassword" class="control-label col-xs-2">Nº Serie:</label>
-             <div class="col-xs-5">
-                 <input type="text" id="nserie" name="nserie" class="form-control" placeholder="Nº Serie">
-             </div>
-         </div>
-         <div class="form-group">
-             <div class="col-xs-offset-2 col-xs-10">
-                 <button type="submit" class="btn btn-primary">Enviar</button>
-             </div>
-         </div>-->
-         <div class="form-group">
-             <h2 class="control-label">Vincular</h2>
-         </div>
-         <div class="form-group">
-         <label for="Nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
-        </div>
-        <div class="form-group">
-            <label for="Mac">Mac Pi</label>
-            <input type="text" class="form-control" id="mac" name="mac" placeholder="Mac Pi" required>
-        </div>  
-        <div class="form-group">
-            <label for="Nserie">Número de serie</label>
-            <input type="text" class="form-control" id="nserie" name="nserie" placeholder="Nº Serie" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>  
- </form>
+   <form method="get" action="/vincular">
+       <div class="form-group">
+           <h2 class="control-label">Vincular</h2>
+       </div>
+       <div class="form-group">
+           <label for="Nombre">Nombre</label>
+           <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+       </div>
+       <div class="form-group">
+        <label for="Mac">Mac Pi</label>
+        <input type="text" class="form-control" id="mac" name="mac" placeholder="Mac Pi" required>
+    </div>  
+    <div class="form-group">
+        <label for="Nserie">Número de serie</label>
+        <input type="text" class="form-control" id="nserie" name="nserie" placeholder="Nº Serie" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>  
+</form>
 </body>
 </html>
 
