@@ -37,6 +37,12 @@ router.get('/vincular', function(req, res, next) {
 
 });
 
+//ACCIONES
+router.get('/acciones', function(req, res, next) {
+	
+	res.render('acciones');
+});
+
 //WEBSOCKET
 router.get('/led', function(req, res, next){
 
