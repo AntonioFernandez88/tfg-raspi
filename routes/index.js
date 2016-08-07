@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var cont = 0;
 
 
 /* GET home page. */
@@ -30,8 +31,10 @@ router.get('/vincular', function(req, res, next) {
 	var nserie = req.query.mac || '';
 	if ((nombre != '') && (mac != '') && (nserie != '')){
 		var name = res.cookie('Nombre', req.query.nombre, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		var dirmac = res.cookie('Mac', req.query.mac, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		var numserie = res.cookie('Nserie', req.query.nserie, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
+		var dirmac = res.cookie('Mac'+cont, req.query.mac, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
+		var numserie = res.cookie('Nserie'+cont, req.query.nserie, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
+		cont++;
+		console.log(cont);
 		res.redirect('/');
 	}else{res.render('vincular');}
 

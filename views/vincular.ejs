@@ -75,7 +75,32 @@
                 <div class="form-row">
                     <label>
                         <span>Nombre</span>
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                        <script type="text/javascript">
+
+                             function getCookie(cname) {
+                                var name = cname + "=";
+                                var ca = document.cookie.split(';');
+                                for (var i = 0; i < ca.length; i++) {
+                                    var c = ca[i];
+                                    while (c.charAt(0) == ' ')
+                                        c = c.substring(1);
+                                    if (c.indexOf(name) == 0)
+                                        return c.substring(name.length, c.length);
+                                }
+                                return "";
+                            }
+
+                            function checkCookie() {
+                                var nombre = getCookie("Nombre");
+                                if (nombre != "") {
+                                   document.write('<input type="text" id="nombre" name="nombre" value="'+ nombre +'">');
+                               } else {    
+                                document.write('<input type="text" id="nombre" name="nombre" placeholder="Nombre" required>');
+                            }
+                        }
+                        checkCookie();
+                            
+                        </script>
                     </label>
                 </div>
                 <div class="form-row">
