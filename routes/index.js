@@ -37,13 +37,12 @@ router.get('/vincular', function(req, res, next) {
 		console.log(cont);
 		res.redirect('/');
 	}else{res.render('vincular');}
-
 });
 
 //ACCIONES
 router.get('/acciones', function(req, res, next) {
-	
-	res.render('acciones');
+	res.render('acciones', {count: cont});
+	console.log(cont);
 });
 
 //WEBSOCKET
