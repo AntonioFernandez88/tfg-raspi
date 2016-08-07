@@ -1,6 +1,3 @@
-
-
-<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -11,7 +8,7 @@
     <a href="/">
         <img src="/images/RaspiLogo.png">
     </a>
-</div>
+    </div>
 <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
         <li><a href="/vincular"><span class="glyphicon glyphicon-plus-sign"> Vincular</span></a></li>
@@ -57,14 +54,12 @@
                 html += '<li><a href="#" onclick="deleteCookie()" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a></li>';
                 html += '</ul>';
                 html += '</li>';
-                html += '</ul>';  
-           }else{
-                html ='</ul>'
            }
+    
            document.write(html);
         }
         checkCookie();
     </script>
+    </ul>
+    </div>
 </div>
-</div>
-</nav>

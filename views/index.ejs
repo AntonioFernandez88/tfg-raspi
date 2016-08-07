@@ -6,8 +6,9 @@
 </head>
 
 <body>
-
-    <% include ../views/template/nav %>
+    <nav class="navbar navbar-inverse">
+        <% include ../views/template/nav %>
+    </nav>
 
     <script>
      function getCookie(cname) {
@@ -45,7 +46,4 @@
 }
 checkCookie();
 </script>
-
-
-</body>
-</html>
+<% include ../views/template/footer %>

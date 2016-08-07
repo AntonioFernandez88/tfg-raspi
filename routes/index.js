@@ -42,7 +42,6 @@ router.get('/vincular', function(req, res, next) {
 //ACCIONES
 router.get('/acciones', function(req, res, next) {
 	res.render('acciones', {count: cont});
-	console.log(cont);
 });
 
 //WEBSOCKET

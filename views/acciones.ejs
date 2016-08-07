@@ -7,12 +7,40 @@
 </head>
 <body>
 
-    <nav>
+    <nav class="navbar navbar-inverse">
      <% include ../views/template/nav %>
  </nav>
 <p>Listado de Pi connectadas</p>
     <span><%= count %></span>
-</body>
-</html>
 
+    <script type="text/javascript">
+
+       function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1);
+            if (c.indexOf(name) == 0)
+                return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+
+    function checkCookie() {
+
+        var mac = new Array();
+        console.log(1);
+        for(var i = 0; i <= count;i++){
+
+            mac[i] = getCookie('Mac'+i);
+            console.log(mac[i]);
+            document.write('<h1>'+ mac[i] + '</h1>');
+        }
+    }
+checkCookie();
+
+</script>
+<% include ../views/template/footer %>
 
