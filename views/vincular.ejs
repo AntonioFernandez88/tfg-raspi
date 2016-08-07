@@ -4,12 +4,13 @@
 <html lang="en">
 
 <% include ../views/template/head %>
+<link rel="stylesheet" type="text/css" href="stylesheets/form-register.css">
 </head>
 <body>
 
     <nav>
-     <% include ../views/template/nav %>
- </nav>
+       <% include ../views/template/nav %>
+   </nav>
 
  <!--
  <div class="margin-left-form">
@@ -31,38 +32,80 @@
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>  
     </form>
-</div>-->
+</div>-
 
 <form class="form-horizontal" role="form" method="get" action="/vincular">
     <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-10">
+        <div class="col-lg-offset-3">
             <h3><b>Vincular</b></h3>
         </div>
     </div>
     <div class="form-group">
-        <label for="Name" class="col-lg-3 control-label">Nombre</label>
-        <div class="col-lg-6">
+        <label for="Name" class="col-sm-3 control-label">Nombre</label>
+        <div class="col-sm-6">
           <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
       </div>
     </div> 
     <div class="form-group">
-        <label for="Mac" class="col-lg-3 control-label">Mac Pi</label>
-        <div class="col-lg-6">
+        <label for="Mac" class="col-sm-3 control-label">Mac Pi</label>
+        <div class="col-sm-6">
             <input type="text" class="form-control" id="mac" name="mac" placeholder="Mac Pi" required>
         </div>
     </div>
     <div class="form-group">
-        <label for="Nserie" class="col-lg-3 control-label">Número de Serie</label>
-        <div class="col-lg-6">
+        <label for="Nserie" class="col-sm-3 control-label">Número de Serie</label>
+        <div class="col-sm-6">
             <input type="text" class="form-control" id="nserie" name="nserie" placeholder="Nº Serie" required>
     </div>
     </div>
     <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-10">
+        <div class="col-sm-offset-3 col-sm-10">
           <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
     </div>
-</form>
+-->
+
+<div class="main-content">
+    <form class="form-register" method="get" action="/vincular">
+        <div class="form-register-with-email">
+            <div class="form-white-background">
+                <div class="form-title-row">
+                    <h1>Vincular</h1>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Nombre</span>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Mac Pi</span>
+                        <input type="text" id="mac" name="mac" placeholder="Mac Pi" required>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Número de serie</span>
+                        <input type="text" id="nserie" name="nserie" placeholder="Nº Serie" required>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <button type="submit">Enviar</button>
+                </div>
+            </div>
+        </div>
+        <!--                                                         PUEDE ESTA BIEN SI DA TIEMPO
+        <div class="form-sign-in-with-social">
+            <div class="form-row form-title-row">
+                <span class="form-title">Sign in with</span>
+                </div>
+            <a href="#" class="form-google-button">Google</a>
+            <a href="#" class="form-facebook-button">Facebook</a>
+            <a href="#" class="form-twitter-button">Twitter</a>
+        </div>-->
+    </form>
+</div>
 </body>
 </html>
 
