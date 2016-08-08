@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var cont = 0;
 
 
 /* GET home page. */
@@ -19,7 +18,7 @@ router.get('/', function(req, res, next) {
 
 /* GET home page. */
 router.post('/', function(req, res, next) {
-	console.log(req.cookie);
+	console.log(req.cookies);
 });
 
 //PARA CARGAR LA VISTA
@@ -28,20 +27,32 @@ router.get('/vincular', function(req, res, next) {
 	//Si viene vacio carga la vista normal, si hay datos los guarda el formulario viene por get
 	var nombre = req.query.nombre || '';
 	var mac = req.query.mac || '';
-	var nserie = req.query.mac || '';
-	if ((nombre != '') && (mac != '') && (nserie != '')){
+	var nserie = req.query.nserie || '';
+	var cookieDirMac = [];
+
+	if(nombre != ''){
 		var name = res.cookie('Nombre', req.query.nombre, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		var dirmac = res.cookie('Mac'+cont, req.query.mac, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		var numserie = res.cookie('Nserie'+cont, req.query.nserie, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		cont++;
-		console.log(cont);
+	}
+
+	if((mac != '') && (nserie != '')){
+		
+		try{
+			cookieDirMac = JSON.parse(req.cookies.pi);
+		}catch(e){
+			console.log(e);
+			cookieDirMac = {};
+		}
+		cookieDirMac[nserie]={mac:mac, nserie:nserie};
+		res.cookie('pi', JSON.stringify(cookieDirMac), {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.redirect('/');
 	}else{res.render('vincular');}
+
 });
 
 //ACCIONES
 router.get('/acciones', function(req, res, next) {
-	res.render('acciones', {count: cont});
+	cookieDirMac = JSON.parse(req.cookies.pi);
+	res.render('acciones', {cookies: cookieDirMac});
 });
 
 //WEBSOCKET
