@@ -1,0 +1,10 @@
+html{
+    background-color: #ffffff;
+}
+.pi-item{
+	background: green;
+}
+
+.pi-item .pi-item-titulo{
+	margin-right: 20px;
+}
