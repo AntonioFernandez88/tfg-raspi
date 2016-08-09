@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var $ = require('jquery');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -51,8 +51,22 @@ router.get('/vincular', function(req, res, next) {
 
 //ACCIONES
 router.get('/acciones', function(req, res, next) {
-	cookieDirMac = JSON.parse(req.cookies.pi);
-	res.render('acciones', {cookies: cookieDirMac});
+
+	res.render('acciones');
+
+	/*var valorCookie =$.getJSON('pi');
+	var html = '';
+
+	$.each(valorCookie,function(i,nserie){
+
+		html += '<div class="pi-item">'+
+			'<div><b>Mac:</b>'+ valorCookie[nserie].mac + '</div>'+
+			'<div><b>Nº serie</b>'+ valorCookie[nserie].nserie + '</div>'+
+		'</div>';
+	});
+
+	$('#pi').html(html);*/
+
 });
 
 //WEBSOCKET

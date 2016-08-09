@@ -4,6 +4,7 @@
 <html lang="en">
 
 <% include ../views/template/head %>
+<link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 </head>
 <body>
 
@@ -11,6 +12,37 @@
      <% include ../views/template/nav %>
  </nav>
 <p>Listado de Pi connectadas</p>
-    <span><%= JSON.stringify(cookies) %></span>
+<script type="text/javascript">
+    var Cookie =Cookies.get('pi');
+    var valorCookie = JSON.parse(Cookie);
+    html =  '<table class="pi-item">';
+    html +=     '<tr>';
+    html +=           '<td>';
+    html +=                '<h2 class="pi-item-titulo"">Mac:</h2>';
+    html +=           '</td>';
+    html +=           '<td>';
+    html +=                '<h2>Nº serie</h2>';
+    html +=           '</td>';
+    html +=     '</tr>';
+
+    $.each(valorCookie,function(i,nserie){
+        
+        html += '<tr>'
+        html +=        '<td>';
+        html +=             JSON.stringify(valorCookie[i].mac);
+        html +=        '</td>';
+        html +=        '<td>';
+        html +=             JSON.stringify(valorCookie[i].nserie);
+        html +=        '</td>';
+        html += '</tr>';
+    });
+
+    html += '</table>';
+
+    document.write(html);
+
+    //$('#pi').html(html);
+</script>
+<div id="#pi"></div>
 <% include ../views/template/footer %>
 
