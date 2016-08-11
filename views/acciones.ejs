@@ -13,8 +13,8 @@
  </nav>
 <p>Listado de Pi connectadas</p>
 <script type="text/javascript">
-    var Cookie =Cookies.get('pi');
-    var valorCookie = JSON.parse(Cookie);
+    var valorCookie = Cookies.getJSON('pi');
+    var valorCookieNombre = Cookies.getJSON('Nombre');
     html =  '<table class="pi-item">';
     html +=     '<tr>';
     html +=           '<td>';
@@ -26,16 +26,15 @@
     html +=     '</tr>';
 
     $.each(valorCookie,function(i,nserie){
-        
         html += '<tr>'
         html +=        '<td>';
-        html +=             JSON.stringify(valorCookie[i].mac);
+        html +=              JSON.stringify(valorCookie[i].mac);
         html +=        '</td>';
         html +=        '<td>';
         html +=             JSON.stringify(valorCookie[i].nserie);
         html +=        '</td>';
         html +=        '<td>';
-        html +=             '<a href="#" onclick="" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a>';
+        html +=             '<a href="#" onclick="deleteCookie('+i+')" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a>';
         html +=        '</td>'; 
         html += '</tr>';
     });
@@ -43,6 +42,15 @@
     html += '</table>';
 
     document.write(html);
+
+
+    function deleteCookie(id){
+        alert(id);
+        Cookies.set('pi2',JSON.stringify(valorCookie[id]));
+        Cookies.remove('pi',JSON.stringify(valorCookie[id]),{id:''});
+        Cookies.set('pi', JSON.stringify(valorCookie),{expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))})
+
+    }   
 
     //$('#pi').html(html);
 </script>
