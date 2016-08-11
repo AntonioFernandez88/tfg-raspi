@@ -54,19 +54,6 @@ router.get('/acciones', function(req, res, next) {
 
 	res.render('acciones');
 
-	/*var valorCookie =$.getJSON('pi');
-	var html = '';
-
-	$.each(valorCookie,function(i,nserie){
-
-		html += '<div class="pi-item">'+
-			'<div><b>Mac:</b>'+ valorCookie[nserie].mac + '</div>'+
-			'<div><b>Nº serie</b>'+ valorCookie[nserie].nserie + '</div>'+
-		'</div>';
-	});
-
-	$('#pi').html(html);*/
-
 });
 
 //WEBSOCKET
