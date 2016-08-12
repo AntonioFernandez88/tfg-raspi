@@ -24,7 +24,7 @@
                         <script type="text/javascript">
                             var nombre = Cookies.get('Nombre');
                             if (nombre != undefined) {
-                                document.write('<input type="text" id="nombre" name="nombre" value="'+ nombre +'">');
+                                document.write('<input type="text" id="nombre" name="nombre" value="'+ nombre +'" readonly>');
                             } else {    
                                 document.write('<input type="text" id="nombre" name="nombre" placeholder="Nombre" required>');        
                             }                                       
