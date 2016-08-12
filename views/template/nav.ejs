@@ -1,4 +1,4 @@
-  <div class="container-fluid">
+<div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
@@ -9,39 +9,15 @@
         <img src="/images/RaspiLogo.png">
     </a>
     </div>
-<div class="collapse navbar-collapse" id="myNavbar">
-    <ul class="nav navbar-nav">
-        <li><a href="/vincular"><span class="glyphicon glyphicon-plus-sign"> Vincular</span></a></li>
-        <li><a href="#">Que es RaspBeryPi</a></li>
-        <li><a href="/led">Led</a></li>
-
-    <script>
-        function deleteCookie() {
-            document.cookie = "Nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            document.cookie = "Mac=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            document.cookie = "Nserie=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            location.reload('/');
-        }
-
-        function getCookie(cname) {
-            var name = cname + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ')
-                    c = c.substring(1);
-                if (c.indexOf(name) == 0)
-                    return c.substring(name.length, c.length);
-            }
-            return "";
-        }
-
-        function checkCookie() {
-            var nombre = getCookie("Nombre");
-            var mac = getCookie("Mac");
-            var nserie = getCookie("Nserie");
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+            <li><a href="/vincular"><span class="glyphicon glyphicon-plus-sign"> Vincular</span></a></li>
+            <li><a href="#">Que es RaspBeryPi</a></li>
+            <li><a href="/led">Led</a></li>
+        <script>
+            var nombre = Cookies.get('Nombre');
             var html;
-            if (nombre != "") {
+            if (nombre != undefined) {
                 html = '<li><a href="/acciones">Acciones</a></li>';
                 html +='</ul>'
                 html += '<ul class="nav navbar-nav navbar-right">';
@@ -54,12 +30,19 @@
                 html += '<li><a href="#" onclick="deleteCookie()" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a></li>';
                 html += '</ul>';
                 html += '</li>';
-           }
-    
+            }else{
+                html = '<li></li>';
+                html +='</ul>'
+            }
+
            document.write(html);
-        }
-        checkCookie();
-    </script>
-    </ul>
+
+            function deleteCookie(){
+                Cookies.remove('Nombre');
+                Cookies.remove('pi');
+                window.location = "/";
+            }  
+        </script>
+        </ul>
     </div>
 </div>

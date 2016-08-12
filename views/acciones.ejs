@@ -18,7 +18,7 @@
     html =  '<table class="pi-item">';
     html +=     '<tr>';
     html +=           '<td>';
-    html +=                '<h2 class="pi-item-titulo"">Mac:</h2>';
+    html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
     html +=           '</td>';
     html +=           '<td>';
     html +=                '<h2>Nº serie</h2>';
@@ -26,30 +26,27 @@
     html +=     '</tr>';
 
     $.each(valorCookie,function(i,nserie){
-        html += '<tr>'
-        html +=        '<td>';
-        html +=              JSON.stringify(valorCookie[i].mac);
-        html +=        '</td>';
-        html +=        '<td>';
-        html +=             JSON.stringify(valorCookie[i].nserie);
-        html +=        '</td>';
-        html +=        '<td>';
-        html +=             '<a href="#" onclick="deleteCookie('+i+')" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a>';
-        html +=        '</td>'; 
-        html += '</tr>';
+    html +=     '<tr>'
+    html +=             '<td>';
+    html +=                 valorCookie[i].mac;
+    html +=             '</td>';
+    html +=             '<td>';
+    html +=                 valorCookie[i].nserie;
+    html +=             '</td>';
+    html +=             '<td>';
+    html +=                 '<button type="button" onclick="deleteCookie('+i+')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
+    html +=             '</td>'; 
+    html +=     '</tr>';
     });
 
     html += '</table>';
 
     document.write(html);
 
-
     function deleteCookie(id){
-        alert(id);
-        Cookies.set('pi2',JSON.stringify(valorCookie[id]));
-        Cookies.remove('pi',JSON.stringify(valorCookie[id]),{id:''});
-        Cookies.set('pi', JSON.stringify(valorCookie),{expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))})
-
+        delete valorCookie[id];
+        Cookies.set('pi', valorCookie);
+        document.location.reload();
     }   
 
     //$('#pi').html(html);
