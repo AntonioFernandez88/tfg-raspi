@@ -14,32 +14,36 @@
 <p>Listado de Pi connectadas</p>
 <script type="text/javascript">
     var valorCookie = Cookies.getJSON('pi');
-    var valorCookieNombre = Cookies.getJSON('Nombre');
-    html =  '<table class="pi-item">';
-    html +=     '<tr>';
-    html +=           '<td>';
-    html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
-    html +=           '</td>';
-    html +=           '<td>';
-    html +=                '<h2>Nº serie</h2>';
-    html +=           '</td>';
-    html +=     '</tr>';
+    var longitudCookie = Object.keys(valorCookie).length;
+        html =  '<table class="pi-item">';
+        html +=     '<tr>';
+        html +=           '<td>';
+        html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
+        html +=           '</td>';
+        html +=           '<td>';
+        html +=                '<h2>Nº serie</h2>';
+        html +=           '</td>';
+        html +=     '</tr>';
+        if(longitudCookie > 0){
+            $.each(valorCookie,function(i,nserie){
+                html +=     '<tr>'
+                html +=             '<td>';
+                html +=                 valorCookie[i].mac;
+                html +=             '</td>';
+                html +=             '<td>';
+                html +=                 valorCookie[i].nserie;
+                html +=             '</td>';
+                html +=             '<td>';
+                html +=                 '<button type="button" onclick="deleteCookie('+i+')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
+                html +=             '</td>'; 
+                html +=     '</tr>';
+            });
 
-    $.each(valorCookie,function(i,nserie){
-    html +=     '<tr>'
-    html +=             '<td>';
-    html +=                 valorCookie[i].mac;
-    html +=             '</td>';
-    html +=             '<td>';
-    html +=                 valorCookie[i].nserie;
-    html +=             '</td>';
-    html +=             '<td>';
-    html +=                 '<button type="button" onclick="deleteCookie('+i+')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
-    html +=             '</td>'; 
-    html +=     '</tr>';
-    });
+        }else{
+            html = '<h2>No hay Raspberry Pi Vinculadas</h2>';
+        }
 
-    html += '</table>';
+        html += '</table>';
 
     document.write(html);
 
