@@ -59,19 +59,22 @@ router.get('/acciones', function(req, res, next) {
 router.get('/led', function(req, res, next){
 
 	var led = req.query.opcion || '';
+	var mac = req.query.mac || '';
+	var nserie = req.query.nserie || '';
+	
 	if(led != ''){
 		if(led == 'on'){
-			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/on"}';
+			console.log(mac);
+			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/on"}';
+			console.log(msg);
 			myEmitter.emit('event', msg);
 			res.render('led',{opcion: 'Led On'});
 		}else if(led === 'off'){
-
-			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/off"}';
+			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/off"}';
 			myEmitter.emit('event', msg);
 			res.render('led',{opcion: 'Led Off'});
 		}else if(led === 'blink'){
-
-			var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/blink"}';
+			var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/blink"}';
 			myEmitter.emit('event', msg);
 			res.render('led',{opcion: 'Led Parpadeando'});
 		}

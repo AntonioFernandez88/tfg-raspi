@@ -11,9 +11,15 @@
        <% include ../views/template/nav %>
    	</nav>
 
-   <form method="get" action="/led">
-      <button type="submit" name="opcion" value="on">Encender Led</button>
-      <button type="submit" name="opcion" value="off">Apagar Led</button>
-      <button type="submit" name="opcion" value="blink">Parpadear Led</button>
-  </form>
+   	<form method="get" action="/led">
+   		<script type="text/javascript">
+   			var nserieForm = $.get("nserie");
+   			var valorCookie = Cookies.getJSON('pi');
+   			document.write('<input type="hidden" id="nserie" name="nserie" value="'+ nserieForm +'">');
+   			document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserieForm].mac +'">');
+   		</script>
+		<button type="submit" name="opcion" value="on">Encender Led</button>
+		<button type="submit" name="opcion" value="off">Apagar Led</button>
+		<button type="submit" name="opcion" value="blink">Parpadear Led</button>
+  	</form>
   <% include ../views/template/footer %>

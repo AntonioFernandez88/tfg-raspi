@@ -36,6 +36,7 @@
             html +=                 valorCookie[i].nserie;
             html +=             '</td>';
             html +=             '<td>';
+            html +=                 '<a type="button" href="/led?nserie='+nserie.nserie+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
             html +=                 '<button type="button" onclick="deleteCookie(\'' + nserie.nserie +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
             html +=             '</td>'; 
             html +=     '</tr>';
