@@ -8,10 +8,6 @@ table.pi-item{
 .pi-item td {
 	height: 40px;
     text-align: center;
+    padding-right: 20px;
 }
-
-.pi-item .pi-item-titulo{
-	margin-right: 20px;
-}
-
 

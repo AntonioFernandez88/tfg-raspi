@@ -39,7 +39,6 @@ router.get('/vincular', function(req, res, next) {
 		try{
 			cookieDirMac = JSON.parse(req.cookies.pi);
 		}catch(e){
-			console.log(e);
 			cookieDirMac = {};
 		}
 		cookieDirMac[nserie]={mac:mac, nserie:nserie};

@@ -14,41 +14,43 @@
 <p>Listado de Pi connectadas</p>
 <script type="text/javascript">
     var valorCookie = Cookies.getJSON('pi');
-    var longitudCookie = Object.keys(valorCookie).length;
-        html =  '<table class="pi-item">';
-        html +=     '<tr>';
-        html +=           '<td>';
-        html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
-        html +=           '</td>';
-        html +=           '<td>';
-        html +=                '<h2>Nº serie</h2>';
-        html +=           '</td>';
-        html +=     '</tr>';
-        if(longitudCookie > 0){
-            $.each(valorCookie,function(i,nserie){
-                html +=     '<tr>'
-                html +=             '<td>';
-                html +=                 valorCookie[i].mac;
-                html +=             '</td>';
-                html +=             '<td>';
-                html +=                 valorCookie[i].nserie;
-                html +=             '</td>';
-                html +=             '<td>';
-                html +=                 '<button type="button" onclick="deleteCookie('+i+')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
-                html +=             '</td>'; 
-                html +=     '</tr>';
-            });
+    if(valorCookie != undefined){
+        var longitudCookie = Object.keys(valorCookie).length;
+    }
+    html =  '<table class="pi-item">';
+    html +=     '<tr>';
+    html +=           '<td>';
+    html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
+    html +=           '</td>';
+    html +=           '<td>';
+    html +=                '<h2>Nº serie</h2>';
+    html +=           '</td>';
+    html +=     '</tr>';
+    if(longitudCookie > 0){
+        $.each(valorCookie,function(i,nserie){
+            html +=     '<tr>'
+            html +=             '<td>';
+            html +=                 valorCookie[i].mac;
+            html +=             '</td>';
+            html +=             '<td>';
+            html +=                 valorCookie[i].nserie;
+            html +=             '</td>';
+            html +=             '<td>';
+            html +=                 '<button type="button" onclick="deleteCookie(\'' + nserie.nserie +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
+            html +=             '</td>'; 
+            html +=     '</tr>';
+        });
 
-        }else{
-            html = '<h2>No hay Raspberry Pi Vinculadas</h2>';
-        }
+    }else{
+        html = '<h2>No hay Raspberry Pi Vinculadas</h2>';
+    }
 
-        html += '</table>';
+    html += '</table>';
 
     document.write(html);
 
-    function deleteCookie(id){
-        delete valorCookie[id];
+    function deleteCookie(nserie){
+        delete valorCookie[nserie];
         Cookies.set('pi', valorCookie);
         document.location.reload();
     }   
