@@ -9,7 +9,8 @@ var http = require("http")
 var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
 var EventEmitter = require("events").EventEmitter
-GLOBAL.myEmitter = new EventEmitter()
+GLOBAL.myEmitter = new EventEmitter();
+
 
 var app = express()
 var routes = require('./routes/index')
@@ -30,8 +31,8 @@ ws.onopen = function(){
 }
 
 ws.onmessage = function (msg) { 
-  var received_msg = JSON.parse(msg.data);
-
+  //var received_msg = JSON.parse(msg.data);
+  var received_msg = msg.data;
   if(received_msg.dst == "80:C1:45:A5:1B:7F"){
     console.log("Destination: " + received_msg.dst);
 }
@@ -45,7 +46,20 @@ myEmitter.on('event', function(msg){
     sendMessage(msg);
 });
 
+myEmitter.on('hmac', function(hmacHash){
+    sendMessageHmac(hmacHash);
+});
+
 //Funciones envio de mensajes
+
+function sendMessageHmac(msg){
+    console.log('entro en enviar msg');
+    // Wait until the state of the socket is not ready and send the message when it is...
+    waitForSocketConnection(ws, function(){
+        console.log("message sent!!!");
+        ws.send(msg);
+    });
+}
 
 function sendMessage(msg){
     // Wait until the state of the socket is not ready and send the message when it is...
