@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var $ = require('jquery');
+var sha1 = require('sha1');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -29,6 +29,9 @@ router.get('/vincular', function(req, res, next) {
 	var mac = req.query.mac || '';
 	var nserie = req.query.nserie || '';
 	var cookieDirMac = [];
+	var hola = sha1("hola");
+	var quetal = sha1(123456);
+	console.log(quetal);
 
 	if(nombre != ''){
 		var name = res.cookie('Nombre', req.query.nombre, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
