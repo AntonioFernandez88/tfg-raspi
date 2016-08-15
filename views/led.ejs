@@ -4,12 +4,54 @@
 <html lang="en">
 
 <% include ../views/template/head %>
+<script src="javascripts/jquery.minicolors.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/jquery.minicolors.css">
+
+
+
 </head>
 <body>
 
     <nav class="navbar navbar-inverse">
        <% include ../views/template/nav %>
    	</nav>
+    <script>
+        $(document).ready( function() {
+
+            $('.demo').each( function() {
+                //
+                // Dear reader, it's actually very easy to initialize MiniColors. For example:
+                //
+                //  $(selector).minicolors();
+                //
+                // The way I've done it below is just for the demo, so don't get confused
+                // by it. Also, data- attributes aren't supported at this time. Again,
+                // they're only used for the purposes of this demo.
+                //
+                $(this).minicolors({
+                    control: $(this).attr('data-control') || 'hue',
+                    defaultValue: $(this).attr('data-defaultValue') || '',
+                    format: $(this).attr('data-format') || 'hex',
+                    keywords: $(this).attr('data-keywords') || '',
+                    inline: $(this).attr('data-inline') === 'true',
+                    letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                    opacity: $(this).attr('data-opacity'),
+                    position: $(this).attr('data-position') || 'bottom left',
+                    swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+                    change: function(hex, opacity) {
+                        var log;
+                        try {
+                            log = hex ? hex : 'transparent';
+                            if( opacity ) log += ', ' + opacity;
+                            console.log(log);
+                        } catch(e) {}
+                    },
+                    theme: 'default'
+                });
+
+            });
+        });
+    </script>
 
    	<form method="get" action="/led">
    		<script type="text/javascript">
@@ -21,5 +63,10 @@
 		<button type="submit" name="opcion" value="on">Encender Led</button>
 		<button type="submit" name="opcion" value="off">Apagar Led</button>
 		<button type="submit" name="opcion" value="blink">Parpadear Led</button>
+		<div class="form-group">
+        	<input type="text" id="rgb" name="rgb" class="demo" value="12345">
+        	<input type="submit" name="opcion" value="Cambiar color"></button>
+    	</div>
   	</form>
+  	<h2><%= opcion %></h2>
   <% include ../views/template/footer %>
