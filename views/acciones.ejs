@@ -11,53 +11,46 @@
 <nav class="navbar navbar-inverse">
      <% include ../views/template/nav %>
 </nav>
-<p>Listado de Pi connectadas</p>
-<script type="text/javascript">
-    var valorCookie = Cookies.getJSON('pi');
-    if(valorCookie != undefined){
-        var longitudCookie = Object.keys(valorCookie).length;
-    }
-    html =  '<table class="pi-item">';
-    html +=     '<tr>';
-    html +=           '<td>';
-    html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
-    html +=           '</td>';
-    html +=           '<td>';
-    html +=                '<h2>Nº serie</h2>';
-    html +=           '</td>';
-    html +=     '</tr>';
-    if(longitudCookie > 0){
-        $.each(valorCookie,function(i,nserie){
-            html +=     '<tr>'
-            html +=             '<td>';
-            html +=                 valorCookie[i].mac;
-            html +=             '</td>';
-            html +=             '<td>';
-            html +=                 valorCookie[i].nserie;
-            html +=             '</td>';
-            html +=             '<td>';
-            html +=                 '<a type="button" href="/led?nserie='+nserie.nserie+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
-            html +=                 '<button type="button" onclick="deleteCookie(\'' + nserie.nserie +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
-            html +=             '</td>'; 
-            html +=     '</tr>';
-        });
-
-    }else{
-        html = '<h2>No hay Raspberry Pi Vinculadas</h2>';
-    }
-
-    html += '</table>';
-
-    document.write(html);
-
-    function deleteCookie(nserie){
-        delete valorCookie[nserie];
-        Cookies.set('pi', valorCookie);
-        document.location.reload();
-    }   
-
-    //$('#pi').html(html);
-</script>
+<p>Sensores</p>
+<table>
+    <script type="text/javascript">
+        var nserie = $.get("nserie");
+        var html;
+        html = '<tr>';
+        html +=     '<td>';
+        html +=         '<span>LED</span>';
+        html +=     '</td>';
+        html +=     '<td>';     
+        html +=         '<a type="button" href="/led?nserie='+nserie+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html+=      '</td>';
+        html+=  '</tr>';
+        html+=  '<tr>';
+        html +=     '<td>';
+        html +=         '<span>Temperatura</span>';
+        html +=     '</td>';
+        html +=     '<td>';     
+        html +=         '<a type="button" href="##" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html+=      '</td>';
+        html+=  '</tr>';
+        html +=  '<tr>';
+        html +=     '<td>';
+        html +=         '<span>Escribir mensaje</span>';
+        html +=     '</td>';
+        html +=     '<td>';     
+        html +=         '<a type="button" href="##" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html+=      '</td>';
+        html+=  '</tr>';
+        html +=  '<tr>';
+        html +=     '<td>';
+        html +=         '<span>Alarma</span>';
+        html +=     '</td>';
+        html +=     '<td>';     
+        html +=         '<a type="button" href="##" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html+=      '</td>';
+        html+=  '</tr>';    
+        document.write(html);
+    </script>
+</table>
 <div id="#pi"></div>
 <% include ../views/template/footer %>
 
