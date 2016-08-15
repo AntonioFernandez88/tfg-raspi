@@ -46,14 +46,13 @@ myEmitter.on('event', function(msg){
     sendMessage(msg);
 });
 
-myEmitter.on('hmac', function(hmacHash){
-    sendMessageHmac(hmacHash);
+myEmitter.on('hmac', function(msg){
+    sendMessageHmac(msg);
 });
 
 //Funciones envio de mensajes
 
 function sendMessageHmac(msg){
-    console.log('entro en enviar msg');
     // Wait until the state of the socket is not ready and send the message when it is...
     waitForSocketConnection(ws, function(){
         console.log("message sent!!!");
