@@ -96,11 +96,15 @@ router.get('/led', function(req, res, next){
 			myEmitter.emit('event', msg);
 			res.render('led',{opcion: 'Led Parpadeando'});
 		}else if(led === 'Cambiar color'){
-			var rgb = hexRgb(hex);
-			var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/rgb", "color" : "'+rgb+'"}';
-			console.log(msg);
-			myEmitter.emit('event', msg);
-			res.render('led',{opcion: 'Led Parpadeando'});
+			if(hex == ''){
+				res.render('led',{opcion: 'Introduzca un color'});
+			}else{
+				var rgb = hexRgb(hex);
+				var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/rgb", "color" : "'+rgb+'"}';
+				console.log(msg);
+				myEmitter.emit('event', msg);
+				res.render('led',{opcion: 'Color Cambiado'});
+			}
 		}
 	}else{
 		res.render('led',{opcion: ''});
