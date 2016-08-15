@@ -31,8 +31,7 @@ ws.onopen = function(){
 }
 
 ws.onmessage = function (msg) { 
-  //var received_msg = JSON.parse(msg.data);
-  var received_msg = msg.data;
+  var received_msg = JSON.parse(msg.data);
   if(received_msg.dst == "80:C1:45:A5:1B:7F"){
     console.log("Destination: " + received_msg.dst);
 }
