@@ -1,0 +1,25 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../views/template/head %>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<% include ../views/template/nav %>
+	</nav>
+	<form method="get" action="/text">
+        <script type="text/javascript">
+            var nserialForm = $.get("nserial");
+            var valorCookie = Cookies.getJSON('pi');
+            document.write('<input type="hidden" id="nserial" name="nserial" value="'+ nserialForm +'">');
+            document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserialForm].mac +'">');
+        </script>
+        <h2>Mensaje para mostrar en el lcd</h2>
+        <textarea name="comment" id="comment" cols="40" rows="10" placeholder="Escribe aquí"></textarea>
+        <input type="submit" name="text" value="Enviar">
+	</form>
+	<h2><%= comment %></h2>
+	<% include ../views/template/footer %>

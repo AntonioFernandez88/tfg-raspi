@@ -59,13 +59,13 @@
 			document.write('<input type="hidden" id="nserial" name="nserial" value="'+ nserialForm +'">');
 			document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserialForm].mac +'">');
 		</script>
-		<button type="submit" name="opcion" value="on">Encender Led</button>
-		<button type="submit" name="opcion" value="off">Apagar Led</button>
-		<button type="submit" name="opcion" value="blink">Parpadear Led</button>
+		<button type="submit" name="option" value="on">Encender Led</button>
+		<button type="submit" name="option" value="off">Apagar Led</button>
+		<button type="submit" name="option" value="blink">Parpadear Led</button>
 		<div class="form-group">
 			<input type="text" id="hex" name="hex" class="hex" value="12345">
-			<input type="submit" name="opcion" value="Cambiar color">
+			<input type="submit" name="option" value="Cambiar color">
 		</div>
 	</form>
-	<h2><%= opcion %></h2>
+	<h2><%= option %></h2>
 	<% include ../views/template/footer %>

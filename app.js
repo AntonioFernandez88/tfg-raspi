@@ -49,6 +49,11 @@ myEmitter.on('hmac', function(msg){
     sendMessageHmac(msg);
 });
 
+myEmitter.on('writeLcd', function(msg){
+    sendMessageHmac(msg);
+});
+
+
 //Funciones envio de mensajes
 
 function sendMessageHmac(msg){

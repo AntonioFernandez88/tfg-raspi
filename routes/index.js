@@ -70,7 +70,7 @@ router.get('/configuration', function(req, res, next) {
 //LED
 router.get('/led', function(req, res, next){
 
-	var led = req.query.opcion || '';
+	var led = req.query.option || '';
 	var mac = req.query.mac || '';
 	var nserial = req.query.nserial || '';
 	var hex = req.query.hex || '';
@@ -81,28 +81,48 @@ router.get('/led', function(req, res, next){
 			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/on"}';
 			console.log(msg);
 			myEmitter.emit('event', msg);
-			res.render('led',{opcion: 'Led On'});
+			res.render('led',{option: 'Led On'});
 		}else if(led === 'off'){
 			var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/off"}';
 			myEmitter.emit('event', msg);
-			res.render('led',{opcion: 'Led Off'});
+			res.render('led',{option: 'Led Off'});
 		}else if(led === 'blink'){
 			var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/blink"}';
 			myEmitter.emit('event', msg);
-			res.render('led',{opcion: 'Led Parpadeando'});
+			res.render('led',{option: 'Led Parpadeando'});
 		}else if(led === 'Cambiar color'){
 			if(hex == ''){
-				res.render('led',{opcion: 'Introduzca un color'});
+				res.render('led',{option: 'Introduzca un color, por favor'});
 			}else{
 				var rgb = hexRgb(hex);
 				var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/rgb", "color" : "'+rgb+'"}';
 				console.log(msg);
 				myEmitter.emit('event', msg);
-				res.render('led',{opcion: 'Color Cambiado'});
+				res.render('led',{option: 'Color Cambiado'});
 			}
 		}
 	}else{
-		res.render('led',{opcion: ''});
+		res.render('led',{option: ''});
+	}
+});
+
+//TEXT
+router.get('/text', function(req, res, next){
+
+	var text = req.query.text || '';
+	var comment = req.query.comment || '';
+	var mac = req.query.mac || '';
+
+	if(text != ''){
+		if(comment == ''){
+			res.render('text',{comment: 'Escribe un comentario, por favor.'});
+		}else{
+		var msg ='{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/led/write", "text" : "'+comment+'"}';
+			myEmitter.emit('writeLcd', msg);
+			res.render('text',{comment: 'Mensaje Enviado!'});
+		}
+	}else{
+		res.render('text',{comment: ''});
 	}
 });
 
