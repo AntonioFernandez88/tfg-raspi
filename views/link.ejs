@@ -12,7 +12,7 @@
      <% include ../views/template/nav %>
 </nav>
 <div class="main-content">
-    <form class="form-register" method="get" action="/vincular">
+    <form class="form-register" method="get" action="/link">
         <div class="form-register-with-email">
             <div class="form-white-background">
                 <div class="form-title-row">
@@ -22,11 +22,11 @@
                     <label>
                         <span>Nombre</span>
                         <script type="text/javascript">
-                            var nombre = Cookies.get('Nombre');
-                            if (nombre != undefined) {
-                                document.write('<input type="text" id="nombre" name="nombre" value="'+ nombre +'" readonly>');
+                            var nameCookie = Cookies.get('name');
+                            if (nameCookie != undefined) {
+                                document.write('<input type="text" id="name" name="name" value="'+ nameCookie +'" readonly>');
                             } else {    
-                                document.write('<input type="text" id="nombre" name="nombre" placeholder="Nombre" required>');        
+                                document.write('<input type="text" id="name" name="name" placeholder="Nombre" required>');        
                             }                                       
                         </script>
                     </label>
@@ -40,7 +40,7 @@
                 <div class="form-row">
                     <label>
                         <span>Número de serie</span>
-                        <input type="text" id="nserie" name="nserie" placeholder="Nº Serie" required>
+                        <input type="text" id="nserial" name="nserial" placeholder="Nº Serie" required>
                     </label>
                 </div>
                 <div class="form-row">

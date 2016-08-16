@@ -27,17 +27,17 @@
     html +=           '</td>';
     html +=     '</tr>';
     if(longitudCookie > 0){
-        $.each(valorCookie,function(i,nserie){
+        $.each(valorCookie,function(i,nserial){
             html +=     '<tr>'
             html +=             '<td>';
             html +=                 valorCookie[i].mac;
             html +=             '</td>';
             html +=             '<td>';
-            html +=                 valorCookie[i].nserie;
+            html +=                 valorCookie[i].nserial;
             html +=             '</td>';
             html +=             '<td>';
-            html +=                 '<a type="button" href="/acciones?nserie='+nserie.nserie+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
-            html +=                 '<button type="button" onclick="deleteCookie(\'' + nserie.nserie +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
+            html +=                 '<a type="button" href="/actions?nserial='+nserial.nserial+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+            html +=                 '<button type="button" onclick="deleteCookie(\'' + nserial.nserial +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
             html +=             '</td>'; 
             html +=     '</tr>';
         });
@@ -50,10 +50,11 @@
 
     document.write(html);
 
-    function deleteCookie(nserie){
-        delete valorCookie[nserie];
+    function deleteCookie(nserial){
+        delete valorCookie[nserial];
         Cookies.set('pi', valorCookie);
-        document.location.reload();
+        window.location = "http://localhost:3000/";
+        //window.location = "https://tfg-raspi.herokuapp.com/";
     }   
 
     //$('#pi').html(html);

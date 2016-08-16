@@ -11,17 +11,17 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            <li><a href="/vincular"><span class="glyphicon glyphicon-plus-sign"> Vincular</span></a></li>
-            <li><a href="#">Que es RaspBeryPi</a></li>
+            <li><a href="/link"><span class="glyphicon glyphicon-plus-sign"> Vincular</span></a></li>
+            <li><a href="#">Que es RaspBerryPi</a></li>
         <script>
-            var nombre = Cookies.get('Nombre');
+            var nameCookie = Cookies.get('name');
             var html;
-            if (nombre != undefined) {
-                html = '<li><a href="/configuracion">Configuracion</a></li>';
+            if (nameCookie != undefined) {
+                html = '<li><a href="/configuration">Listado de RaspBerryPi</a></li>';
                 html +='</ul>'
                 html += '<ul class="nav navbar-nav navbar-right">';
                 html += '<li class="dropdown nav navbar-nav navbar-right">';
-                html += '<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"> ' + nombre + ' </span></a>';
+                html += '<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"> ' + nameCookie + ' </span></a>';
                 html += '<ul class="dropdown-menu">';
                 html += '<li><a href="#">Page 1-1</a></li>';
                 html += '<li><a href="#">Page 1-2</a></li>';
@@ -37,7 +37,7 @@
            document.write(html);
 
             function deleteCookies(){
-                Cookies.remove('Nombre');
+                Cookies.remove('name');
                 Cookies.remove('pi');
                 window.location = '';
             }  

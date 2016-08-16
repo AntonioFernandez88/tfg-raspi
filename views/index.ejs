@@ -11,9 +11,9 @@
     </nav>
 
     <script>
-    var nombre = Cookies.get('Nombre');
-    if(nombre != undefined){
-        document.write('<h1>Bienvenido '+ nombre + '</h1>')
+    var nameCookie = Cookies.get('name');
+    if(nameCookie != undefined){
+        document.write('<h1>Bienvenido '+ nameCookie + '</h1>')
     }else{
         var html;
         html ='<h4>Bienvenido a Raspberry Pi Controller</h4>';
@@ -21,7 +21,7 @@
         html +='<form method="get" action="/">';
         html +='<div class="form-group" >';
         html +='<label">Nombre de Usuario:</label>';
-        html +='<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre">';
+        html +='<input type="text" id="name" name="name" class="form-control" placeholder="Nombre">';
         html +='</div>';
         html +='<button type="submit" class="btn btn-primary">Enviar</button>';
         html +='</div>';

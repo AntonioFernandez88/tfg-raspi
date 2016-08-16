@@ -6,10 +6,10 @@ var hexRgb = require('hex-rgb');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	
-	var nombre = req.query.nombre || '';
+	var nameCookie = req.query.name || '';
 
-	/*if(nombre != ''){
-		var name = res.cookie('Nombre', req.query.nombre, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
+	/*if(nameCookie != ''){
+		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.redirect('/');
 	}else{
 		res.render('index');
@@ -17,67 +17,62 @@ router.get('/', function(req, res, next) {
 	res.render('index');
 });
 
-/* GET home page. */
-router.post('/', function(req, res, next) {
-	console.log(req.cookies);
-});
-
 //PARA CARGAR LA VISTA
-router.get('/vincular', function(req, res, next) {
+router.get('/link', function(req, res, next) {
 	
 	//Si viene vacio carga la vista normal, si hay datos los guarda el formulario viene por get
-	var nombre = req.query.nombre || '';
+	var nameCookie = req.query.name || '';
 	var mac = req.query.mac || '';
-	var nserie = req.query.nserie || '';
+	var nserial = req.query.nserial || '';
 	var cookieDirMac = [];
 	var hmac = crypto.createHmac('sha1', mac);
 	var msg;
 
-	if(nombre != ''){
-		var name = res.cookie('Nombre', req.query.nombre, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
+	if(nameCookie != ''){
+		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 	}
 
-	if((mac != '') && (nserie != '')){
+	if((mac != '') && (nserial != '')){
 		
 		try{
 			cookieDirMac = JSON.parse(req.cookies.pi);
 		}catch(e){
 			cookieDirMac = {};
 		}
-		cookieDirMac[nserie]={mac:mac, nserie:nserie};
+		cookieDirMac[nserial]={mac:mac, nserial:nserial};
 		
-		hmac.update(nombre);
+		hmac.update(nameCookie);
 		var hmacHash = hmac.digest('hex');
-		//var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/vincular?nombre='+nombre+'&mac='+mac+'&nserie='+nserie+'", "hmac" : "'+hmacHash+'"}';
-		var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/vincular", "hmac" : "'+hmacHash+'"}';
+		//var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/link?name='+nameCookie+'&mac='+mac+'&nserial='+nserial+'", "hmac" : "'+hmacHash+'"}';
+		var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/link", "hmac" : "'+hmacHash+'"}';
 		console.log(msg);
 		myEmitter.emit('hmac', msg);
 		res.cookie('pi', JSON.stringify(cookieDirMac), {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.redirect('/');
-	}else{res.render('vincular');}
+	}else{res.render('link');}
 
 });
 
-//ACCIONES
-router.get('/acciones', function(req, res, next) {
+//ACTIONS
+router.get('/actions', function(req, res, next) {
 
-	res.render('acciones');
-
-});
-
-//Configuracion
-router.get('/configuracion', function(req, res, next) {
-
-	res.render('configuracion');
+	res.render('actions');
 
 });
 
-//Led
+//CONFIGURATION
+router.get('/configuration', function(req, res, next) {
+
+	res.render('configuration');
+
+});
+
+//LED
 router.get('/led', function(req, res, next){
 
 	var led = req.query.opcion || '';
 	var mac = req.query.mac || '';
-	var nserie = req.query.nserie || '';
+	var nserial = req.query.nserial || '';
 	var hex = req.query.hex || '';
 
 	if(led != ''){
