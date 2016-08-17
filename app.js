@@ -41,18 +41,21 @@ ws.onclose = function(){
     console.log("Connection is closed..."); 
 };
 
-myEmitter.on('event', function(msg){
+myEmitter.on('eventLed', function(msg){
     sendMessage(msg);
 });
 
-myEmitter.on('hmac', function(msg){
+myEmitter.on('eventHmac', function(msg){
     sendMessageHmac(msg);
 });
 
-myEmitter.on('writeLcd', function(msg){
+myEmitter.on('eventWriteLcd', function(msg){
     sendMessageHmac(msg);
 });
 
+myEmitter.on('eventBuzzer', function(msg){
+    sendMessageHmac(msg);
+});
 
 //Funciones envio de mensajes
 

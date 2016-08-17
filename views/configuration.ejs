@@ -53,8 +53,7 @@
     function deleteCookie(nserial){
         delete valorCookie[nserial];
         Cookies.set('pi', valorCookie);
-        window.location = "http://localhost:3000/";
-        //window.location = "https://tfg-raspi.herokuapp.com/";
+        document.location.reload();
     }   
 
     //$('#pi').html(html);
