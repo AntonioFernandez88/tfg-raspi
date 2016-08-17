@@ -1,0 +1,77 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../views/template/head %>
+<script src="javascripts/canvasjs.min.js"></script>
+<script src="javascripts/jquery.canvasjs.min.js"></script>
+<script type="text/javascript">
+  window.onload = function () {
+
+    var dps = []; // dataPoints
+
+    var chart = new CanvasJS.Chart("chartContainer",{
+      title :{
+        text: "Temperatura"
+      },      
+      data: [{
+        type: "line",
+        dataPoints: dps 
+      }]
+    });
+
+    var xVal = 0;
+    var yVal = 30; 
+    var updateInterval = 2000;  //cada 2 segundo se actualiza
+    var dataLength = 1000; // number of dataPoints visible at any point
+
+    var updateChart = function (count) {
+      count = count || 1;
+      // count is number of times loop runs to generate random dataPoints.
+      
+      for (var j = 0; j < count; j++) { 
+        yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+        dps.push({
+          x: xVal,
+          y: yVal
+        });
+        xVal++;
+      };
+      if (dps.length > dataLength)
+      {
+        dps.shift();        
+      }
+      
+      chart.render();   
+
+    };
+
+    // generates first set of dataPoints
+    updateChart(dataLength); 
+
+    // update chart after specified time. 
+    setInterval(function(){updateChart()}, updateInterval); 
+
+  }
+</script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <% include ../views/template/nav %>
+  </nav>
+  <form method="get" action="/temperature">
+    <script type="text/javascript">
+      var nserialForm = $.get("nserial");
+      var valorCookie = Cookies.getJSON('pi');
+      document.write('<input type="hidden" id="nserial" name="nserial" value="'+ nserialForm +'">');
+      document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserialForm].mac +'">');
+    </script>
+    <h2>Temperatura</h2>
+    <button type="submit" name="temperature" value="on">Encender</button>
+    <button type="submit" name="temperature" value="off">Apagar</button>
+  </form>
+  <div id="chartContainer" style="height: 300px; width:100%;">
+
+    <h2><%= temperature %></h2>
+    <% include ../views/template/footer %>

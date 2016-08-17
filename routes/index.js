@@ -140,7 +140,7 @@ router.get('/buzzer', function(req, res, next){
 	var buzzer = req.query.buzzer || '';
 	var macDst = req.query.mac || '';
 	var msg;
-	
+
 	if(buzzer != ''){
 		if(buzzer == 'on'){
 			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/buzzer/on"}';
@@ -154,6 +154,12 @@ router.get('/buzzer', function(req, res, next){
 	}else{
 		res.render('buzzer', {sound: ''});
 	}
+});
+
+//TEMPERATURE
+router.get('/temperature', function(req, res, next){
+
+	res.render('temperature', {temperature: ''});
 });
 
 
