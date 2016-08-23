@@ -91,8 +91,7 @@ router.get('/led', function(req, res, next){
 			/*myEmitter.on('eventACK', function(msg){
         	res.render('led',{option: 'Led On'});
     		});*/
-    		res.write("hola que tal");
-    		res.end('led',{option: 'Led On'});
+    		res.render('led',{option: 'Led On'});
 			
 		}else if(led === 'off'){
 			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/off"}';
