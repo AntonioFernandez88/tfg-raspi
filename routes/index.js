@@ -115,10 +115,6 @@ router.get('/led', function(req, res, next){
 		}
 	}else{
 		res.render('led',{option: ''});
-		myEmitter.on('eventLed', function(msg){
-        	res.write(msg);
-        	res.end();
-    	});
 	}
 });
 

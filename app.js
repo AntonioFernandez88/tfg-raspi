@@ -34,8 +34,6 @@ var server = app.listen(app.get('port'), function() {
 
     ws.onclose = function(){ 
         console.log("Connection is closed...");
-        var msg = "cerrado";
-        myEmitter.emit('close', msg);
         /*setTimeout(function() {
             connect();
         }, 1000)*/ 
