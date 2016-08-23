@@ -85,12 +85,14 @@ router.get('/led', function(req, res, next){
 	var msg;
 
 	if(led != ''){
-		if(led == 'on'){
+		if(led === 'on'){
 			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/on"}';
 			myEmitter.emit('eventLed', msg);
 			/*myEmitter.on('eventACK', function(msg){
         	res.render('led',{option: 'Led On'});
     		});*/
+    		res.write("hola que tal");
+    		res.end('led',{option: 'Led On'});
 			
 		}else if(led === 'off'){
 			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/off"}';
@@ -113,6 +115,10 @@ router.get('/led', function(req, res, next){
 		}
 	}else{
 		res.render('led',{option: ''});
+		myEmitter.on('eventLed', function(msg){
+        	res.write(msg);
+        	res.end();
+    	});
 	}
 });
 
@@ -125,7 +131,7 @@ router.get('/text', function(req, res, next){
 	var msg;
 
 	if(text != ''){
-		if(comment == ''){
+		if(comment === ''){
 			res.render('text',{comment: 'Escribe un comentario, por favor.'});
 		}else{
 			msg ='{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/write", "text" : "'+comment+'"}';

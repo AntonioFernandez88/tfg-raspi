@@ -23,7 +23,7 @@ var server = app.listen(app.get('port'), function() {
     debug('Express server listening on port ' + server.address().port);
 });
 //const ws = new SocketServer({server: server});
-function connect(){
+//function connect(){
     const ws = new SocketServer("https://serverwss.herokuapp.com/");
 
 
@@ -34,9 +34,11 @@ function connect(){
 
     ws.onclose = function(){ 
         console.log("Connection is closed...");
-        setTimeout(function() {
+        var msg = "cerrado";
+        myEmitter.emit('close', msg);
+        /*setTimeout(function() {
             connect();
-        }, 1000) 
+        }, 1000)*/ 
     };
 
     ws.onmessage = function (msg) { 
@@ -98,8 +100,8 @@ function connect(){
 
         }, 5); // wait 5 milisecond for the connection...
     }
-}
-connect();
+//}
+//connect();
 //-------------------------------------------------------------------------------------------------------------------
 
 
