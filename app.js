@@ -17,6 +17,20 @@ var routes = require('./routes/index')
 
 app.set('port', port);
 
+var hmacApp;
+var idApp;
+//recibir hmac y id
+myEmitter.on('eventHmacAndId', function(hmac, id){
+    console.log('hola');
+        console.log(hmac);
+        console.log(id);
+        hmacApp = hmac;
+        idApp = id;
+        console.log("adios");
+        console.log(hmacApp);
+        console.log(idApp);
+    });
+
 //----------------------------------------------------------------------------------------WS-------------------
 
 var server = app.listen(app.get('port'), function() {
@@ -27,7 +41,6 @@ var server = app.listen(app.get('port'), function() {
     const ws = new SocketServer("https://serverwss.herokuapp.com/");
 
 
-    var message = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "80:C1:45:A5:1B:7F", "path" : "/led/on"}';
     ws.onopen = function(){
         console.log("Connection is open...");
     }
@@ -41,8 +54,8 @@ var server = app.listen(app.get('port'), function() {
 
     ws.onmessage = function (msg) { 
       var received_msg = JSON.parse(msg.data);
-      if(received_msg.dst == "80:C1:45:A5:1B:7F"){
-        console.log("Destination: " + received_msg.dst);
+      if((received_msg.hmac === hmacApp) && (received_msg.id === idApp)){
+        console.log("Es miooooooooooooooooooooooooooooooo");
         //myEmitter.emit('eventACK', msg.data);
     }
     };
