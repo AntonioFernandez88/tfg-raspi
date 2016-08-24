@@ -14,14 +14,14 @@
 <p>Sensores</p>
 <table>
     <script type="text/javascript">
-        var nserial = $.get("nserial");
+        var id = $.get("id");
         var html;
         html = '<tr>';
         html +=     '<td>';
         html +=         '<span>LED</span>';
         html +=     '</td>';
         html +=     '<td>';     
-        html +=         '<a type="button" href="/led?nserial='+nserial+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html +=         '<a type="button" href="/led?id='+id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
         html+=      '</td>';
         html+=  '</tr>';
         html+=  '<tr>';
@@ -29,7 +29,7 @@
         html +=         '<span>Temperatura</span>';
         html +=     '</td>';
         html +=     '<td>';     
-        html +=         '<a type="button" href="/temperature?nserial='+nserial+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html +=         '<a type="button" href="/temperature?id='+id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
         html+=      '</td>';
         html+=  '</tr>';
         html +=  '<tr>';
@@ -37,7 +37,7 @@
         html +=         '<span>Escribir mensaje</span>';
         html +=     '</td>';
         html +=     '<td>';     
-        html +=         '<a type="button" href="/text?nserial='+nserial+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html +=         '<a type="button" href="/text?id='+id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
         html+=      '</td>';
         html+=  '</tr>';
         html +=  '<tr>';
@@ -45,7 +45,7 @@
         html +=         '<span>Alarma</span>';
         html +=     '</td>';
         html +=     '<td>';     
-        html +=         '<a type="button" href="/buzzer?nserial='+nserial+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        html +=         '<a type="button" href="/buzzer?id='+id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
         html+=      '</td>';
         html+=  '</tr>';    
         document.write(html);

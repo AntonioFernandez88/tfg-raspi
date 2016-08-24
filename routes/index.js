@@ -32,6 +32,7 @@ router.get('/link', function(req, res, next) {
 	var nameCookie = req.query.name || '';
 	var macDst = req.query.mac || '';
 	var nserial = req.query.nserial || '';
+	var id = req.query.id || '';
 	var cookieDirMac = [];
 	var hmac = crypto.createHmac('sha1', macDst);
 	var msg;
@@ -40,18 +41,18 @@ router.get('/link', function(req, res, next) {
 		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 	}
 
-	if((macDst != '') && (nserial != '')){
+	if((macDst != '') && (nserial != '') && (id != '')){
 		
 		try{
 			cookieDirMac = JSON.parse(req.cookies.pi);
 		}catch(e){
 			cookieDirMac = {};
 		}
-		cookieDirMac[nserial]={mac:macDst, nserial:nserial};
+		cookieDirMac[id]={mac:macDst, nserial:nserial, id:id};
 		hmac.update(nameCookie);
 		var hmacHash = hmac.digest('hex');
 		//var msg = '{"src" : "D4:B2:54:E2:24:2D", "dst" : "'+mac+'", "path" : "/link?name='+nameCookie+'&mac='+mac+'&nserial='+nserial+'", "hmac" : "'+hmacHash+'"}';
-		msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/link", "hmac" : "'+hmacHash+'"}';
+		msg = '{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/link", "hmac" : "'+hmacHash+'"}';
 		console.log(msg);
 		myEmitter.emit('eventHmac', msg);
 		res.cookie('pi', JSON.stringify(cookieDirMac), {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
@@ -79,14 +80,14 @@ router.get('/led', function(req, res, next){
 
 	var led = req.query.option || '';
 	var macDst = req.query.mac || '';
-	var nserial = req.query.nserial || '';
+	var id = req.query.id || '';
 	var hex = req.query.hex || '';
 	var rgb; 
 	var msg;
 
 	if(led != ''){
 		if(led === 'on'){
-			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/on"}';
+			msg = '{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/led/on"}';
 			myEmitter.emit('eventLed', msg);
 			/*myEmitter.on('eventACK', function(msg){
         	res.render('led',{option: 'Led On'});
@@ -94,11 +95,11 @@ router.get('/led', function(req, res, next){
     		res.render('led',{option: 'Led On'});
 			
 		}else if(led === 'off'){
-			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/off"}';
+			msg = '{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/led/off"}';
 			myEmitter.emit('eventLed', msg);
 			res.render('led',{option: 'Led Off'});
 		}else if(led === 'blink'){
-			msg ='{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/blink"}';
+			msg ='{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/led/blink"}';
 			myEmitter.emit('eventLed', msg);
 			res.render('led',{option: 'Led Parpadeando'});
 		}else if(led === 'Cambiar color'){
@@ -106,7 +107,7 @@ router.get('/led', function(req, res, next){
 				res.render('led',{option: 'Introduzca un color, por favor'});
 			}else{
 				rgb = hexRgb(hex);
-				msg ='{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/rgb", "color" : "'+rgb+'"}';
+				msg ='{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/led/rgb", "color" : "'+rgb+'"}';
 				console.log(msg);
 				myEmitter.emit('eventLed', msg);
 				res.render('led',{option: 'Color Cambiado'});
@@ -122,6 +123,7 @@ router.get('/text', function(req, res, next){
 
 	var text = req.query.text || '';
 	var comment = req.query.comment || '';
+	var id = req.query.id || '';
 	var macDst = req.query.mac || '';
 	var msg;
 
@@ -129,7 +131,7 @@ router.get('/text', function(req, res, next){
 		if(comment === ''){
 			res.render('text',{comment: 'Escribe un comentario, por favor.'});
 		}else{
-			msg ='{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/led/write", "text" : "'+comment+'"}';
+			msg ='{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/led/write", "query" : "'+comment+'"}';
 			myEmitter.emit('eventWriteLcd', msg);
 			res.render('text',{comment: 'Mensaje Enviado!'});
 		}
@@ -142,16 +144,17 @@ router.get('/text', function(req, res, next){
 router.get('/buzzer', function(req, res, next){
 
 	var buzzer = req.query.buzzer || '';
+	var id = req.query.id || '';
 	var macDst = req.query.mac || '';
 	var msg;
 
 	if(buzzer != ''){
 		if(buzzer == 'on'){
-			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/buzzer/on"}';
+			msg = '{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/buzzer/on"}';
 			myEmitter.emit('eventBuzzer', msg);
 			res.render('buzzer',{sound: 'Alarma encendida'});
 		}else if(buzzer === 'off'){
-			msg = '{"src" : "'+macSrc+'", "dst" : "'+macDst+'", "path" : "/buzzer/off"}';
+			msg = '{"src" : "'+id+'", "dst" : "'+macDst+'", "path" : "/buzzer/off"}';
 			myEmitter.emit('eventBuzzer', msg);
 			res.render('buzzer',{sound: 'Alarma apagada'});
 		}

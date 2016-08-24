@@ -12,10 +12,10 @@
 	</nav>
 	<form method="get" action="/buzzer">
         <script type="text/javascript">
-            var nserialForm = $.get("nserial");
+            var idForm = $.get("id");
             var valorCookie = Cookies.getJSON('pi');
-            document.write('<input type="hidden" id="nserial" name="nserial" value="'+ nserialForm +'">');
-            document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserialForm].mac +'">');
+            document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
+            document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
         </script>
         <h2>Alarma</h2>
         <button type="submit" name="buzzer" value="on">Encender Alarma</button>

@@ -20,14 +20,17 @@
     html =  '<table class="pi-item">';
     html +=     '<tr>';
     html +=           '<td>';
-    html +=                '<h2 class="pi-item-titulo">Mac:</h2>';
+    html +=                '<h2 class="pi-item-titulo">Mac</h2>';
     html +=           '</td>';
     html +=           '<td>';
     html +=                '<h2>Nº serie</h2>';
     html +=           '</td>';
+    html +=           '<td>';
+    html +=                '<h2>Id</h2>';
+    html +=           '</td>';
     html +=     '</tr>';
     if(longitudCookie > 0){
-        $.each(valorCookie,function(i,nserial){
+        $.each(valorCookie,function(i,id){
             html +=     '<tr>'
             html +=             '<td>';
             html +=                 valorCookie[i].mac;
@@ -36,8 +39,11 @@
             html +=                 valorCookie[i].nserial;
             html +=             '</td>';
             html +=             '<td>';
-            html +=                 '<a type="button" href="/actions?nserial='+nserial.nserial+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
-            html +=                 '<button type="button" onclick="deleteCookie(\'' + nserial.nserial +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
+            html +=                 valorCookie[i].id;
+            html +=             '</td>';
+            html +=             '<td>';
+            html +=                 '<a type="button" href="/actions?id='+id.id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+            html +=                 '<button type="button" onclick="deleteCookie(\'' + id.id +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
             html +=             '</td>'; 
             html +=     '</tr>';
         });
@@ -50,8 +56,8 @@
 
     document.write(html);
 
-    function deleteCookie(nserial){
-        delete valorCookie[nserial];
+    function deleteCookie(id){
+        delete valorCookie[id];
         Cookies.set('pi', valorCookie);
         document.location.reload();
     }   

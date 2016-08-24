@@ -54,10 +54,10 @@
 
 	<form method="get" action="/led">
 		<script type="text/javascript">
-			var nserialForm = $.get("nserial");
+			var idForm = $.get("id");
 			var valorCookie = Cookies.getJSON('pi');
-			document.write('<input type="hidden" id="nserial" name="nserial" value="'+ nserialForm +'">');
-			document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserialForm].mac +'">');
+			document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
+			document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
 		</script>
 		<button type="submit" name="option" value="on">Encender Led</button>
 		<button type="submit" name="option" value="off">Apagar Led</button>
