@@ -37,13 +37,14 @@ router.get('/', function(req, res, next) {
 
 	var nameCookie = req.query.name || '';
 
-	if(nameCookie != ''){
+	if(nameCookie !== ''){
 		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		res.redirect('/');
+		res.redirect('/configuration');
+		//res.redirect('/');
 	}else{
 		res.render('index');
 	}
-	res.render('index');
+	//res.render('index');
 });
 
 //LOAD TO VIEW
