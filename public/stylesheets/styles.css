@@ -1,13 +1,100 @@
 html{
     background-color: #ffffff;
 }
-table.pi-item{
-	background: green;
+
+/* HEADER */
+.navbar {
+    background: #67BA4D;
+    color: #fff;
+    border: 0;
+    border-radius: 0;
+}
+.navbar-logo {
+    padding: 8px 0px;
+    height: 50px;
+}
+.navbar .navbar-nav > li > a {
+    color: #fff !important;
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:focus,
+.navbar-inverse .navbar-nav > .open > a:hover {
+    background: #477F35;
 }
 
-.pi-item td {
-	height: 40px;
-    text-align: center;
+.navbar-inverse .navbar-toggle,
+.navbar-inverse .navbar-toggle:focus,
+.navbar-inverse .navbar-toggle:hover {
+    background: #477F35;
+    border: 0;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border: 0;
+}
+
+@media (max-width: 767px) {
+    .navbar .navbar-nav .open .dropdown-menu > li > a {
+        color: #fff;
+    }
+    .navbar-logo {
+        padding-left: 15px;
+    }
+    .navbar-nav {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+/* CONTENT */
+
+#content {
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+}
+
+table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+table th {
+    background: #cfcfcf;
+    padding: 5px 0;
+}
+table th:first-child {
+    padding-left: 10px;
+}
+
+table td {
+    height: 40px;
     padding-right: 20px;
 }
 
+table td a, table td button {
+    margin-right: 5px;
+}
+
+.btn-default {
+    background: #D6264F;
+    color: #fff;
+    border-color: #D6264F;
+}
+.btn-default:hover, .btn-default:focus, .btn-default:active {
+    background: #A61D3D !important;
+    color: #fff !important;
+    border-color: #A61D3D !important;
+}
+
+.led-actions > div {
+    margin-bottom: 10px;
+}
+
+textarea {
+    padding: 10px;
+}

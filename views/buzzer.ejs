@@ -1,5 +1,7 @@
 <!-- views/pages/index.ejs -->
 
+<!-- cookie -> status ['led_on', 'led_blink', 'buzzer_on'] -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,16 +12,24 @@
 	<nav class="navbar navbar-inverse">
 		<% include ../views/template/nav %>
 	</nav>
-	<form method="get" action="/buzzer">
-        <script type="text/javascript">
-            var idForm = $.get("id");
-            var valorCookie = Cookies.getJSON('pi');
-            document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
-            document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
-        </script>
-        <h2>Alarma</h2>
-        <button type="submit" name="buzzer" value="on">Encender Alarma</button>
-        <button type="submit" name="buzzer" value="off">Apagar Alarma</button>
-    </form>
-    <h2><%= sound %></h2>
+    <div id="content">
+        <% if (sound != '') { %>
+            <div class="alert alert-success" role="alert"><%= sound %></div>
+        <% } %>
+    	<form method="get" action="/buzzer">
+            <script type="text/javascript">
+                var idForm = $.get("id");
+                var valorCookie = Cookies.getJSON('pi');
+                document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
+                document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
+            </script>
+            <h2>Alarma</h2>
+            <div id="buzzer-action-off" class="buzzer-action">
+                <button class="btn btn-default" type="submit" name="buzzer" value="on">Encender Alarma</button>
+            </div>
+            <div id="buzzer-action-on" class="buzzer-action">
+                <button class="btn btn-default" type="submit" name="buzzer" value="off">Apagar Alarma</button>
+            </div>
+        </form>
+    </div>
     <% include ../views/template/footer %>

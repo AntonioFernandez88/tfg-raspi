@@ -14,45 +14,39 @@
     var chart = new CanvasJS.Chart("chartContainer",{
       title :{
         text: "Temperatura"
-      },      
+      },
       data: [{
         type: "line",
-        dataPoints: seg 
+        dataPoints: seg
       }]
     });
 
-    var xVal = 0;
-    var yVal = 50; 
-    var updateInterval = 2000;  //cada 2 segundo se actualiza
-    var dataLength = 60; // number of dataPoints visible at any point
-
-    var updateChart = function (count) {
-      count = count || 1;
-      // count is number of times loop runs to generate random dataPoints.
-      
-      for (var j = 0; j < count; j++) { 
-        yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-        seg.push({
-          x: xVal,
-          y: yVal
-        });
-        xVal++;
-      };
-      if (seg.length > dataLength)
-      {
-        seg.shift();        
-      }
-      
-      chart.render();   
-
+    var ws = new WebSocket("ws://serverwss.herokuapp.com/");
+    ws.onopen = function(){
+        console.log("Connection is open...");
+    };
+    ws.onclose = function(){
+        console.log("Connection is closed");
     };
 
-    // generates first set of dataPoints
-    updateChart(dataLength); 
+    var xVal = 0;
+    ws.onmessage = function (event) {
+      console.log(event.data);
+      var json = {y: 1};
+      var dataLength = 60; // number of dataPoints visible at any point
 
-    // update chart after specified time. 
-    setInterval(function(){updateChart()}, updateInterval); 
+      seg.push({
+        x: xVal,
+        y: json.y
+      });
+      xVal++;
 
+      if (seg.length > dataLength) {
+        seg.shift();
+      }
+
+      chart.render();
+    };
   }
 </script>
 </head>
@@ -60,18 +54,16 @@
   <nav class="navbar navbar-inverse">
     <% include ../views/template/nav %>
   </nav>
-  <form method="get" action="/temperature">
-    <script type="text/javascript">
-      var nserialForm = $.get("nserial");
-      var valorCookie = Cookies.getJSON('pi');
-      document.write('<input type="hidden" id="nserial" name="nserial" value="'+ nserialForm +'">');
-      document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[nserialForm].mac +'">');
-    </script>
-    <h2>Temperatura</h2>
-    <button type="submit" name="temperature" value="on">Encender</button>
-    <button type="submit" name="temperature" value="off">Apagar</button>
-  </form>
-  <div id="chartContainer" style="height: 300px; width:100%;">
-
-    <h2><%= temperature %></h2>
+  <div id="content">
+    <form method="get" action="/temperature">
+      <script type="text/javascript">
+        var id = $.get("id");
+        var valorCookie = Cookies.getJSON('pi');
+        document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
+        document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
+      </script>
+      <h1>Temperatura</h1>
+      </form>
+      <div id="chartContainer" style="height: 300px; width:100%;">
+    </div>
     <% include ../views/template/footer %>

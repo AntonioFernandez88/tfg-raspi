@@ -21,100 +21,104 @@ var hmacApp;
 var idApp;
 //recibir hmac y id
 myEmitter.on('eventHmacAndId', function(hmac, id){
-    console.log('hola');
-        console.log(hmac);
-        console.log(id);
-        hmacApp = hmac;
-        idApp = id;
-        console.log("adios");
-        console.log(hmacApp);
-        console.log(idApp);
-    });
+    hmacApp = hmac;
+    idApp = id;
+});
 
 //----------------------------------------------------------------------------------------WS-------------------
 
 var server = app.listen(app.get('port'), function() {
     debug('Express server listening on port ' + server.address().port);
 });
-//const ws = new SocketServer({server: server});
-//function connect(){
-    const ws = new SocketServer("https://serverwss.herokuapp.com/");
 
+const ws = new SocketServer("ws://serverwss.herokuapp.com/");
 
-    ws.onopen = function(){
-        console.log("Connection is open...");
-    }
+ws.onopen = function(){
+    console.log("Connection is open...");
 
-    ws.onclose = function(){ 
-        console.log("Connection is closed...");
-        /*setTimeout(function() {
-            connect();
-        }, 1000)*/ 
-    };
+    ws.pingssent = 0;
+    var interval = setInterval(function() {
+        if (ws.pingssent >= 2) {
+            ws.close();
+        } else {
+            ws.ping();
+            ws.pingssent++;
+            console.log("pin ---->");
+        }
+    }, 30000);
+    ws.on('pong', function() {
+        ws.pingssent = 0;
+        console.log("<---- pong");
+    });
+}
 
-    ws.onmessage = function (msg) { 
-      var received_msg = JSON.parse(msg.data);
+ws.onclose = function(){
+    console.log("Connection is closed...");
+};
+
+ws.onmessage = function (msg) {
+  var received_msg = JSON.parse(msg.data);
       if((received_msg.hmac === hmacApp) && (received_msg.id === idApp)){
         console.log("Es miooooooooooooooooooooooooooooooo");
         //myEmitter.emit('eventACK', msg.data);
     }
-    };
+};
 
-    myEmitter.on('eventLed', function(msg){
-        sendMessage(msg);
+ws.onerror = function (errorEvent){
+    console.log(errorEvent);
+};
+
+myEmitter.on('eventLed', function(msg){
+    sendMessage(msg);
+});
+
+myEmitter.on('eventHmac', function(msg){
+    sendMessageHmac(msg);
+});
+
+myEmitter.on('eventWriteLcd', function(msg){
+    sendMessageHmac(msg);
+});
+
+myEmitter.on('eventBuzzer', function(msg){
+    sendMessageHmac(msg);
+});
+
+//Funciones envio de mensajes
+
+function sendMessageHmac(msg){
+    // Wait until the state of the socket is not ready and send the message when it is...
+    waitForSocketConnection(ws, function(){
+        console.log("message sent!!!");
+        ws.send(msg);
     });
+}
 
-    myEmitter.on('eventHmac', function(msg){
-        sendMessageHmac(msg);
+function sendMessage(msg){
+    // Wait until the state of the socket is not ready and send the message when it is...
+    waitForSocketConnection(ws, function(){
+        console.log("message sent!!!");
+        ws.send(msg);
     });
+}
 
-    myEmitter.on('eventWriteLcd', function(msg){
-        sendMessageHmac(msg);
-    });
+// Make the function wait until the connection is made...
+function waitForSocketConnection(socket, callback){
+    setTimeout(
+        function () {
+            if (socket.readyState === 1) {
+                console.log("Connection is made")
+                if(callback != null){
+                    callback();
+                }
+                return;
+            } else {
+            //console.log("wait for connection...")
+            waitForSocketConnection(socket, callback);
+        }
 
-    myEmitter.on('eventBuzzer', function(msg){
-        sendMessageHmac(msg);
-    });
-
-    //Funciones envio de mensajes
-
-    function sendMessageHmac(msg){
-        // Wait until the state of the socket is not ready and send the message when it is...
-        waitForSocketConnection(ws, function(){
-            console.log("message sent!!!");
-            ws.send(msg);
-        });
-    }
-
-    function sendMessage(msg){
-        // Wait until the state of the socket is not ready and send the message when it is...
-        waitForSocketConnection(ws, function(){
-            console.log("message sent!!!");
-            ws.send(msg);
-        });
-    }
-
-    // Make the function wait until the connection is made...
-    function waitForSocketConnection(socket, callback){
-        setTimeout(
-            function () {
-                if (socket.readyState === 1) {
-                    console.log("Connection is made")
-                    if(callback != null){
-                        callback();
-                    }
-                    return;
-                } else {
-                //console.log("wait for connection...")
-                waitForSocketConnection(socket, callback);
-            }
-
-        }, 5); // wait 5 milisecond for the connection...
-    }
-//}
-//connect();
-//-------------------------------------------------------------------------------------------------------------------
-
+    }, 5); // wait 5 milisecond for the connection...
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

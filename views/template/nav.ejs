@@ -6,12 +6,12 @@
         <span class="icon-bar"></span>
     </button>
     <a href="/">
-        <img src="/images/RaspiLogo.png">
+        <img class="navbar-logo" src="/images/RaspiLogo.png">
     </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            <li><a href="/link"><span class="glyphicon glyphicon-plus-sign"> Vincular</span></a></li>
+            <li><a href="/link"><span class="glyphicon glyphicon-plus-sign"></span> Vincular</a></li>
             <li><a href="#">Que es RaspBerryPi</a></li>
         <script>
             var nameCookie = Cookies.get('name');
@@ -20,13 +20,10 @@
                 html = '<li><a href="/configuration">Listado de RaspBerryPi</a></li>';
                 html +='</ul>'
                 html += '<ul class="nav navbar-nav navbar-right">';
-                html += '<li class="dropdown nav navbar-nav navbar-right">';
-                html += '<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"> ' + nameCookie + ' </span></a>';
+                html += '<li class="dropdown">';
+                html += '<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> ' + nameCookie + '</a>';
                 html += '<ul class="dropdown-menu">';
-                html += '<li><a href="#">Page 1-1</a></li>';
-                html += '<li><a href="#">Page 1-2</a></li>';
-                html += '<li><a href="#">Page 1-3</a></li>';
-                html += '<li><a href="#" onclick="deleteCookies()" disabled><span class="glyphicon glyphicon-off"> Eliminar</span></a></li>';
+                html += '<li><a href="#" onclick="deleteCookies()" disabled><span class="glyphicon glyphicon-off"></span> Eliminar</a></li>';
                 html += '</ul>';
                 html += '</li>';
             }else{
@@ -41,7 +38,7 @@
                 Cookies.remove('pi');
                 //window.location = "http://localhost:3000/";
                 window.location = "https://tfg-raspi.herokuapp.com/";
-            }  
+            }
         </script>
         </ul>
     </div>

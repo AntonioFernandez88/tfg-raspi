@@ -4,66 +4,63 @@
 <html lang="en">
 
 <% include ../views/template/head %>
-<link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 </head>
 <body>
 
 <nav class="navbar navbar-inverse">
      <% include ../views/template/nav %>
 </nav>
-<p>Listado de Pi connectadas</p>
-<script type="text/javascript">
-    var valorCookie = Cookies.getJSON('pi');
-    if(valorCookie != undefined){
-        var longitudCookie = Object.keys(valorCookie).length;
-    }
-    html =  '<table class="pi-item">';
-    html +=     '<tr>';
-    html +=           '<td>';
-    html +=                '<h2 class="pi-item-titulo">Mac</h2>';
-    html +=           '</td>';
-    html +=           '<td>';
-    html +=                '<h2>Nº serie</h2>';
-    html +=           '</td>';
-    html +=           '<td>';
-    html +=                '<h2>Id</h2>';
-    html +=           '</td>';
-    html +=     '</tr>';
-    if(longitudCookie > 0){
-        $.each(valorCookie,function(i,id){
-            html +=     '<tr>'
-            html +=             '<td>';
-            html +=                 valorCookie[i].mac;
-            html +=             '</td>';
-            html +=             '<td>';
-            html +=                 valorCookie[i].nserial;
-            html +=             '</td>';
-            html +=             '<td>';
-            html +=                 valorCookie[i].id;
-            html +=             '</td>';
-            html +=             '<td>';
-            html +=                 '<a type="button" href="/actions?id='+id.id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
-            html +=                 '<button type="button" onclick="deleteCookie(\'' + id.id +'\')" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
-            html +=             '</td>'; 
-            html +=     '</tr>';
-        });
+<div id="content">
+    <h1>Raspberry Pi vinculadas</h1>
+    <script type="text/javascript">
+        var valorCookie = Cookies.getJSON('pi');
+        if(valorCookie != undefined){
+            var longitudCookie = Object.keys(valorCookie).length;
+        }
+        if(longitudCookie > 0){
+            html =  '<table class="pi-item">';
+            html +=     '<thead><tr>';
+            html +=           '<th>Mac</th>';
+            html +=           '<th>Nº serie</th>';
+            html +=           '<th>Id</th>';
+            html +=           '<th>Opciones</th>';
+            html +=     '</tr></thead>';
+            html +=     '<tbody>';
 
-    }else{
-        html = '<h2>No hay Raspberry Pi Vinculadas</h2>';
-    }
+            $.each(valorCookie,function(i,id){
+                html +=     '<tr>'
+                html +=             '<td>';
+                html +=                 valorCookie[i].mac;
+                html +=             '</td>';
+                html +=             '<td>';
+                html +=                 valorCookie[i].nserial;
+                html +=             '</td>';
+                html +=             '<td>';
+                html +=                 valorCookie[i].id;
+                html +=             '</td>';
+                html +=             '<td>';
+                html +=                 '<a type="button" href="/actions?id='+id.id+'" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>';
+                html +=                 '<button type="button" onclick="showConfirm(function(){deleteCookie(\'' + id.id +'\')});" class="btn btn-danger btn-sm btn-round"><span class="glyphicon glyphicon-trash"></span></button>';
+                html +=             '</td>';
+                html +=     '</tr>';
+            });
+            html +=     '</tbody>';
+            html += '</table>';
+        }else{
+            html = '<tr><td>No hay Raspberry Pi Vinculadas</td></tr>';
+        }
 
-    html += '</table>';
+        document.write(html);
 
-    document.write(html);
+        function deleteCookie(id){
+            delete valorCookie[id];
+            Cookies.set('pi', valorCookie);
+            document.location.reload();
+        }
 
-    function deleteCookie(id){
-        delete valorCookie[id];
-        Cookies.set('pi', valorCookie);
-        document.location.reload();
-    }   
-
-    //$('#pi').html(html);
-</script>
-<div id="#pi"></div>
+        //$('#pi').html(html);
+    </script>
+    <div id="pi"></div>
+</div>
 <% include ../views/template/footer %>
 
