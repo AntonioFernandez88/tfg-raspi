@@ -23,7 +23,7 @@
                 html += '<li class="dropdown">';
                 html += '<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> ' + nameCookie + '</a>';
                 html += '<ul class="dropdown-menu">';
-                html += '<li><a href="#" onclick="deleteCookies()" disabled><span class="glyphicon glyphicon-off"></span> Eliminar</a></li>';
+                html += '<li><a href="#" onclick="showConfirm(function(){deleteCookies()});" disabled><span class="glyphicon glyphicon-off"></span> Eliminar</a></li>';
                 html += '</ul>';
                 html += '</li>';
             }else{
