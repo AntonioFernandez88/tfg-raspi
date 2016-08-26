@@ -33,6 +33,7 @@ router.get('/', function(req, res, next) {
 
     if (req.cookies.name !== undefined) {
 		res.redirect('/configuration');
+		return;
 	}
 
 	var nameCookie = req.query.name || '';

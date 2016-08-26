@@ -95,6 +95,45 @@ table td a, table td button {
     margin-bottom: 10px;
 }
 
+
+/* ITEMS */
 textarea {
     padding: 10px;
+}
+
+.items {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.item {
+    border-bottom: 1px dotted #999;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.item:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+.item-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.item-attribute {
+    font-size: 0.9em;
+}
+.item-options {
+    margin-top: 10px;
+}
+.item-options ul {
+    padding: 0;
+    text-align: left;
+}
+.item-options li {
+    display: inline-block;
+}
+.item-options li a , .item-options li button {
+    font-size: 0.85em;
+    padding: 3px 6px;
+    margin-right: 5px
 }
