@@ -54,12 +54,15 @@
             }
 
             function deleteCookie(id){
-                alert(id);
                 delete valorCookie[id];
                 Cookies.set('pi', valorCookie);
                 document.location.reload();
             }
         </script>
+
+        <% if (link != '') { %>
+            <div class="alert alert-success" role="alert"><%= link %></div>
+        <% } %>
 </div>
 <% include ../views/template/footer %>
 

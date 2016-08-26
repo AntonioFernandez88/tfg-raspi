@@ -81,7 +81,7 @@ router.get('/link', function(req, res, next) {
 		//Enviamos la hmac y la id para enviar el mensaje a esa persona
 		myEmitter.emit('eventHmacAndId', hmacHash, id);
 		res.cookie('pi', JSON.stringify(cookieDirMac), {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-		res.redirect('/');
+		res.render('configuration', {link : 'Raspberry vinculada'});
 	}else{res.render('link');}
 
 });
@@ -98,9 +98,7 @@ router.get('/actions', function(req, res, next) {
 router.get('/configuration', function(req, res, next) {
 
     checkUser(req, res);
-
-	res.render('configuration');
-
+		res.render('configuration', {link : ''});
 });
 
 //LED

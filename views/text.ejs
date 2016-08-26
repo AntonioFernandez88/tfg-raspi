@@ -11,10 +11,6 @@
         <% include ../views/template/nav %>
     </nav>
     <div id="content">
-        <% if (comment != '') { %>
-            <div class="alert alert-success" role="alert"><%= comment %></div>
-        <% } %>
-
         <form method="get" action="/text">
             <script type="text/javascript">
                 var id = $.get("id");
@@ -30,5 +26,8 @@
                 <input class="btn btn-default" type="submit" name="text" value="Enviar">
             </div>
         </form>
+        <% if (comment != '') { %>
+            <div class="alert alert-success" role="alert"><%= comment %></div>
+        <% } %>
     </div>
     <% include ../views/template/footer %>

@@ -47,11 +47,6 @@
                 });
             });
         </script>
-
-        <% if (option != '') { %>
-            <div class="alert alert-success" role="alert"><%= option %></div>
-        <% } %>
-
         <form method="get" action="/led">
             <script type="text/javascript">
                 var idForm = $.get("id");
@@ -75,5 +70,10 @@
                 </div>
             </div>
         </form>
+        <% if (option == 'Introduzca un color, por favor') { %>
+            <div class="alert alert-danger" role="alert"><%= option %></div>
+        <% }else{ %>
+            <div class="alert alert-success" role="alert"><%= option %></div>
+        <% } %>
     </div>
     <% include ../views/template/footer %>

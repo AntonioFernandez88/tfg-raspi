@@ -13,9 +13,6 @@
 		<% include ../views/template/nav %>
 	</nav>
     <div id="content">
-        <% if (sound != '') { %>
-            <div class="alert alert-success" role="alert"><%= sound %></div>
-        <% } %>
     	<form method="get" action="/buzzer">
             <script type="text/javascript">
                 var idForm = $.get("id");
@@ -31,5 +28,8 @@
                 <button class="btn btn-default" type="submit" name="buzzer" value="off">Apagar Alarma</button>
             </div>
         </form>
+        <% if (sound != '') { %>
+            <div class="alert alert-success" role="alert"><%= sound %></div>
+        <% } %>
     </div>
     <% include ../views/template/footer %>
