@@ -72,7 +72,7 @@
         </form>
         <% if (option == 'Introduzca un color, por favor') { %>
             <div class="alert alert-danger" role="alert"><%= option %></div>
-        <% }else{ %>
+        <% }else if(option != ''){ %>
             <div class="alert alert-success" role="alert"><%= option %></div>
         <% } %>
     </div>
