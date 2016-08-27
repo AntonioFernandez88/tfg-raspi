@@ -61,9 +61,9 @@ router.get('/link', function(req, res, next) {
 	var hmac = crypto.createHmac('sha1', mac);
 	var msg;
 
-	if(nameCookie != ''){
+	/*if(nameCookie != ''){
 		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-	}
+	}*/
 
 	if((mac != '') && (nserial != '') && (id != '')){
 
