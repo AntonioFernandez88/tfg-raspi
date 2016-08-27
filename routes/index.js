@@ -120,8 +120,10 @@ router.get('/led', function(req, res, next){
 		if(led === 'on'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/on", "query" : "null"}';
 			myEmitter.emit('eventLed', msg);
-			res.render('led',{option: 'Led On'});
-
+			myEmitter.on('eventACK', function(msg){
+    			res.render('led',{option: 'Led On'});
+			});
+			//res.render('led',{option: 'Led On'});
 		}else if(led === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/off", "query" : "null"}';
 			myEmitter.emit('eventLed', msg);
