@@ -118,18 +118,18 @@ router.get('/led', function(req, res, next){
 
 	if(led != ''){
 		if(led === 'on'){
-			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/on", "query" : "null"}';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/on", "query" : null}';
 			myEmitter.emit('eventLed', msg);
 			/*myEmitter.on('eventACK', function(msg){
     			res.render('led',{option: 'Led On'});
 			});*/
 			res.render('led',{option: 'Led On'});
 		}else if(led === 'off'){
-			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/off", "query" : "null"}';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/off", "query" : null}';
 			myEmitter.emit('eventLed', msg);
 			res.render('led',{option: 'Led Off'});
 		}else if(led === 'blink'){
-			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/blink", "query" : "null"}';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/blink", "query" : null}';
 			myEmitter.emit('eventLed', msg);
 			res.render('led',{option: 'Led Parpadeando'});
 		}else if(led === 'Cambiar color'){
@@ -194,11 +194,11 @@ router.get('/buzzer', function(req, res, next){
 
 	if(buzzer != ''){
 		if(buzzer === 'on'){
-			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/buzzer/on", "query" : "null"}';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/buzzer/on", "query" : null}';
 			myEmitter.emit('eventBuzzer', msg);
 			res.render('buzzer',{sound: 'Alarma encendida'});
 		}else if(buzzer === 'off'){
-			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/buzzer/off", "query" : "null"}';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/buzzer/off", "query" : null}';
 			myEmitter.emit('eventBuzzer', msg);
 			res.render('buzzer',{sound: 'Alarma apagada'});
 		}

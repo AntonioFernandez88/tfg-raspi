@@ -97,8 +97,8 @@ function sendMessageHmac(msg){
 function sendMessage(msg){
     // Wait until the state of the socket is not ready and send the message when it is...
     waitForSocketConnection(ws, function(){
-        console.log("message sent!!!");
         ws.send(msg);
+        console.log("message sent!!!");
     });
 }
 
