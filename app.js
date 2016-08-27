@@ -11,7 +11,6 @@ var port = process.env.PORT || 3000
 var EventEmitter = require("events").EventEmitter
 GLOBAL.myEmitter = new EventEmitter();
 
-
 var app = express()
 var routes = require('./routes/index')
 
@@ -58,9 +57,9 @@ ws.onclose = function(){
 
 ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
-      if((received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
+    if((received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
         console.log("Es miooooooooooooooooooooooooooooooo");
-        //myEmitter.emit('eventACK', msg.data);
+        myEmitter.emit('eventACK', received_msg);
     }
 };
 
@@ -81,6 +80,10 @@ myEmitter.on('eventWriteLcd', function(msg){
 });
 
 myEmitter.on('eventBuzzer', function(msg){
+    sendMessageHmac(msg);
+});
+
+myEmitter.on('eventTemp', function(msg){
     sendMessageHmac(msg);
 });
 

@@ -7,18 +7,18 @@
 <script src="javascripts/canvasjs.min.js"></script>
 <script src="javascripts/jquery.canvasjs.min.js"></script>
 <script type="text/javascript">
-  window.onload = function () {
+  /*window.onload = function () {
 
     var seg = []; // dataPoints
 
     var chart = new CanvasJS.Chart("chartContainer",{
-      title :{
-        text: "Temperatura"
-      },
-      data: [{
-        type: "line",
-        dataPoints: seg
-      }]
+        title :{
+            text: "Temperatura"
+        },
+        data: [{
+            type: "line",
+            dataPoints: seg
+        }]
     });
 
     var ws = new WebSocket("ws://serverwss.herokuapp.com/");
@@ -31,39 +31,43 @@
 
     var xVal = 0;
     ws.onmessage = function (event) {
-      console.log(event.data);
-      var json = {y: 1};
-      var dataLength = 60; // number of dataPoints visible at any point
+        console.log(event.data);
+        var json = {y: 1};
+        var dataLength = 60; // number of dataPoints visible at any point
+        seg.push({
+            x: xVal,
+            y: json.y
+        });
+        xVal++;
 
-      seg.push({
-        x: xVal,
-        y: json.y
-      });
-      xVal++;
+        if (seg.length > dataLength) {
+            seg.shift();
+        }
 
-      if (seg.length > dataLength) {
-        seg.shift();
-      }
-
-      chart.render();
+        chart.render();
     };
-  }
+  }*/
 </script>
 </head>
 <body>
-  <nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse">
     <% include ../views/template/nav %>
-  </nav>
-  <div id="content">
+</nav>
+<div id="content">
     <form method="get" action="/temperature">
-      <script type="text/javascript">
-        var id = $.get("id");
-        var valorCookie = Cookies.getJSON('pi');
-        document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
-        document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
-      </script>
-      <h1>Temperatura</h1>
-      </form>
-      <div id="chartContainer" style="height: 300px; width:100%;">
+        <script type="text/javascript">
+            var id = $.get("id");
+            var valorCookie = Cookies.getJSON('pi');
+            document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
+            document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
+        </script>
+        <h1>Temperatura</h1>
+        <button class="btn btn-default" type="submit" name="temperature" value="on">Encender</button>
+        <button class="btn btn-default" type="submit" name="temperature" value="off">Apagar</button>
+        </form>
+        <div id="chartContainer" style="height: 300px; width:100%;">
+        <% if (temperature != '') { %>
+            <div class="alert alert-success" role="alert"><%= temperature %></div>
+        <% } %>
     </div>
     <% include ../views/template/footer %>

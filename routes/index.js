@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var crypto =  require('crypto');
 var hexRgb = require('hex-rgb');
+var cont = 0;
 
 function checkPi(req, res)
 {
@@ -109,29 +110,54 @@ router.get('/led', function(req, res, next){
 	var led = req.query.option || '';
 	var mac = req.query.mac || '';
 	var id = req.query.id || '';
-	var hex = req.query.hex || '';
-	var rgb;
-	var msg;
+	msg;
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
+
 
 	if(led != ''){
 		if(led === 'on'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/on", "query" : null }';
 			myEmitter.emit('eventLed', msg);
-			/*myEmitter.on('eventACK', function(msg){
+			myEmitter.on('eventACK', function(msg){
+				console.log(msg.hmac);
+				if(msg.path == '/ack/led/on'){
     			res.render('led',{option: 'Led On'});
-			});*/
-			res.render('led',{option: 'Led On'});
+    			cont = 0;
+    			}
+    			return;
+			});
+			if(cont > 1){
+				res.render('led',{option: 'Error, pruebe de nuevo'});
+			}
+			cont++;
 		}else if(led === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/off", "query" : null }';
 			myEmitter.emit('eventLed', msg);
-			res.render('led',{option: 'Led Off'});
+			myEmitter.on('eventACK', function(msg){
+				console.log('me ha llegao');
+    			res.render('led',{option: 'Led Off'});
+    			cont = 0;
+    			return;
+			});
+			if(cont > 1){
+				res.render('led',{option: 'Error, pruebe de nuevo'});
+			}
+			cont++;
 		}else if(led === 'blink'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/blink", "query" : null }';
 			myEmitter.emit('eventLed', msg);
-			res.render('led',{option: 'Led Parpadeando'});
+			myEmitter.on('eventACK', function(msg){
+				console.log('me ha llegao');
+    			res.render('led',{option: 'Led Parpadeando'});
+    			cont = 0;
+    			return;
+			});
+			if(cont > 1){
+				res.render('led',{option: 'Error, pruebe de nuevo'});
+			}
+			cont++;
 		}else if(led === 'Cambiar color'){
 			if(hex == ''){
 				res.render('led',{option: 'Introduzca un color, por favor'});
@@ -152,31 +178,43 @@ router.get('/led', function(req, res, next){
 });
 
 //TEXT
-router.get('/text', function(req, res, next){
+router.get('/lcd', function(req, res, next){
     checkPi(req, res);
 
 	var text = req.query.text || '';
 	var comment = req.query.comment || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
+	var option = req.query.option || '';
 	var msg;
+	var hex = req.query.hex || '';
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
 
-	if(text != ''){
+	if(text !== ''){
 		if(comment === ''){
-			res.render('text',{comment: 'Escribe un comentario, por favor.'});
+			res.render('text',{comment: 'Escribe un comentario, por favor', option: ''});
 		}else{
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
 			myEmitter.emit('eventWriteLcd', msg);
-			res.render('text',{comment: 'Mensaje Enviado!'});
+			res.render('text',{comment: 'Mensaje Enviado!', option: ''});
 		}
 		//Enviamos la hmac y la id para enviar el mensaje a esa persona
 		myEmitter.emit('eventHmacAndId', hmacHash, id);
 		console.log(msg);
+	}else if(option === 'Cambiar color'){
+			if(hex == ''){
+				res.render('text',{comment: '', option: 'Introduzca un color, por favor'});
+			}else{
+				rgb = hexRgb(hex);
+				msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/lcd/rgb", "query" : "'+rgb+'" }';
+				console.log(msg);
+				myEmitter.emit('eventLed', msg);
+				res.render('text',{comment: '', option: 'Color Cambiado'});
+			}
 	}else{
-		res.render('text',{comment: ''});
+	res.render('text',{comment: '', option: ''});
 	}
 });
 
@@ -187,7 +225,7 @@ router.get('/buzzer', function(req, res, next){
 	var buzzer = req.query.buzzer || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
-	var msg;
+	msg;
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
@@ -212,9 +250,31 @@ router.get('/buzzer', function(req, res, next){
 
 //TEMPERATURE
 router.get('/temperature', function(req, res, next){
-    checkPi(req, res);
+	checkPi(req, res);
 
-	res.render('temperature');
+	var temp = req.query.temperature || '';
+	var id = req.query.id || '';
+	var mac = req.query.mac || '';
+	var hmac = crypto.createHmac('sha1', mac);
+	hmac.update(id);
+	var hmacHash = hmac.digest('hex');
+
+    if(temp !== ''){
+		if(temp === 'on'){
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/on", "query" : null }';
+			myEmitter.emit('eventTemp', msg);
+			res.render('temperature',{temperature: 'tomando temperatura'});
+		}else if(temp === 'off'){
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/off", "query" : null }';
+			myEmitter.emit('eventTemp', msg);
+			res.render('temperature',{temperature: 'Apagado'});
+		}
+		//Enviamos la hmac y la id para enviar el mensaje a esa persona
+		myEmitter.emit('eventHmacAndId', hmacHash, id);
+		console.log(msg);
+    }else{
+		res.render('temperature', {temperature: ''});
+	}
 });
 
 //MANIFEST JSON
