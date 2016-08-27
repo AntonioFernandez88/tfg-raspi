@@ -58,7 +58,7 @@ router.get('/link', function(req, res, next) {
 	var nserial = req.query.nserial || '';
 	var id = req.query.id || '';
 	var cookieDirMac = [];
-	var hmac = crypto.createHmac('sha1', mac);
+	var hmac = crypto.createHmac('sha1', nserial);
 	var msg;
 
 	/*if(nameCookie != ''){
@@ -73,7 +73,7 @@ router.get('/link', function(req, res, next) {
 			cookieDirMac = {};
 		}
 		cookieDirMac[id]={mac:mac, nserial:nserial, id:id};
-		hmac.update(id);
+		hmac.update(mac);
 		var hmacHash = hmac.digest('hex');
 		msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/ack_auth", "query" : null }';
 		console.log(msg);
