@@ -15,27 +15,31 @@
                 var valorCookie = Cookies.getJSON('pi');
                 document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
                 document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
-                var status = Cookies.getJSON('status');
-
-                $(document).ready(function(){
-                    /*if(status === undefined){
-                        $("#led-actions-off").hide();
-                        $("#led-actions-on").show();
-                    }*/
-                    $("#on").click(function(){
-                        $("#led-actions-off").hide();
+                var statusLed = Cookies.get('statusLed');
+                if(statusLed === 'off' || status === undefined){
+                    $(document).ready(function(){
+                            $("#led-actions-off").hide();
+                        $("#offLed").click(function(){
+                            $("#led-actions-on").hide();
+                            Cookies.set('statusLed', 'on');
+                        });
                     });
-                    $("#off").click(function(){
+                }else{
+                    $(document).ready(function(){
                         $("#led-actions-on").hide();
+                        $("#onLed").click(function(){
+                            $("#led-actions-off").hide();
+                            Cookies.set('statusLed', 'off');
+                        });
                     });
-                });
+                }
             </script>
             <div id="led-actions-off" class="led-actions">
-               <button type="submit" class="btn btn-default" id=on name="option" value="on">Encender Led</button>
+               <button type="submit" class="btn btn-default" id=onLed name="option" value="on">Encender Led</button>
             </div>
             <div id="led-actions-on" class="led-actions">
                 <div>
-                    <button type="submit" class="btn btn-default" id=off name="option" value="off">Apagar Led</button>
+                    <button type="submit" class="btn btn-default" id=offLed name="option" value="off">Apagar Led</button>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-default" id=blink name="option" value="blink">Parpadear Led</button>

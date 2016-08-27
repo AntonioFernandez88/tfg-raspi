@@ -19,13 +19,31 @@
                 var valorCookie = Cookies.getJSON('pi');
                 document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
                 document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
+                var statusBuzzer = Cookies.get('statusBuzzer');
+                if(statusBuzzer === 'off' || statusBuzzer === undefined){
+                    $(document).ready(function(){
+                        $("#buzzer-actions-off").hide();
+                        $("#offBuzzer").click(function(){
+                            $("#buzzer-actions-on").hide();
+                            Cookies.set('statusBuzzer', 'on');
+                        });
+                    });
+                }else{
+                    $(document).ready(function(){
+                        $("#buzzer-actions-on").hide();
+                        $("#onBuzzer").click(function(){
+                            $("#buzzer-actions-off").hide();
+                            Cookies.set('statusBuzzer', 'off');
+                        });
+                    });
+                }
             </script>
             <h2>Alarma</h2>
-            <div id="buzzer-action-off" class="buzzer-action">
-                <button class="btn btn-default" type="submit" name="buzzer" value="on">Encender Alarma</button>
+            <div id="buzzer-actions-off" class="led-actions">
+               <button class="btn btn-default" type="submit" id=onBuzzer name="buzzer" value="off">Apagar Alarma</button>
             </div>
-            <div id="buzzer-action-on" class="buzzer-action">
-                <button class="btn btn-default" type="submit" name="buzzer" value="off">Apagar Alarma</button>
+            <div id="buzzer-actions-on" class="led-actions">
+                <button class="btn btn-default" type="submit" id=offBuzzer name="buzzer" value="on">Encender Alarma</button>
             </div>
         </form>
         <% if (sound != '') { %>

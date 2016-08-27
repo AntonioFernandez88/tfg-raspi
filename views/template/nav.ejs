@@ -36,6 +36,9 @@
             function deleteCookies(){
                 Cookies.remove('name');
                 Cookies.remove('pi');
+                Cookies.remove('statusLed');
+                Cookies.remove('statusBuzzer');
+                Cookies.remove('statusTemp');
                 //window.location = "http://localhost:3000/";
                 window.location = "https://tfg-raspi.herokuapp.com/";
             }

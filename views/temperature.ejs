@@ -60,14 +60,37 @@
             var valorCookie = Cookies.getJSON('pi');
             document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
             document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
+            var statusTemp = Cookies.get('statusTemp');
+                if(statusTemp === 'off' || statusTemp === undefined){
+                    $(document).ready(function(){
+                        $("#temp-actions-off").hide();
+                        $("#offTemp").click(function(){
+                            $("#temp-actions-on").hide();
+                            Cookies.set('statusTemp', 'on');
+                        });
+                    });
+                }else{
+                    $(document).ready(function(){
+                        $("#temp-actions-on").hide();
+                        $("#onTemp").click(function(){
+                            $("#temp-actions-off").hide();
+                            Cookies.set('statusTemp', 'off');
+                        });
+                    });
+                }
         </script>
-        <h1>Temperatura</h1>
-        <button class="btn btn-default" type="submit" name="temperature" value="on">Encender</button>
-        <button class="btn btn-default" type="submit" name="temperature" value="off">Apagar</button>
-        </form>
-        <div id="chartContainer" style="height: 300px; width:100%;">
-        <% if (temperature != '') { %>
-            <div class="alert alert-success" role="alert"><%= temperature %></div>
-        <% } %>
+        <h1>Medición de temperatura</h1>
+            <div id="temp-actions-off" class="led-actions">
+               <button class="btn btn-default" type="submit" id=onTemp name="temp" value="off">Parar</button>
+            </div>
+            <div id="temp-actions-on" class="led-actions">
+                <button class="btn btn-default" type="submit" id=offTemp name="temp" value="on">Empezar</button>
+            </div>
+    </form>
+    <div id="chartContainer" style="height: 300px; width:100%;">
+    <% if (temp != '') { %>
+        <div class="alert alert-success" role="alert"><%= temp %></div>
+    <% } %>
     </div>
-    <% include ../views/template/footer %>
+</div>
+<% include ../views/template/footer %>

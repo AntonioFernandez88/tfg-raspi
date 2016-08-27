@@ -253,7 +253,7 @@ router.get('/buzzer', function(req, res, next){
 router.get('/temperature', function(req, res, next){
 	checkPi(req, res);
 
-	var temp = req.query.temperature || '';
+	var temp = req.query.temp || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
 	var hmac = crypto.createHmac('sha1', mac);
@@ -264,17 +264,17 @@ router.get('/temperature', function(req, res, next){
 		if(temp === 'on'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/on", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
-			res.render('temperature',{temperature: 'tomando temperatura'});
+			res.render('temperature',{temp: 'tomando temperatura'});
 		}else if(temp === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/off", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
-			res.render('temperature',{temperature: 'Apagado'});
+			res.render('temperature',{temp: 'Apagado'});
 		}
 		//Enviamos la hmac y la id para enviar el mensaje a esa persona
 		myEmitter.emit('eventHmacAndId', hmacHash, id);
 		console.log(msg);
     }else{
-		res.render('temperature', {temperature: ''});
+		res.render('temperature', {temp: ''});
 	}
 });
 
