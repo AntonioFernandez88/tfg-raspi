@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var crypto =  require('crypto');
 var hexRgb = require('hex-rgb');
+var msg;
 var cont = 0;
 
 function checkPi(req, res)
@@ -60,7 +61,7 @@ router.get('/link', function(req, res, next) {
 	var id = req.query.id || '';
 	var cookieDirMac = [];
 	var hmac = crypto.createHmac('sha1', nserial);
-	var msg;
+	msg;
 
 	/*if(nameCookie != ''){
 		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
@@ -120,7 +121,7 @@ router.get('/led', function(req, res, next){
 		if(led === 'on'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/on", "query" : null }';
 			myEmitter.emit('eventLed', msg);
-			myEmitter.on('eventACK', function(msg){
+			/*myEmitter.on('eventACK', function(msg){
 				console.log(msg.hmac);
 				if(msg.path == '/ack/led/on'){
     			res.render('led',{option: 'Led On'});
@@ -128,36 +129,36 @@ router.get('/led', function(req, res, next){
     			}
     			return;
 			});
-			if(cont > 1){
+			if(cont > 1){*/
 				res.render('led',{option: 'Error, pruebe de nuevo'});
-			}
-			cont++;
+			//}
+			//cont++;
 		}else if(led === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/off", "query" : null }';
 			myEmitter.emit('eventLed', msg);
-			myEmitter.on('eventACK', function(msg){
+			/*myEmitter.on('eventACK', function(msg){
 				console.log('me ha llegao');
     			res.render('led',{option: 'Led Off'});
     			cont = 0;
     			return;
 			});
-			if(cont > 1){
+			if(cont > 1){*/
 				res.render('led',{option: 'Error, pruebe de nuevo'});
-			}
-			cont++;
+			//}
+			//cont++;
 		}else if(led === 'blink'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/blink", "query" : null }';
 			myEmitter.emit('eventLed', msg);
-			myEmitter.on('eventACK', function(msg){
+			/*myEmitter.on('eventACK', function(msg){
 				console.log('me ha llegao');
     			res.render('led',{option: 'Led Parpadeando'});
     			cont = 0;
     			return;
 			});
-			if(cont > 1){
+			if(cont > 1){*/
 				res.render('led',{option: 'Error, pruebe de nuevo'});
-			}
-			cont++;
+			//}
+			//cont++;
 		}else if(led === 'Cambiar color'){
 			if(hex == ''){
 				res.render('led',{option: 'Introduzca un color, por favor'});
@@ -186,7 +187,7 @@ router.get('/lcd', function(req, res, next){
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
 	var option = req.query.option || '';
-	var msg;
+	msg;
 	var hex = req.query.hex || '';
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
