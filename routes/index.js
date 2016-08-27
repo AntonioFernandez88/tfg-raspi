@@ -168,7 +168,7 @@ router.get('/text', function(req, res, next){
 		if(comment === ''){
 			res.render('text',{comment: 'Escribe un comentario, por favor.'});
 		}else{
-			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/write", "query" : "'+comment+'" }';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
 			myEmitter.emit('eventWriteLcd', msg);
 			res.render('text',{comment: 'Mensaje Enviado!'});
 		}
