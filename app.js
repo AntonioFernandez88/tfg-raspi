@@ -58,7 +58,7 @@ ws.onclose = function(){
 
 ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
-      if((received_msg.hmac === hmacApp) && (received_msg.id === idApp)){
+      if((received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
         console.log("Es miooooooooooooooooooooooooooooooo");
         //myEmitter.emit('eventACK', msg.data);
     }

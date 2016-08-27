@@ -127,7 +127,7 @@ router.get('/led', function(req, res, next){
 			myEmitter.emit('eventLed', msg);
 			res.render('led',{option: 'Led Off'});
 		}else if(led === 'blink'){
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/led/blink", "query" : "null"}';
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/led/blink", "query" : "null"}';
 			myEmitter.emit('eventLed', msg);
 			res.render('led',{option: 'Led Parpadeando'});
 		}else if(led === 'Cambiar color'){
