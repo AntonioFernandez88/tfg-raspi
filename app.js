@@ -16,8 +16,6 @@ var routes = require('./routes/index')
 
 app.set('port', port);
 
-var hmacApp;
-var idApp;
 //recibir hmac y id
 myEmitter.on('eventHmacAndId', function(hmac, id){
     hmacApp = hmac;
@@ -58,8 +56,39 @@ ws.onclose = function(){
 ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
     if((received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
-        console.log("Es miooooooooooooooooooooooooooooooo");
-        //myEmitter.emit('eventACK', received_msg);
+
+
+        setTimeout(function(){
+
+        switch(received_msg.path){
+
+            case '/ack/led/on':
+                    myEmitter.emit('ACKLedOn', received_msg);
+                    break;
+            case '/ack/led/off':
+                    myEmitter.emit('ACKLedOff', received_msg);
+                    break;
+            case '/ack/led/blink':
+                    myEmitter.emit('ACKLedBlink', received_msg);
+                    break;
+            case '/ack/lcd/write/ok':
+                    myEmitter.emit('ACKLcdWriteOk', received_msg);
+                    break;
+            case '/ack/lcd/rgb/ok':
+                    myEmitter.emit('ACKLcdRgbOk', received_msg);
+                    break;
+            case '/ack/lcd/buzzer/on':
+                    myEmitter.emit('ACKBuzzerOn', received_msg);
+                    break;
+            case '/ack/lcd/buzzer/off':
+                    myEmitter.emit('ACKBuzzerOff', received_msg);
+                    break;
+            default:
+                    myEmitter.emit('ACKError');
+                    break;
+        }
+
+        },500);
     }
 };
 
