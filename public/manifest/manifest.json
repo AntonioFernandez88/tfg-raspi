@@ -34,7 +34,7 @@
             "density": 4.0
         }
     ],
-    "start_url": "https://tfg-raspi.herokuapp.com/",
+    "start_url": "https://tfg-raspi.herokuapp.com?webapp=1",
     "display": "standalone",
     "orientation": ["portrait", "landscape"],
     "theme_color": "#67BA4D",
