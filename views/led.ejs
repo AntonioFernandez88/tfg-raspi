@@ -19,7 +19,6 @@
                             $("#led-actions-off").hide();
                         $("#offLed").click(function(){
                             $("#led-actions-on").hide();
-                            Cookies.set('statusLed', 'on');
                         });
                     });
                 }else{
@@ -27,7 +26,6 @@
                         $("#led-actions-on").hide();
                         $("#onLed").click(function(){
                             $("#led-actions-off").hide();
-                            Cookies.set('statusLed', 'off');
                         });
                     });
                 }

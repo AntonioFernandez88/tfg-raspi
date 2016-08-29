@@ -21,7 +21,6 @@
                         $("#buzzer-actions-off").hide();
                         $("#offBuzzer").click(function(){
                             $("#buzzer-actions-on").hide();
-                            Cookies.set('statusBuzzer', 'on');
                         });
                     });
                 }else{
@@ -29,7 +28,6 @@
                         $("#buzzer-actions-on").hide();
                         $("#onBuzzer").click(function(){
                             $("#buzzer-actions-off").hide();
-                            Cookies.set('statusBuzzer', 'off');
                         });
                     });
                 }
@@ -42,7 +40,9 @@
                 <button class="btn btn-default" type="submit" id=offBuzzer name="buzzer" value="on">Encender Alarma</button>
             </div>
         </form>
-        <% if (sound != '') { %>
+        <% if (sound == 'Error, pruebe de nuevo') { %>
+            <div class="alert alert-danger" role="alert"><%= sound %></div>
+        <%} else if (sound != '') { %>
             <div class="alert alert-success" role="alert"><%= sound %></div>
         <% } %>
     </div>

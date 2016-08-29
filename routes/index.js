@@ -133,6 +133,7 @@ router.get('/led', function(req, res, next){
 			});
 			setTimeout(function(){
 				if(ack === true){
+					res.cookie('statusLed', 'off');
 					res.render('led',{option: 'Led On'});
 					ack = false
 				}else{
@@ -151,12 +152,11 @@ router.get('/led', function(req, res, next){
 			});
 			setTimeout(function(){
 				if(ack === true){
+					res.cookie('statusLed', 'on');
 					res.render('led',{option: 'Led Off'});
-					res.end();
 					ack = false
 				}else{
 					res.render('led',{option: 'Error, pruebe de nuevo'});
-					res.end();
 				}
 			},1000);
 		}else if(led === 'blink'){
@@ -169,14 +169,14 @@ router.get('/led', function(req, res, next){
 			myEmitter.on('ACKError', function(msg){
     			ack = false;
 			});
-			if(ack === true){
-				res.render('led',{option: 'Led Parpadeando'});
-				res.end();
-				ack = false
-			}else{
-				res.render('led',{option: 'Error, pruebe de nuevo'});
-				res.end();
-			}
+
+			setTimeout(function(){
+				if(ack === true){
+					res.render('led',{option: 'Led Parpadeando'});
+				}else{
+					res.render('led',{option: 'Error, pruebe de nuevo'});
+				}
+			},1000);
 		}
 	}else{
 		res.render('led',{option: ''});
@@ -205,6 +205,7 @@ router.get('/lcd', function(req, res, next){
 		if(comment === ''){
 			res.render('lcd',{comment: 'Escribe un comentario, por favor', option: ''});
 		}else{
+			comment = comment.replace(/(\n|\n\r|\r\n)/,"");
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
 			myEmitter.emit('eventWriteLcd', msg);
 
@@ -215,13 +216,14 @@ router.get('/lcd', function(req, res, next){
 			myEmitter.on('ACKError', function(msg){
     			ack = false;
 			});
-
-			if(ack === true){
-				res.render('lcd',{comment: 'Mensaje Enviado!', option: ''});
-				ack = false
-			}else{
-				res.render('lcd',{comment: 'Error, pruebe de nuevo', option: ''});
+			setTimeout(function(){
+				if(ack === true){
+					res.render('lcd',{comment: 'Mensaje Enviado!', option: ''});
+					ack = false
+				}else{
+					res.render('lcd',{comment: 'Error, pruebe de nuevo', option: ''});
 			}
+			},1000);
 		}
 	}else if(option === 'Cambiar color'){
 			if(hex == ''){
@@ -239,13 +241,14 @@ router.get('/lcd', function(req, res, next){
 				myEmitter.on('ACKError', function(msg){
 	    			ack = false;
 				});
-
-				if(ack === true){
-					res.render('lcd',{comment: '', option: 'Color Cambiado'});
-					ack = false
-				}else{
-					res.render('lcd',{comment: '', option:'Error, pruebe de nuevo'});
-				}
+				setTimeout(function(){
+					if(ack === true){
+						res.render('lcd',{comment: '', option: 'Color Cambiado'});
+						ack = false
+					}else{
+						res.render('lcd',{comment: '', option:'Error, pruebe de nuevo'});
+					}
+				},1000);
 			}
 	}else{
 	res.render('lcd',{comment: '', option: ''});
@@ -278,14 +281,15 @@ router.get('/buzzer', function(req, res, next){
 			myEmitter.on('ACKError', function(msg){
     			ack = false;
 			});
-			if(ack === true){
-				res.render('buzzer',{sound: 'Alarma encendida'});
-				res.end();
-				ack = false
-			}else{
-				res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
-				res.end();
-			}
+			setTimeout(function(){
+				if(ack === true){
+					res.cookie('statusBuzzer', 'on');
+					res.render('buzzer',{sound: 'Alarma encendida'});
+					ack = false
+				}else{
+					res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
+				}
+			},1000);
 		}else if(buzzer === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/buzzer/off", "query" : null }';
 			myEmitter.emit('eventBuzzer', msg);
@@ -296,14 +300,15 @@ router.get('/buzzer', function(req, res, next){
 			myEmitter.on('ACKError', function(msg){
     			ack = false;
 			});
-			if(ack === true){
-				res.render('buzzer',{sound: 'Alarma apagada'});
-				res.end();
-				ack = false
-			}else{
-				res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
-				res.end();
-			}
+			setTimeout(function(){
+				if(ack === true){
+					res.cookie('statusBuzzer', 'off');
+					res.render('buzzer',{sound: 'Alarma apagada'});
+					ack = false
+				}else{
+					res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
+				}
+			},1000);
 		}
 	}else{
 		res.render('buzzer', {sound: ''});
@@ -335,14 +340,15 @@ router.get('/temperature', function(req, res, next){
 			myEmitter.on('ACKError', function(msg){
     			ack = false;
 			});
-			if(ack === true){
-				res.render('temperature',{temp: 'Tomando temperatura'});
-				res.end();
-				ack = false
-			}else{
-				res.render('temperature',{temp: 'Error, pruebe de nuevo'});
-				res.end();
-			}
+			setTimeout(function(){
+				if(ack === true){
+					res.cookie('statusTemp', 'on');
+					res.render('temperature',{temp: 'Tomando temperatura'});
+					ack = false
+				}else{
+					res.render('temperature',{temp: 'Error, pruebe de nuevo'});
+				}
+			},1000);
 		}else if(temp === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/off", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
@@ -354,14 +360,15 @@ router.get('/temperature', function(req, res, next){
 			myEmitter.on('ACKError', function(msg){
     			ack = false;
 			});
-			if(ack === true){
-				res.render('temperature',{temp: 'Parado'});
-				res.end();
-				ack = false
-			}else{
-				res.render('temperature',{temp: 'Error, pruebe de nuevo'});
-				res.end();
-			}
+			setTimeout(function(){
+				if(ack === true){
+					res.cookie('statusTemp', 'off');
+					res.render('temperature',{temp: 'Parado'});
+					ack = false
+				}else{
+					res.render('temperature',{temp: 'Error, pruebe de nuevo'});
+				}
+			},1000);
 		}
     }else{
 		res.render('temperature', {temp: ''});

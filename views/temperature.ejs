@@ -64,7 +64,6 @@
                         $("#temp-actions-off").hide();
                         $("#offTemp").click(function(){
                             $("#temp-actions-on").hide();
-                            Cookies.set('statusTemp', 'on');
                         });
                     });
                 }else{
@@ -72,7 +71,6 @@
                         $("#temp-actions-on").hide();
                         $("#onTemp").click(function(){
                             $("#temp-actions-off").hide();
-                            Cookies.set('statusTemp', 'off');
                         });
                     });
                 }
@@ -86,7 +84,10 @@
             </div>
     </form>
     <div id="chartContainer" style="height: 300px; width:100%;">
-    <% if (temp != '') { %>
+
+    <% if (temp == 'Error, pruebe de nuevo') { %>
+        <div class="alert alert-danger" role="alert"><%= temp %></div>
+    <%} else if (temp != '') { %>
         <div class="alert alert-success" role="alert"><%= temp %></div>
     <% } %>
     </div>
