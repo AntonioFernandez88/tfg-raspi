@@ -77,11 +77,17 @@ ws.onmessage = function (msg) {
             case '/ack/lcd/rgb/ok':
                     myEmitter.emit('ACKLcdRgbOk', received_msg);
                     break;
-            case '/ack/lcd/buzzer/on':
+            case '/ack/buzzer/on':
                     myEmitter.emit('ACKBuzzerOn', received_msg);
                     break;
-            case '/ack/lcd/buzzer/off':
+            case '/ack/buzzer/off':
                     myEmitter.emit('ACKBuzzerOff', received_msg);
+                    break;
+            case '/ack/temp/on':
+                    myEmitter.emit('ACKTempStart', received_msg);
+                    break;
+            case '/ack/temp/off':
+                    myEmitter.emit('ACKTempStop', received_msg);
                     break;
             default:
                     myEmitter.emit('ACKError');
