@@ -62,11 +62,14 @@
         </form>
         <% if (comment == 'Escribe un comentario, por favor'){ %>
             <div class="alert alert-danger" role="alert"><%= comment %></div>
+        <%} else if (comment == 'Error, pruebe de nuevo'){ %>
+            <div class="alert alert-danger" role="alert"><%= comment %></div>
         <%} else if (comment != '') { %>
             <div class="alert alert-success" role="alert"><%= comment %></div>
         <% } %>
         <% if (option == 'Introduzca un color, por favor') { %>
             <div class="alert alert-danger" role="alert"><%= option %></div>
+        <%} else if (option == 'Error, pruebe de nuevo'){%>
         <%} else if (option != '') { %>
             <div class="alert alert-success" role="alert"><%= option %></div>
         <% } %>

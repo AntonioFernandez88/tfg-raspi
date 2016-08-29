@@ -46,7 +46,9 @@
                 </div>
             </div>
         </form>
-        <%if(option != ''){ %>
+        <%if(option === 'Error, pruebe de nuevo'){ %>
+            <div class="alert alert-danger" role="alert"><%= option %></div>
+        <% } else if(option != ''){%>
             <div class="alert alert-success" role="alert"><%= option %></div>
         <% } %>
     </div>
