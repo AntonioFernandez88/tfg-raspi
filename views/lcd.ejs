@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../views/template/head %>
+<script src="javascripts/jquery.minicolors.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/jquery.minicolors.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <% include ../views/template/nav %>
+    </nav>
+    <div id="content">
+        <script>
+            $(document).ready( function() {
+
+                $('.hex').each( function() {
+                    $(this).minicolors({
+                        control: $(this).attr('data-control') || 'hue',
+                        defaultValue: $(this).attr('data-defaultValue') || '',
+                        format: $(this).attr('data-format') || 'hex',
+                        keywords: $(this).attr('data-keywords') || '',
+                        inline: $(this).attr('data-inline') === 'true',
+                        letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                        opacity: $(this).attr('data-opacity'),
+                        position: $(this).attr('data-position') || 'bottom left',
+                        swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+                        change: function(hex, opacity) {
+                            var log;
+                            try {
+                                log = hex ? hex : 'transparent';
+                                if( opacity ) log += ', ' + opacity;
+                                console.log(log);
+                            } catch(e) {}
+                        },
+                        theme: 'default'
+                    });
+                });
+            });
+        </script>
+        <form method="get" action="/lcd">
+            <script type="text/javascript">
+                var id = $.get("id");
+                var valorCookie = Cookies.getJSON('pi');
+                document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
+                document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
+            </script>
+            <h1>Mensaje para mostrar en el lcd</h1>
+            <div class="form-group">
+                <textarea name="comment" id="comment" cols="30" rows="10" placeholder="Escribe aquí"></textarea>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-default" type="submit" name="text" value="Enviar">
+            </div>
+            <h1>Cambiar el color del lcd</h1>
+            <div class="form-group">
+                    <input type="text" id="hex" name="hex" class="hex" value="12345">
+                    <input type="submit" class="btn btn-default" name="option" value="Cambiar color">
+            </div>
+        </form>
+        <% if (comment == 'Escribe un comentario, por favor'){ %>
+            <div class="alert alert-danger" role="alert"><%= comment %></div>
+        <%} else if (comment == 'Error, pruebe de nuevo'){ %>
+            <div class="alert alert-danger" role="alert"><%= comment %></div>
+        <%} else if (comment != '') { %>
+            <div class="alert alert-success" role="alert"><%= comment %></div>
+        <% } %>
+        <% if (option == 'Introduzca un color, por favor') { %>
+            <div class="alert alert-danger" role="alert"><%= option %></div>
+        <%} else if (option == 'Error, pruebe de nuevo'){%>
+        <%} else if (option != '') { %>
+            <div class="alert alert-success" role="alert"><%= option %></div>
+        <% } %>
+    </div>
+    <% include ../views/template/footer %>
