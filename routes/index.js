@@ -203,7 +203,7 @@ router.get('/lcd', function(req, res, next){
 
 	if(text !== ''){
 		if(comment === ''){
-			res.render('text',{comment: 'Escribe un comentario, por favor', option: ''});
+			res.render('lcd',{comment: 'Escribe un comentario, por favor', option: ''});
 		}else{
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
 			myEmitter.emit('eventWriteLcd', msg);
@@ -217,15 +217,15 @@ router.get('/lcd', function(req, res, next){
 			});
 
 			if(ack === true){
-				res.render('text',{comment: 'Mensaje Enviado!', option: ''});
+				res.render('lcd',{comment: 'Mensaje Enviado!', option: ''});
 				ack = false
 			}else{
-				res.render('text',{comment: 'Error, pruebe de nuevo', option: ''});
+				res.render('lcd',{comment: 'Error, pruebe de nuevo', option: ''});
 			}
 		}
 	}else if(option === 'Cambiar color'){
 			if(hex == ''){
-				res.render('text',{comment: '', option: 'Introduzca un color, por favor'});
+				res.render('lcd',{comment: '', option: 'Introduzca un color, por favor'});
 			}else{
 				rgb = hexRgb(hex);
 				msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/lcd/rgb", "query" : "'+rgb+'" }';
@@ -241,14 +241,14 @@ router.get('/lcd', function(req, res, next){
 				});
 
 				if(ack === true){
-					res.render('text',{comment: '', option: 'Color Cambiado'});
+					res.render('lcd',{comment: '', option: 'Color Cambiado'});
 					ack = false
 				}else{
-					res.render('text',{comment: '', option:'Error, pruebe de nuevo'});
+					res.render('lcd',{comment: '', option:'Error, pruebe de nuevo'});
 				}
 			}
 	}else{
-	res.render('text',{comment: '', option: ''});
+	res.render('lcd',{comment: '', option: ''});
 	}
 });
 
