@@ -38,7 +38,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
         Cookies.set('statusTemp', 'off');
         console.log(event.data);
         var query = received_msg.query;
-        var dataLength = 60; // number of dataPoints visible at any point
+        var dataLength = 30; // number of dataPoints visible at any point
         seg.push({
             x: xVal,
             y: query
