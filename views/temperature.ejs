@@ -22,7 +22,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
         }]
     });
 
-    var ws = new WebSocket("wss://serverwss.herokuapp.com/");
+    var ws = new WebSocket("ws://serverwss.herokuapp.com/");
     ws.onopen = function(){
         console.log("Connection is open...");
     };
