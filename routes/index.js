@@ -325,6 +325,7 @@ router.get('/temperature', function(req, res, next){
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
+	var query;
 	//Enviamos la hmac y la id para enviar el mensaje a esa persona
 	myEmitter.emit('eventHmacAndId', hmacHash, id);
 	console.log(msg);
@@ -333,8 +334,10 @@ router.get('/temperature', function(req, res, next){
 		if(temp === 'on'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/on", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
+			res.cookie('statusTemp', 'on');
 			myEmitter.on('ACKTempStart', function(msg){
     			ack = true;
+    			query = msg.query;
 			});
 
 			myEmitter.on('ACKError', function(msg){
@@ -342,17 +345,14 @@ router.get('/temperature', function(req, res, next){
 			});
 			setTimeout(function(){
 				if(ack === true){
-					res.cookie('statusTemp', 'on');
-					res.render('temperature',{temp: 'Tomando temperatura'});
 					ack = false
-				}else{
-					res.render('temperature',{temp: 'Error, pruebe de nuevo'});
 				}
+					res.render('temperature', {hmac: hmacHash});
 			},1000);
 		}else if(temp === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/off", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
-
+			res.cookie('statusTemp', 'off');
 			myEmitter.on('ACKTempStop', function(msg){
     			ack = true;
 			});
@@ -362,16 +362,14 @@ router.get('/temperature', function(req, res, next){
 			});
 			setTimeout(function(){
 				if(ack === true){
-					res.cookie('statusTemp', 'off');
-					res.render('temperature',{temp: 'Parado'});
+					//res.render('temperature',{temp: 'Parado', hmac: hmacHash});
 					ack = false
-				}else{
-					res.render('temperature',{temp: 'Error, pruebe de nuevo'});
 				}
+					res.render('temperature', {hmac: hmacHash});
 			},1000);
 		}
     }else{
-		res.render('temperature', {temp: ''});
+		res.render('temperature', {hmac: hmacHash});
 	}
 });
 

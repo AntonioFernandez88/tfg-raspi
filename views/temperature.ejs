@@ -5,7 +5,10 @@
 <script src="javascripts/canvasjs.min.js"></script>
 <script src="javascripts/jquery.canvasjs.min.js"></script>
 <script type="text/javascript">
-  /*window.onload = function () {
+window.onload = function () {
+var statusTemp = Cookies.get('statusTemp');
+
+if((statusTemp !== undefined && statusTemp === 'on')){
 
     var seg = []; // dataPoints
 
@@ -29,22 +32,31 @@
 
     var xVal = 0;
     ws.onmessage = function (event) {
+
+    var received_msg = JSON.parse(event.data);
+    if(received_msg.path === '/temp/on' && received_msg.key == id && received_msg.hmac == '<%= hmac %>'){
+        Cookies.set('statusTemp', 'off');
         console.log(event.data);
-        var json = {y: 1};
+        var query = received_msg.query;
         var dataLength = 60; // number of dataPoints visible at any point
         seg.push({
             x: xVal,
-            y: json.y
+            y: query
         });
         xVal++;
 
         if (seg.length > dataLength) {
             seg.shift();
         }
-
         chart.render();
+    }
+
+    if(received_msg.path === '/temp/off' && received_msg.key === id && received_msg.hmac === '<%= hmac %>' && received_msg.query === null){
+        Cookies.set('statusTemp', 'on');
+    }
     };
-  }*/
+}
+}
 </script>
 </head>
 <body>
@@ -59,37 +71,28 @@
             document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
             document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
             var statusTemp = Cookies.get('statusTemp');
-                if(statusTemp === 'off' || statusTemp === undefined){
+                if(statusTemp === undefined || (statusTemp !== undefined && statusTemp === 'off')){
                     $(document).ready(function(){
-                        $("#temp-actions-off").hide();
-                        $("#offTemp").click(function(){
-                            $("#temp-actions-on").hide();
-                        });
+                        $("#temp-actions-on").removeClass('hidden');
                     });
                 }else{
                     $(document).ready(function(){
-                        $("#temp-actions-on").hide();
-                        $("#onTemp").click(function(){
-                            $("#temp-actions-off").hide();
-                        });
+                        $("#temp-actions-off").removeClass('hidden');
                     });
                 }
         </script>
         <h1>Medición de temperatura</h1>
-            <div id="temp-actions-off" class="led-actions">
+            <div id="temp-actions-off" class="led-actions hidden ">
                <button class="btn btn-default" type="submit" id=onTemp name="temp" value="off">Parar</button>
             </div>
-            <div id="temp-actions-on" class="led-actions">
+            <div id="temp-actions-on" class="led-actions hidden">
                 <button class="btn btn-default" type="submit" id=offTemp name="temp" value="on">Empezar</button>
             </div>
     </form>
     <div id="chartContainer" style="height: 300px; width:100%;">
+    <div id=query>
+    </div>
 
-    <% if (temp == 'Error, pruebe de nuevo') { %>
-        <div class="alert alert-danger" role="alert"><%= temp %></div>
-    <%} else if (temp != '') { %>
-        <div class="alert alert-success" role="alert"><%= temp %></div>
-    <% } %>
     </div>
 </div>
 <% include ../views/template/footer %>

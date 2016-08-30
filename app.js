@@ -5,11 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const SocketServer = require("ws")
+const SocketServerTemp = require("ws");
 var http = require("http")
 var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
 var EventEmitter = require("events").EventEmitter
 GLOBAL.myEmitter = new EventEmitter();
+cont = 0;
 
 var app = express()
 var routes = require('./routes/index')
@@ -57,7 +59,6 @@ ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
     if((received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
 
-
         setTimeout(function(){
 
         switch(received_msg.path){
@@ -84,10 +85,11 @@ ws.onmessage = function (msg) {
                     myEmitter.emit('ACKBuzzerOff', received_msg);
                     break;
             case '/ack/temp/on':
-                    myEmitter.emit('ACKTempStart', received_msg);
+                    //myEmitter.emit('ACKTempStart', received_msg);
+                    //myEmitter.emit('eventNumberTemp', received_msg);
                     break;
             case '/ack/temp/off':
-                    myEmitter.emit('ACKTempStop', received_msg);
+                    //myEmitter.emit('ACKTempStop', received_msg);
                     break;
             default:
                     myEmitter.emit('ACKError');
@@ -101,6 +103,23 @@ ws.onmessage = function (msg) {
 ws.onerror = function (errorEvent){
     console.log(errorEvent);
 };
+/*
+const wsTemp = new SocketServerTemp('ws://localhost:5858/');
+wsTemp.onopen = function(){
+    console.log("Connection is open Temp...");
+}
+
+wsTemp.onclose = function(){
+    console.log("Connection is closed Temp...");
+};
+
+wsTemp.onmessage = function (msg) {
+    var received_msg = JSON.parse(msg.data);
+        myEmitter.on('eventNumberTemp', function(msg){
+        sendMessage(msg);
+    });
+
+};*/
 
 myEmitter.on('eventLed', function(msg){
     sendMessage(msg);
