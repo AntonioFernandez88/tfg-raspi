@@ -49,6 +49,7 @@ html{
 /* IMAGE */
 .imageWelcome img {
     width: 300px;
+    margin-bottom: 30px;
 }
 
 /* CONTENT */
