@@ -46,6 +46,11 @@ html{
     }
 }
 
+/* IMAGE */
+.imageWelcome img {
+    width: 300px;
+}
+
 /* CONTENT */
 
 #content {
