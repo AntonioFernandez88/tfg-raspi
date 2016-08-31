@@ -30,7 +30,7 @@ var server = app.listen(app.get('port'), function() {
     debug('Express server listening on port ' + server.address().port);
 });
 
-const ws = new SocketServer("ws://serverwss.herokuapp.com/");
+const ws = new SocketServer("wss://serverwss.herokuapp.com/");
 
 ws.onopen = function(){
     console.log("Connection is open...");
