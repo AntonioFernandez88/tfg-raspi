@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const SocketServer = require("ws")
-const SocketServerTemp = require("ws");
 var http = require("http")
 var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
