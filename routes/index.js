@@ -5,6 +5,11 @@ var hexRgb = require('hex-rgb');
 var msg;
 var ack = false;
 var cont = 0;
+var jsdom=require('jsdom').jsdom;
+var document = jsdom("hello world");
+var window = document.defaultView;
+var jquery = require('jquery')(window);
+var arrayId = [];
 
 function checkPi(req, res)
 {
@@ -62,7 +67,10 @@ router.get('/link', function(req, res, next) {
 	var id = req.query.id || '';
 	var cookieDirMac = [];
 	var hmac = crypto.createHmac('sha1', nserial);
-	msg;
+	hmac.update(mac);
+	var hmacHash = hmac.digest('hex');
+	//Enviamos la hmac y la id para enviar el mensaje a esa persona
+	myEmitter.emit('eventHmacAndId', hmacHash, id);
 
 	/*if(nameCookie != ''){
 		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
@@ -75,14 +83,10 @@ router.get('/link', function(req, res, next) {
 		}catch(e){
 			cookieDirMac = {};
 		}
-		cookieDirMac[id]={mac:mac, nserial:nserial, id:id};
-		hmac.update(mac);
-		var hmacHash = hmac.digest('hex');
 		msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/ack_auth", "query" : null }';
+		cookieDirMac[id]={mac:mac, nserial:nserial, id:id, hmac:hmacHash};
 		console.log(msg);
 		myEmitter.emit('eventHmac', msg);
-		//Enviamos la hmac y la id para enviar el mensaje a esa persona
-		myEmitter.emit('eventHmacAndId', hmacHash, id);
 		res.cookie('pi', JSON.stringify(cookieDirMac), {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.render('configuration', {link : 'Raspberry vinculada'});
 	}else{res.render('link');}
@@ -92,8 +96,41 @@ router.get('/link', function(req, res, next) {
 //ACTIONS
 router.get('/actions', function(req, res, next) {
     checkPi(req, res);
+    var cookiePi =JSON.parse(req.cookies.pi);
+    var saveId = [];
+    var message;
+	jquery.each(cookiePi, function(key,value) {
 
-	res.render('actions', {id: req.query.id});
+		if(key === req.query.id){
+			var hmac = crypto.createHmac('sha1', value.nserial);
+			hmac.update(value.mac);
+			var hmacHash = hmac.digest('hex');
+
+			//Enviamos la hmac y la id para enviar el mensaje a esa persona
+			myEmitter.emit('eventHmacAndId', hmacHash, key);
+			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+key+'", "path" : "/status/sensors", "query" : null }';
+			myEmitter.emit('eventStatusSensor', msg);
+
+			myEmitter.on('ACKStatusSensorsOk', function(msg){
+				ack = true;
+				message = msg;
+			});
+
+			myEmitter.on('ACKError', function(msg){
+				ack = false;
+			});
+
+			setTimeout(function(){
+				if(ack === true){
+					ack = false;
+					console.log(message.query.split(','));
+					res.render('actions', {id: req.query.id, sensor : message.query.split(',')});
+				}else{
+					res.render('actions', {id: req.query.id, sensor : ['disabled','disabled','disabled','disabled']});
+				}
+			},1000);
+		}
+	});
 
 });
 
@@ -101,7 +138,7 @@ router.get('/actions', function(req, res, next) {
 router.get('/configuration', function(req, res, next) {
 
     checkUser(req, res);
-		res.render('configuration', {link : ''});
+	res.render('configuration', {link : ''});
 });
 
 //LED

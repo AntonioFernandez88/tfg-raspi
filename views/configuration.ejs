@@ -12,20 +12,21 @@
     <h1>Raspberry Pi vinculadas</h1>
     <div class="item">
         <script type="text/javascript">
-            var valorCookie = Cookies.getJSON('pi');
+            var valueCookie = Cookies.getJSON('pi');
             var html;
-            if(valorCookie != undefined){
-                var longitudCookie = Object.keys(valorCookie).length;
+            if(valueCookie != undefined){
+                var lengthCookie = Object.keys(valueCookie).length;
             }
-            if(longitudCookie > 0){
-                $.each(valorCookie,function(i,id){
+            if(lengthCookie > 0){
+                $.each(valueCookie,function(i,id){
                         html = '<div class="item-title"></div>';
+                        html += ' <b>Estado:</b><span id="item-status-'+valueCookie[i].hmac+'" class="item-status"> Obteniendo</span>';
                         html += '<div class="item-content">';
                             html += '<div class="item-attribute">';
-                               html += ' <b>Mac:</b> '+valorCookie[i].mac+'';
+                               html += ' <b>Mac:</b> '+valueCookie[i].mac+'';
                             html += '</div>';
                             html += '<div class="item-attribute">';
-                                html += '<b>Nº Serie:</b> '+valorCookie[i].nserial+'';
+                                html += '<b>Nº Serie:</b> '+valueCookie[i].nserial+'';
                             html += '</div>';
                         html += '</div>';
                         html += '<div class="item-options">';
@@ -52,15 +53,43 @@
             }
 
             function deleteCookie(id){
-                delete valorCookie[id];
-                Cookies.set('pi', valorCookie);
+                delete valueCookie[id];
+                Cookies.set('pi', valueCookie);
                 document.location.reload();
             }
-        </script>
+
+    var ws = new WebSocket("wss://serverwss.herokuapp.com/");
+    ws.onopen = function(){
+        console.log("Connection is open...");
+        $.each(valueCookie,function(i,id){
+
+            msg = '{"hmac" : "'+valueCookie[i].hmac+'", "key" : "'+id.id+'", "path" : "/status/pi", "query" : null }'
+            ws.send(msg);
+        });
+    };
+    ws.onclose = function(){
+        console.log("Connection is closed");
+    };
+
+    var xVal = 0;
+    ws.onmessage = function (event) {
+        var received_msg = JSON.parse(event.data);
+        if (received_msg.path == 'ack/status/pi') {
+            if ($('#item-status-' + received_msg.hmac).length == 1) {
+                $('#item-status-' + received_msg.hmac).html(received_msg.query);
+                $('#item-status-' + received_msg.hmac).attr('data-status-ok', true);
+            }
+        }
+    };
+
+    setTimeout(function(){
+        $('.item-status:not([data-status-ok])').html(' Apagada');
+    },10000);
+
+    </script>
 
         <% if (link != '') { %>
             <div class="alert alert-success" role="alert"><%= link %></div>
         <% } %>
 </div>
 <% include ../views/template/footer %>
-

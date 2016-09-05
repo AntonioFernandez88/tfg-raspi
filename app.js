@@ -56,7 +56,8 @@ ws.onclose = function(){
 
 ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
-    if((received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
+  console.log(received_msg);
+    if((typeof hmacApp != 'undefined') && (received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
 
         setTimeout(function(){
 
@@ -84,11 +85,13 @@ ws.onmessage = function (msg) {
                     myEmitter.emit('ACKBuzzerOff', received_msg);
                     break;
             case '/ack/temp/on':
-                    //myEmitter.emit('ACKTempStart', received_msg);
-                    //myEmitter.emit('eventNumberTemp', received_msg);
                     break;
             case '/ack/temp/off':
-                    //myEmitter.emit('ACKTempStop', received_msg);
+                    break;
+            case 'ack/status/sensors':
+                    myEmitter.emit('ACKStatusSensorsOk', received_msg);
+                    console.log(received_msg.query);
+                    console.log("adios");
                     break;
             default:
                     myEmitter.emit('ACKError');
@@ -96,29 +99,15 @@ ws.onmessage = function (msg) {
         }
 
         },500);
+
+    }else{
+        console.log('hmac no viene');
     }
 };
 
 ws.onerror = function (errorEvent){
     console.log(errorEvent);
 };
-/*
-const wsTemp = new SocketServerTemp('ws://localhost:5858/');
-wsTemp.onopen = function(){
-    console.log("Connection is open Temp...");
-}
-
-wsTemp.onclose = function(){
-    console.log("Connection is closed Temp...");
-};
-
-wsTemp.onmessage = function (msg) {
-    var received_msg = JSON.parse(msg.data);
-        myEmitter.on('eventNumberTemp', function(msg){
-        sendMessage(msg);
-    });
-
-};*/
 
 myEmitter.on('eventLed', function(msg){
     sendMessage(msg);
@@ -129,15 +118,23 @@ myEmitter.on('eventHmac', function(msg){
 });
 
 myEmitter.on('eventWriteLcd', function(msg){
-    sendMessageHmac(msg);
+    sendMessage(msg);
 });
 
 myEmitter.on('eventBuzzer', function(msg){
-    sendMessageHmac(msg);
+    sendMessage(msg);
 });
 
 myEmitter.on('eventTemp', function(msg){
-    sendMessageHmac(msg);
+    sendMessage(msg);
+});
+
+myEmitter.on('eventstatusPi', function(msg){
+    sendMessage(msg);
+});
+
+myEmitter.on('eventStatusSensor', function(msg){
+    sendMessage(msg);
 });
 
 //Funciones envio de mensajes

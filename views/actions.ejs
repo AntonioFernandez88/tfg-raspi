@@ -23,7 +23,7 @@
                     <span>LED</span>
                 </td>
                 <td>
-                    <a type="button" href="/led?id=<%= id %>" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <a type="button" href="/led?id=<%= id %>" class="btn btn-primary btn-sm btn-round" disabled="true" onclick="return false"><span class="glyphicon glyphicon-eye-open"></span></a>
                 </td>
             </tr>
             <tr>
@@ -52,6 +52,8 @@
             </tr>
         </tbody>
     </table>
+
+    <%= sensor[0] %>
 </div>
 <% include ../views/template/footer %>
 
