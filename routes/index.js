@@ -380,4 +380,10 @@ router.get('/temperature', function(req, res, next){
 	}
 });
 
+//INFO
+router.get('/info', function(req, res, next) {
+
+	res.render('info');
+});
+
 module.exports = router;
