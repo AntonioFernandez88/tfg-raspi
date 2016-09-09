@@ -10,14 +10,13 @@ var debug = require('debug')('app4');
 var port = process.env.PORT || 3000
 var EventEmitter = require("events").EventEmitter
 GLOBAL.myEmitter = new EventEmitter();
-cont = 0;
 
 var app = express()
 var routes = require('./routes/index')
 
 app.set('port', port);
 
-//recibir hmac y id
+//Received hmac y id
 myEmitter.on('eventHmacAndId', function(hmac, id){
     hmacApp = hmac;
     idApp = id;
@@ -84,14 +83,8 @@ ws.onmessage = function (msg) {
             case '/ack/buzzer/off':
                     myEmitter.emit('ACKBuzzerOff', received_msg);
                     break;
-            case '/ack/temp/on':
-                    break;
-            case '/ack/temp/off':
-                    break;
             case 'ack/status/sensors':
                     myEmitter.emit('ACKStatusSensorsOk', received_msg);
-                    console.log(received_msg.query);
-                    console.log("adios");
                     break;
             default:
                     myEmitter.emit('ACKError');
@@ -137,8 +130,7 @@ myEmitter.on('eventStatusSensor', function(msg){
     sendMessage(msg);
 });
 
-//Funciones envio de mensajes
-
+//Functions send messages
 function sendMessageHmac(msg){
     // Wait until the state of the socket is not ready and send the message when it is...
     waitForSocketConnection(ws, function(){

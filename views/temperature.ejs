@@ -28,6 +28,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
     };
     ws.onclose = function(){
         console.log("Connection is closed");
+        alert('Error,Conexion perdida');
     };
 
     var xVal = 0;
@@ -55,6 +56,11 @@ if((statusTemp !== undefined && statusTemp === 'on')){
         Cookies.set('statusTemp', 'on');
     }
     };
+
+    setTimeout(function(){
+        //$("#status-conecction").show();
+        //ws.onclose();
+    },10000);
 }
 }
 </script>
@@ -88,7 +94,10 @@ if((statusTemp !== undefined && statusTemp === 'on')){
             <div id="temp-actions-on" class="led-actions hidden">
                 <button class="btn btn-default" type="submit" id=offTemp name="temp" value="on">Empezar</button>
             </div>
+            <span id="status-conecction"></span>
     </form>
     <div id="chartContainer" style="height: 300px; width:100%;"></div>
+
+    <!--<div id="status-conecction" class="alert alert-danger" role="alert">Error, problema al conectar</div>-->
 </div>
 <% include ../views/template/footer %>

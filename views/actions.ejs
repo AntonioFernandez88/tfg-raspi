@@ -23,7 +23,7 @@
                     <span>LED</span>
                 </td>
                 <td>
-                    <a type="button" href="/led?id=<%= id %>" class="btn btn-primary btn-sm btn-round" disabled="true" onclick="return false"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <button type="button" onclick=goLed() id="button-led" class="btn btn-primary btn-sm btn-round" onclick="return false"><span class="glyphicon glyphicon-eye-open"></span></button>
                 </td>
             </tr>
             <tr>
@@ -31,7 +31,7 @@
                     <span>Temperatura</span>
                 </td>
                 <td>
-                    <a type="button" href="/temperature?id=<%= id %>" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <button type="button" onclick=goTemp() id="button-temp" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></button>
                 </td>
             </tr>
             <tr>
@@ -39,7 +39,7 @@
                     <span>LCD</span>
                 </td>
                 <td>
-                    <a type="button" href="/lcd?id=<%= id %>" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <button type="button" onclick=goLcd() id="button-lcd" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></button>
                 </td>
             </tr>
             <tr>
@@ -47,13 +47,48 @@
                     <span>Alarma</span>
                 </td>
                 <td>
-                    <a type="button" href="/buzzer?id=<%= id %>" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <button type="button" onclick=goBuzzer() id="button-buzzer" class="btn btn-primary btn-sm btn-round"><span class="glyphicon glyphicon-eye-open"></span></button>
                 </td>
             </tr>
         </tbody>
     </table>
+<script type="text/javascript">
+    $('#button-led').attr('disabled', 'disabled');
+    $('#button-temp').attr('disabled', 'disabled');
+    $('#button-lcd').attr('disabled', 'disabled');
+    $('#button-buzzer').attr('disabled', 'disabled');
+    if("<%= sensor[0] %>" === 'enabled'){
+        $('#button-led').attr('disabled', false);
+    }
+    if("<%= sensor[1] %>" === 'enabled'){
+        $('#button-temp').attr('disabled', false);
+    }
+    if("<%= sensor[2] %>" === 'enabled'){
+        $('#button-lcd').attr('disabled', false);
+    }
+    if("<%= sensor[3] %>" === 'enabled'){
+        $('#button-buzzer').attr('disabled', false);
+    }
 
-    <%= sensor[0] %>
+    function goLed(){
+                window.location = "http://localhost:3000/led?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/led?id=<%= id %>";
+    }
+
+    function goTemp(){
+                window.location = "http://localhost:3000/temperature?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/temperature?id=<%= id %>";
+    }
+
+    function goLcd(){
+                window.location = "http://localhost:3000/lcd?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/lcd?id=<%= id %>";
+    }
+    function goBuzzer(){
+                window.location = "http://localhost:3000/buzzer?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/buzzer?id=<%= id %>";
+    }
+</script>
 </div>
 <% include ../views/template/footer %>
 

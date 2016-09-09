@@ -4,13 +4,12 @@ var crypto =  require('crypto');
 var hexRgb = require('hex-rgb');
 var msg;
 var ack = false;
-var cont = 0;
 var jsdom=require('jsdom').jsdom;
 var document = jsdom("hello world");
 var window = document.defaultView;
 var jquery = require('jquery')(window);
-var arrayId = [];
 
+/* CHECK PI*/
 function checkPi(req, res)
 {
     checkUser(req, res);
@@ -29,6 +28,7 @@ function checkPi(req, res)
     }
 }
 
+/* CHECK USER*/
 function checkUser(req, res)
 {
     if (req.cookies.name === undefined) {
@@ -49,18 +49,16 @@ router.get('/', function(req, res, next) {
 	if(nameCookie !== ''){
 		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.redirect('/configuration');
-		//res.redirect('/');
 	}else{
 		res.render('index');
 	}
-	//res.render('index');
 });
 
-//LOAD TO VIEW
+//LINK
 router.get('/link', function(req, res, next) {
+
     checkUser(req, res);
 
-	//Si viene vacio carga la vista normal, si hay datos los guarda el formulario viene por get
 	var nameCookie = req.query.name || '';
 	var mac = req.query.mac || '';
 	var nserial = req.query.nserial || '';
@@ -69,12 +67,9 @@ router.get('/link', function(req, res, next) {
 	var hmac = crypto.createHmac('sha1', nserial);
 	hmac.update(mac);
 	var hmacHash = hmac.digest('hex');
-	//Enviamos la hmac y la id para enviar el mensaje a esa persona
-	myEmitter.emit('eventHmacAndId', hmacHash, id);
 
-	/*if(nameCookie != ''){
-		var name = res.cookie('name', req.query.name, {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
-	}*/
+	//SEND hmac AND id TO app.js
+	myEmitter.emit('eventHmacAndId', hmacHash, id);
 
 	if((mac != '') && (nserial != '') && (id != '')){
 
@@ -96,8 +91,8 @@ router.get('/link', function(req, res, next) {
 //ACTIONS
 router.get('/actions', function(req, res, next) {
     checkPi(req, res);
+
     var cookiePi =JSON.parse(req.cookies.pi);
-    var saveId = [];
     var message;
 	jquery.each(cookiePi, function(key,value) {
 
@@ -106,7 +101,7 @@ router.get('/actions', function(req, res, next) {
 			hmac.update(value.mac);
 			var hmacHash = hmac.digest('hex');
 
-			//Enviamos la hmac y la id para enviar el mensaje a esa persona
+			//SEND hmac AND id TO app.js
 			myEmitter.emit('eventHmacAndId', hmacHash, key);
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+key+'", "path" : "/status/sensors", "query" : null }';
 			myEmitter.emit('eventStatusSensor', msg);
@@ -149,11 +144,11 @@ router.get('/led', function(req, res, next){
 	var led = req.query.option || '';
 	var mac = req.query.mac || '';
 	var id = req.query.id || '';
-	msg;
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
-	//Enviamos la hmac y la id para enviar el mensaje a esa persona
+
+	//SEND hmac AND id TO app.js
 	myEmitter.emit('eventHmacAndId', hmacHash, id);
 	console.log(msg);
 
@@ -229,12 +224,12 @@ router.get('/lcd', function(req, res, next){
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
 	var option = req.query.option || '';
-	msg;
 	var hex = req.query.hex || '';
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
-	//Enviamos la hmac y la id para enviar el mensaje a esa persona
+
+	//SEND hmac AND id TO app.js
 	myEmitter.emit('eventHmacAndId', hmacHash, id);
 	console.log(msg);
 
@@ -299,11 +294,11 @@ router.get('/buzzer', function(req, res, next){
 	var buzzer = req.query.buzzer || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
-	msg;
 	var hmac = crypto.createHmac('sha1', mac);
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
-	//Enviamos la hmac y la id para enviar el mensaje a esa persona
+
+	//SEND hmac AND id TO app.js
 	myEmitter.emit('eventHmacAndId', hmacHash, id);
 	console.log(msg);
 
@@ -363,7 +358,8 @@ router.get('/temperature', function(req, res, next){
 	hmac.update(id);
 	var hmacHash = hmac.digest('hex');
 	var query;
-	//Enviamos la hmac y la id para enviar el mensaje a esa persona
+
+	//SEND hmac AND id TO app.js
 	myEmitter.emit('eventHmacAndId', hmacHash, id);
 	console.log(msg);
 
@@ -372,38 +368,12 @@ router.get('/temperature', function(req, res, next){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/on", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
 			res.cookie('statusTemp', 'on');
-			myEmitter.on('ACKTempStart', function(msg){
-    			ack = true;
-    			query = msg.query;
-			});
-
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					ack = false
-				}
-					res.render('temperature', {hmac: hmacHash});
-			},1000);
+			res.render('temperature', {hmac: hmacHash});
 		}else if(temp === 'off'){
 			msg = '{"hmac" : "'+hmacHash+'", "key" : "'+id+'", "path" : "/temp/off", "query" : null }';
 			myEmitter.emit('eventTemp', msg);
 			res.cookie('statusTemp', 'off');
-			myEmitter.on('ACKTempStop', function(msg){
-    			ack = true;
-			});
-
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					//res.render('temperature',{temp: 'Parado', hmac: hmacHash});
-					ack = false
-				}
-					res.render('temperature', {hmac: hmacHash});
-			},1000);
+			res.render('temperature', {hmac: hmacHash});
 		}
     }else{
 		res.render('temperature', {hmac: hmacHash});
