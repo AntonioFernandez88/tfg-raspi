@@ -144,8 +144,9 @@ router.get('/led', function(req, res, next){
 	var led = req.query.option || '';
 	var mac = req.query.mac || '';
 	var id = req.query.id || '';
-	var hmac = crypto.createHmac('sha1', mac);
-	hmac.update(id);
+	var nserial = req.query.nserial || '';
+	var hmac = crypto.createHmac('sha1', nserial);
+	hmac.update(mac);
 	var hmacHash = hmac.digest('hex');
 
 	//SEND hmac AND id TO app.js
@@ -166,7 +167,7 @@ router.get('/led', function(req, res, next){
 			setTimeout(function(){
 				if(ack === true){
 					res.cookie('statusLed', 'off');
-					res.render('led',{option: 'Led On'});
+					res.render('led',{option: 'Led encendido'});
 					ack = false
 				}else{
 					res.render('led',{option: 'Error, pruebe de nuevo'});
@@ -185,7 +186,7 @@ router.get('/led', function(req, res, next){
 			setTimeout(function(){
 				if(ack === true){
 					res.cookie('statusLed', 'on');
-					res.render('led',{option: 'Led Off'});
+					res.render('led',{option: 'Led apagado'});
 					ack = false
 				}else{
 					res.render('led',{option: 'Error, pruebe de nuevo'});
@@ -204,7 +205,7 @@ router.get('/led', function(req, res, next){
 
 			setTimeout(function(){
 				if(ack === true){
-					res.render('led',{option: 'Led Parpadeando'});
+					res.render('led',{option: 'Led parpadeando'});
 				}else{
 					res.render('led',{option: 'Error, pruebe de nuevo'});
 				}
@@ -222,11 +223,12 @@ router.get('/lcd', function(req, res, next){
 	var text = req.query.text || '';
 	var comment = req.query.comment || '';
 	var id = req.query.id || '';
+	var nserial = req.query.nserial || '';
 	var mac = req.query.mac || '';
 	var option = req.query.option || '';
 	var hex = req.query.hex || '';
-	var hmac = crypto.createHmac('sha1', mac);
-	hmac.update(id);
+	var hmac = crypto.createHmac('sha1', nserial);
+	hmac.update(mac);
 	var hmacHash = hmac.digest('hex');
 
 	//SEND hmac AND id TO app.js
@@ -250,7 +252,7 @@ router.get('/lcd', function(req, res, next){
 			});
 			setTimeout(function(){
 				if(ack === true){
-					res.render('lcd',{comment: 'Mensaje Enviado!', option: ''});
+					res.render('lcd',{comment: 'Mensaje enviado!', option: ''});
 					ack = false
 				}else{
 					res.render('lcd',{comment: 'Error, pruebe de nuevo', option: ''});
@@ -275,7 +277,7 @@ router.get('/lcd', function(req, res, next){
 				});
 				setTimeout(function(){
 					if(ack === true){
-						res.render('lcd',{comment: '', option: 'Color Cambiado'});
+						res.render('lcd',{comment: '', option: 'Color cambiado'});
 						ack = false
 					}else{
 						res.render('lcd',{comment: '', option:'Error, pruebe de nuevo'});
@@ -294,8 +296,9 @@ router.get('/buzzer', function(req, res, next){
 	var buzzer = req.query.buzzer || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
-	var hmac = crypto.createHmac('sha1', mac);
-	hmac.update(id);
+	var nserial = req.query.nserial || '';
+	var hmac = crypto.createHmac('sha1', nserial);
+	hmac.update(mac);
 	var hmacHash = hmac.digest('hex');
 
 	//SEND hmac AND id TO app.js
@@ -354,8 +357,9 @@ router.get('/temperature', function(req, res, next){
 	var temp = req.query.temp || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
-	var hmac = crypto.createHmac('sha1', mac);
-	hmac.update(id);
+	var nserial = req.query.nserial || '';
+	var hmac = crypto.createHmac('sha1', nserial);
+	hmac.update(mac);
 	var hmacHash = hmac.digest('hex');
 	var query;
 

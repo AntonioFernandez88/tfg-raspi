@@ -55,15 +55,16 @@ ws.onclose = function(){
 
 ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
-  console.log(received_msg);
     if((typeof hmacApp != 'undefined') && (received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
-
+        console.log(hmacApp);
+        console.log("entro");
         setTimeout(function(){
 
         switch(received_msg.path){
 
             case '/ack/led/on':
                     myEmitter.emit('ACKLedOn', received_msg);
+                    console.log(received_msg);
                     break;
             case '/ack/led/off':
                     myEmitter.emit('ACKLedOff', received_msg);

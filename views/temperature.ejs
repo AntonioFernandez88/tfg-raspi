@@ -73,6 +73,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
             var id = $.get("id");
             var valorCookie = Cookies.getJSON('pi');
             document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
+            document.write('<input type="hidden" id="nserial" name="nserial" value="'+ valorCookie[id].nserial +'">');
             document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
             var statusTemp = Cookies.get('statusTemp');
                 if(statusTemp === undefined || (statusTemp !== undefined && statusTemp === 'off')){
