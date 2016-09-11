@@ -28,7 +28,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
     };
     ws.onclose = function(){
         console.log("Connection is closed");
-        alert('Error,conexion perdida');
+        alert('Error,conexión perdida');
     };
 
     var xVal = 0;
@@ -86,7 +86,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
                     });
                 }
         </script>
-        <h1>Medición de temperatura</h1>
+        <h1>Medición de temperatura cada 20 segundos</h1>
             <div id="temp-actions-off" class="led-actions hidden ">
                <button class="btn btn-default" type="submit" id=onTemp name="temp" value="off">Parar</button>
             </div>
