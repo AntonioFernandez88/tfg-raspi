@@ -26,7 +26,7 @@
                                html += ' <b>Mac:</b> '+valueCookie[i].mac+'';
                             html += '</div>';
                             html += '<div class="item-attribute">';
-                                html += '<b>Nº Serie:</b> '+valueCookie[i].nserial+'';
+                                html += '<b>Nº Serie:</b> '+valueCookie[i].id+'';
                             html += '</div>';
                         html += '</div>';
                         html += '<div class="item-options">';
@@ -54,7 +54,8 @@
             }
 
             function goActions(id){
-                window.location = "https://tfg-raspi.herokuapp.com/actions?id="+id;
+                //window.location = "https://tfg-raspi.herokuapp.com/actions?id="+id;
+                window.location = "http://localhost:3000/actions?id="+id;
             }
 
             function deleteCookie(id){
@@ -67,7 +68,7 @@
     ws.onopen = function(){
         console.log("Connection is open...");
         $.each(valueCookie,function(i,id){
-            msg = '{"hmac" : "'+valueCookie[i].hmac+'", "key" : "'+id.id+'", "path" : "/status/pi", "query" : null }'
+            msg = '{"id" : "'+id.id+'", "path" : "/status/pi", "query" : null }'
             ws.send(msg);
         });
     };
@@ -82,7 +83,7 @@
             if ($('#item-status-' + received_msg.hmac).length == 1) {
                 $('#item-status-' + received_msg.hmac).html(received_msg.query);
                 $('#item-status-' + received_msg.hmac).attr('data-status-ok', true);
-                $('#button-view-' +received_msg.key).attr('disabled', false);
+                $('#button-view-' +received_msg.id).attr('disabled', false);
             }
         }
     };

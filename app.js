@@ -17,9 +17,9 @@ var routes = require('./routes/index')
 app.set('port', port);
 
 //Received hmac y id
-myEmitter.on('eventHmacAndId', function(hmac, id){
-    hmacApp = hmac;
+myEmitter.on('eventId', function(id){
     idApp = id;
+    console.log("me llegaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+id);
 });
 
 //----------------------------------------------------------------------------------------WS-------------------
@@ -55,8 +55,7 @@ ws.onclose = function(){
 
 ws.onmessage = function (msg) {
   var received_msg = JSON.parse(msg.data);
-    if((typeof hmacApp != 'undefined') && (received_msg.hmac === hmacApp) && (received_msg.key === idApp)){
-        console.log(hmacApp);
+    if((typeof idApp != undefined) && (received_msg.id === idApp)){
         console.log("entro");
         setTimeout(function(){
 
@@ -95,7 +94,7 @@ ws.onmessage = function (msg) {
         },500);
 
     }else{
-        console.log('hmac no viene');
+        console.log('id no viene');
     }
 };
 
@@ -107,9 +106,9 @@ myEmitter.on('eventLed', function(msg){
     sendMessage(msg);
 });
 
-myEmitter.on('eventHmac', function(msg){
+/*myEmitter.on('eventHmac', function(msg){
     sendMessageHmac(msg);
-});
+});*/
 
 myEmitter.on('eventWriteLcd', function(msg){
     sendMessage(msg);
@@ -131,14 +130,14 @@ myEmitter.on('eventStatusSensor', function(msg){
     sendMessage(msg);
 });
 
-//Functions send messages
+/*//Functions send messages
 function sendMessageHmac(msg){
     // Wait until the state of the socket is not ready and send the message when it is...
     waitForSocketConnection(ws, function(){
         console.log("message sent!!!");
         ws.send(msg);
     });
-}
+}*/
 
 function sendMessage(msg){
     // Wait until the state of the socket is not ready and send the message when it is...

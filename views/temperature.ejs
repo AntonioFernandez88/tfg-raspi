@@ -35,7 +35,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
     ws.onmessage = function (event) {
 
     var received_msg = JSON.parse(event.data);
-    if(received_msg.path === '/temp/on' && received_msg.key == id && received_msg.hmac == '<%= hmac %>'){
+    if(received_msg.path === '/temp/on' && received_msg.id == id){
         Cookies.set('statusTemp', 'off');
         console.log(event.data);
         var query = received_msg.query;
@@ -52,7 +52,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
         chart.render();
     }
 
-    if(received_msg.path === '/temp/off' && received_msg.key === id && received_msg.hmac === '<%= hmac %>' && received_msg.query === null){
+    if(received_msg.path === '/temp/off' && received_msg.id === id && received_msg.query === null){
         Cookies.set('statusTemp', 'on');
     }
     };
@@ -73,7 +73,7 @@ if((statusTemp !== undefined && statusTemp === 'on')){
             var id = $.get("id");
             var valorCookie = Cookies.getJSON('pi');
             document.write('<input type="hidden" id="id" name="id" value="'+ id +'">');
-            document.write('<input type="hidden" id="nserial" name="nserial" value="'+ valorCookie[id].nserial +'">');
+            document.write('<input type="hidden" id="key" name="key" value="'+ valorCookie[id].key +'">');
             document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[id].mac +'">');
             var statusTemp = Cookies.get('statusTemp');
                 if(statusTemp === undefined || (statusTemp !== undefined && statusTemp === 'off')){

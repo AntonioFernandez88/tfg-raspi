@@ -14,7 +14,7 @@
                 var idForm = $.get("id");
                 var valorCookie = Cookies.getJSON('pi');
                 document.write('<input type="hidden" id="id" name="id" value="'+ idForm +'">');
-                document.write('<input type="hidden" id="nserial" name="nserial" value="'+ valorCookie[idForm].nserial +'">');
+                document.write('<input type="hidden" id="key" name="key" value="'+ valorCookie[idForm].key +'">');
                 document.write('<input type="hidden" id="mac" name="mac" value="'+ valorCookie[idForm].mac +'">');
                 var statusBuzzer = Cookies.get('statusBuzzer');
                 if(statusBuzzer === 'off' || statusBuzzer === undefined){

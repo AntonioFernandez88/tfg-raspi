@@ -71,18 +71,22 @@
     }
 
     function goLed(){
-                window.location = "https://tfg-raspi.herokuapp.com/led?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/led?id=<%= id %>";
+                window.location = "http://localhost:3000/led?id=<%= id %>";
     }
 
     function goTemp(){
-                window.location = "https://tfg-raspi.herokuapp.com/temperature?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/temperature?id=<%= id %>";
+                window.location = "http://localhost:3000/temperature?id=<%= id %>";
     }
 
     function goLcd(){
-                window.location = "https://tfg-raspi.herokuapp.com/lcd?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/lcd?id=<%= id %>";
+                window.location = "http://localhost:3000/lcd?id=<%= id %>";
     }
     function goBuzzer(){
-                window.location = "https://tfg-raspi.herokuapp.com/buzzer?id=<%= id %>";
+                //window.location = "https://tfg-raspi.herokuapp.com/buzzer?id=<%= id %>";
+                window.location = "http://localhost:3000/buzzer?id=<%= id %>";
     }
 </script>
 </div>
