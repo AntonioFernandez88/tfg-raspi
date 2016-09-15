@@ -62,12 +62,8 @@ router.get('/link', function(req, res, next) {
 
 	var nameCookie = req.query.name || '';
 	var mac = req.query.mac || '';
-	var key = req.query.key || '';
 	var id = req.query.id || '';
 	var cookieDirMac = [];
-	/*var hmac = crypto.createHmac('sha1', key);
-	hmac.update(mac);
-	var hmacHash = hmac.digest('hex');*/
 
 	//SEND hmac AND id TO app.js
 	myEmitter.emit('eventId', id);
@@ -99,13 +95,12 @@ router.get('/actions', function(req, res, next) {
 
 		if(id === req.query.id){
 
-			//SEND id TO app.js
-			myEmitter.emit('eventId', id);
-			console.log('envioooooooooooooooooooooooooooo '+id);
 			pre_msg = '{"id" : "'+id+'", "path" : "/status/sensors", "query" : null }';
 			var hmac = crypto.createHmac('sha1', value.id);
 			hmac.update(pre_msg);
 			var hmacHash = hmac.digest('hex');
+			//SEND id TO app.js
+			myEmitter.emit('eventId', id);
 			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/status/sensors", "query" : null }';
 			myEmitter.emit('eventStatusSensor', msg);
 
@@ -136,6 +131,8 @@ router.get('/actions', function(req, res, next) {
 router.get('/configuration', function(req, res, next) {
 
     checkUser(req, res);
+    //SEND hmac AND id TO app.js
+	myEmitter.emit('eventId', req.query.id);
 	res.render('configuration', {link : ''});
 });
 
@@ -147,7 +144,6 @@ router.get('/led', function(req, res, next){
 	var led = req.query.option || '';
 	var mac = req.query.mac || '';
 	var id = req.query.id || '';
-	var key = req.query.key || '';
 	var hmac;
 	var hmacHash;
 
@@ -236,7 +232,6 @@ router.get('/lcd', function(req, res, next){
 	var text = req.query.text || '';
 	var comment = req.query.comment || '';
 	var id = req.query.id || '';
-	var key = req.query.key || '';
 	var mac = req.query.mac || '';
 	var option = req.query.option || '';
 	var hex = req.query.hex || '';
@@ -316,7 +311,6 @@ router.get('/buzzer', function(req, res, next){
 	var buzzer = req.query.buzzer || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
-	var key = req.query.key || '';
 	var hmac;
 	var hmacHash;
 
@@ -384,7 +378,6 @@ router.get('/temperature', function(req, res, next){
 	var temp = req.query.temp || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
-	var key = req.query.key || '';
 	var hmac;
 	var hmacHash;
 

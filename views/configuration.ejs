@@ -20,7 +20,7 @@
             if(lengthCookie > 0){
                 $.each(valueCookie,function(i,id){
                         html = '<div class="item-title"></div>';
-                        html += ' <b>Estado:</b><span id="item-status-'+valueCookie[i].hmac+'" class="item-status"> Obteniendo</span>';
+                        html += ' <b>Estado:</b><span id="item-status-'+valueCookie[i].id+'-pi" class="item-status"> Obteniendo</span>';
                         html += '<div class="item-content">';
                             html += '<div class="item-attribute">';
                                html += ' <b>Mac:</b> '+valueCookie[i].mac+'';
@@ -79,10 +79,12 @@
     var xVal = 0;
     ws.onmessage = function (event) {
         var received_msg = JSON.parse(event.data);
+        console.log(received_msg.path);
         if (received_msg.path == 'ack/status/pi') {
-            if ($('#item-status-' + received_msg.hmac).length == 1) {
-                $('#item-status-' + received_msg.hmac).html(received_msg.query);
-                $('#item-status-' + received_msg.hmac).attr('data-status-ok', true);
+            if ($('#item-status-' + received_msg.id+ '-pi').length == 1) {
+                console.log('entro');
+                $('#item-status-' + received_msg.id+'-pi').html(received_msg.query);
+                $('#item-status-' + received_msg.id+'-pi').attr('data-status-ok', true);
                 $('#button-view-' +received_msg.id).attr('disabled', false);
             }
         }
