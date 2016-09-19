@@ -63,6 +63,7 @@ router.get('/link', function(req, res, next) {
 	var nameCookie = req.query.name || '';
 	var mac = req.query.mac || '';
 	var id = req.query.id || '';
+	var key = req.query.key || '';
 	var cookieDirMac = [];
 
 	//SEND hmac AND id TO app.js
