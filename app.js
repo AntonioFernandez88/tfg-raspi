@@ -19,7 +19,6 @@ app.set('port', port);
 //Received hmac y id
 myEmitter.on('eventId', function(id){
     idApp = id;
-    console.log("me llegaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+id);
 });
 
 //----------------------------------------------------------------------------------------WS-------------------
@@ -106,10 +105,6 @@ myEmitter.on('eventLed', function(msg){
     sendMessage(msg);
 });
 
-/*myEmitter.on('eventHmac', function(msg){
-    sendMessageHmac(msg);
-});*/
-
 myEmitter.on('eventWriteLcd', function(msg){
     sendMessage(msg);
 });
@@ -129,15 +124,6 @@ myEmitter.on('eventstatusPi', function(msg){
 myEmitter.on('eventStatusSensor', function(msg){
     sendMessage(msg);
 });
-
-/*//Functions send messages
-function sendMessageHmac(msg){
-    // Wait until the state of the socket is not ready and send the message when it is...
-    waitForSocketConnection(ws, function(){
-        console.log("message sent!!!");
-        ws.send(msg);
-    });
-}*/
 
 function sendMessage(msg){
     // Wait until the state of the socket is not ready and send the message when it is...
@@ -169,8 +155,6 @@ function waitForSocketConnection(socket, callback){
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -75,10 +75,7 @@ router.get('/link', function(req, res, next) {
 		}catch(e){
 			cookieDirMac = {};
 		}
-		//msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/ack_auth", "query" : null }';
 		cookieDirMac[id]={mac:mac, key:key, id:id};
-		console.log(msg);
-		//myEmitter.emit('eventHmac', msg);
 		res.cookie('pi', JSON.stringify(cookieDirMac), {expires: new Date(Date.now() + (3600 * 1000 * 24 * 365))});
 		res.render('configuration', {link : 'Raspberry vinculada'});
 	}else{res.render('link');}
@@ -96,7 +93,7 @@ router.get('/actions', function(req, res, next) {
 		if(id === req.query.id){
 
 			pre_msg = '{"id" : "'+id+'", "path" : "/status/sensors", "query" : null }';
-			var hmac = crypto.createHmac('sha1', value.id);
+			var hmac = crypto.createHmac('sha1', value.key);
 			hmac.update(pre_msg);
 			var hmacHash = hmac.digest('hex');
 			//SEND id TO app.js
@@ -116,7 +113,6 @@ router.get('/actions', function(req, res, next) {
 			setTimeout(function(){
 				if(ack === true){
 					ack = false;
-					console.log(message.query.split(','));
 					res.render('actions', {id: req.query.id, sensor : message.query.split(',')});
 				}else{
 					res.render('actions', {id: req.query.id, sensor : ['disabled','disabled','disabled','disabled']});
@@ -144,85 +140,91 @@ router.get('/led', function(req, res, next){
 	var led = req.query.option || '';
 	var mac = req.query.mac || '';
 	var id = req.query.id || '';
+	var cookiePi =JSON.parse(req.cookies.pi);
 	var hmac;
 	var hmacHash;
 
-	if(led != ''){
-		//SEND hmac AND id TO app.js
-		myEmitter.emit('eventId', id);
-		console.log('envioooooooooooooooooooooooooooo '+id);
-		if(led === 'on'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/led/on", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/led/on", "query" : null }';
-			myEmitter.emit('eventLed', msg);
-			myEmitter.on('ACKLedOn', function(msg){
-				ack = true;
-			});
+	jquery.each(cookiePi, function(id,value) {
 
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					res.cookie('statusLed', 'off');
-					res.render('led',{option: 'Led encendido'});
-					ack = false
-				}else{
-					res.render('led',{option: 'Error, pruebe de nuevo'});
+		if(id === req.query.id){
+
+			if(led != ''){
+				//SEND hmac AND id TO app.js
+				myEmitter.emit('eventId', value.id);
+				if(led === 'on'){
+					pre_msg = '{"id" : "'+id+'", "path" : "/led/on", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/led/on", "query" : null }';
+					myEmitter.emit('eventLed', msg);
+					myEmitter.on('ACKLedOn', function(msg){
+						ack = true;
+					});
+
+					myEmitter.on('ACKError', function(msg){
+		    			ack = false;
+					});
+					setTimeout(function(){
+						if(ack === true){
+							res.cookie('statusLed', 'off');
+							res.render('led',{option: 'Led encendido'});
+							ack = false
+						}else{
+							res.render('led',{option: 'Error, pruebe de nuevo'});
+						}
+					},1000);
+				}else if(led === 'off'){
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/led/off", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/led/off", "query" : null }';
+					myEmitter.emit('eventLed', msg);
+					myEmitter.on('ACKLedOff', function(msg){
+		    			ack = true;
+					});
+
+					myEmitter.on('ACKError', function(msg){
+		    			ack = false;
+					});
+					setTimeout(function(){
+						if(ack === true){
+							res.cookie('statusLed', 'on');
+							res.render('led',{option: 'Led apagado'});
+							ack = false
+						}else{
+							res.render('led',{option: 'Error, pruebe de nuevo'});
+						}
+					},1000);
+				}else if(led === 'blink'){
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/led/blink", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/led/blink", "query" : null }';
+					myEmitter.emit('eventLed', msg);
+					myEmitter.on('ACKLedBlink', function(msg){
+						ack = true;
+					});
+
+					myEmitter.on('ACKError', function(msg){
+		    			ack = false;
+					});
+
+					setTimeout(function(){
+						if(ack === true){
+							res.render('led',{option: 'Led parpadeando'});
+						}else{
+							res.render('led',{option: 'Error, pruebe de nuevo'});
+						}
+					},1000);
 				}
-			},1000);
-		}else if(led === 'off'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/led/off", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/led/off", "query" : null }';
-			myEmitter.emit('eventLed', msg);
-			myEmitter.on('ACKLedOff', function(msg){
-    			ack = true;
-			});
-
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					res.cookie('statusLed', 'on');
-					res.render('led',{option: 'Led apagado'});
-					ack = false
-				}else{
-					res.render('led',{option: 'Error, pruebe de nuevo'});
-				}
-			},1000);
-		}else if(led === 'blink'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/led/blink", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/led/blink", "query" : null }';
-			myEmitter.emit('eventLed', msg);
-			myEmitter.on('ACKLedBlink', function(msg){
-				ack = true;
-			});
-
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-
-			setTimeout(function(){
-				if(ack === true){
-					res.render('led',{option: 'Led parpadeando'});
-				}else{
-					res.render('led',{option: 'Error, pruebe de nuevo'});
-				}
-			},1000);
+			}else{
+				res.render('led',{option: ''});
+			}
 		}
-	}else{
-		res.render('led',{option: ''});
-	}
+	});
 });
 
 //TEXT
@@ -235,73 +237,77 @@ router.get('/lcd', function(req, res, next){
 	var mac = req.query.mac || '';
 	var option = req.query.option || '';
 	var hex = req.query.hex || '';
+	var cookiePi =JSON.parse(req.cookies.pi);
 	var hmac;
 	var hmacHash;
 
+	jquery.each(cookiePi, function(id,value) {
 
-	//SEND hmac AND id TO app.js
-	myEmitter.emit('eventId', id);
-	console.log('envioooooooooooooooooooooooooooo '+id);
+		if(id === req.query.id){
+			//SEND hmac AND id TO app.js
+			myEmitter.emit('eventId', value.id);
 
-	if(text !== ''){
-		if(comment === ''){
-			res.render('lcd',{comment: 'Escribe un comentario, por favor', option: ''});
-		}else{
-			comment = comment.replace(/(\n|\n\r|\r\n)/,"");
-			pre_msg = '{"id" : "'+id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
-			myEmitter.emit('eventWriteLcd', msg);
-
-			myEmitter.on('ACKLcdWriteOk', function(msg){
-				ack = true;
-			});
-
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					res.render('lcd',{comment: 'Mensaje enviado!', option: ''});
-					ack = false
+			if(text !== ''){
+				if(comment === ''){
+					res.render('lcd',{comment: 'Escribe un comentario, por favor', option: ''});
 				}else{
-					res.render('lcd',{comment: 'Error, pruebe de nuevo', option: ''});
-			}
-			},1000);
-		}
-	}else if(option === 'Cambiar color'){
-			if(hex == ''){
-				res.render('lcd',{comment: '', option: 'Introduzca un color, por favor'});
-			}else{
-				pre_msg = '{"id" : "'+id+'", "path" : "/lcd/rgb", "query" : "'+rgb+'" }';
-				hmac = crypto.createHmac('sha1', id);
-				hmac.update(pre_msg);
-				var rgb = hexRgb(hex);
-				msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/lcd/rgb", "query" : "'+rgb+'" }';
-				console.log(msg);
-				myEmitter.emit('eventLed', msg);
+					comment = comment.replace(/(\n|\n\r|\r\n)/,"");
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/lcd/write", "query" : "'+comment+'" }';
+					myEmitter.emit('eventWriteLcd', msg);
 
-				myEmitter.on('ACKLcdRgbOk', function(msg){
-				ack = true;
-				});
+					myEmitter.on('ACKLcdWriteOk', function(msg){
+						ack = true;
+					});
 
-				myEmitter.on('ACKError', function(msg){
-	    			ack = false;
-				});
-				setTimeout(function(){
-					if(ack === true){
-						res.render('lcd',{comment: '', option: 'Color cambiado'});
-						ack = false
-					}else{
-						res.render('lcd',{comment: '', option:'Error, pruebe de nuevo'});
+					myEmitter.on('ACKError', function(msg){
+		    			ack = false;
+					});
+					setTimeout(function(){
+						if(ack === true){
+							res.render('lcd',{comment: 'Mensaje enviado!', option: ''});
+							ack = false
+						}else{
+							res.render('lcd',{comment: 'Error, pruebe de nuevo', option: ''});
 					}
-				},1000);
+					},1000);
+				}
+			}else if(option === 'Cambiar color'){
+					if(hex == ''){
+						res.render('lcd',{comment: '', option: 'Introduzca un color, por favor'});
+					}else{
+						pre_msg = '{"id" : "'+value.id+'", "path" : "/lcd/rgb", "query" : "'+rgb+'" }';
+						hmac = crypto.createHmac('sha1', value.key);
+						hmac.update(pre_msg);
+						var rgb = hexRgb(hex);
+						msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/lcd/rgb", "query" : "'+rgb+'" }';
+						myEmitter.emit('eventLed', msg);
+
+						myEmitter.on('ACKLcdRgbOk', function(msg){
+						ack = true;
+						});
+
+						myEmitter.on('ACKError', function(msg){
+			    			ack = false;
+						});
+						setTimeout(function(){
+							if(ack === true){
+								res.render('lcd',{comment: '', option: 'Color cambiado'});
+								ack = false
+							}else{
+								res.render('lcd',{comment: '', option:'Error, pruebe de nuevo'});
+							}
+						},1000);
+					}
+			}else{
+			res.render('lcd',{comment: '', option: ''});
 			}
-	}else{
-	res.render('lcd',{comment: '', option: ''});
-	}
+
+		}
+	});
 });
 
 //BUZZER
@@ -311,64 +317,70 @@ router.get('/buzzer', function(req, res, next){
 	var buzzer = req.query.buzzer || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
+	var cookiePi =JSON.parse(req.cookies.pi);
 	var hmac;
 	var hmacHash;
 
-	//SEND hmac AND id TO app.js
-	myEmitter.emit('eventId', id);
-	console.log('envioooooooooooooooooooooooooooo '+id);
+	jquery.each(cookiePi, function(id,value) {
 
-	if(buzzer != ''){
-		if(buzzer === 'on'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/buzzer/on", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/buzzer/on", "query" : null }';
-			myEmitter.emit('eventBuzzer', msg);
-			myEmitter.on('ACKBuzzerOn', function(msg){
-    			ack = true;
-			});
+		if(id === req.query.id){
 
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					res.cookie('statusBuzzer', 'on');
-					res.render('buzzer',{sound: 'Alarma encendida'});
-					ack = false
-				}else{
-					res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
+			//SEND hmac AND id TO app.js
+			myEmitter.emit('eventId', value.id);
+
+			if(buzzer != ''){
+				if(buzzer === 'on'){
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/buzzer/on", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/buzzer/on", "query" : null }';
+					myEmitter.emit('eventBuzzer', msg);
+					myEmitter.on('ACKBuzzerOn', function(msg){
+		    			ack = true;
+					});
+
+					myEmitter.on('ACKError', function(msg){
+		    			ack = false;
+					});
+					setTimeout(function(){
+						if(ack === true){
+							res.cookie('statusBuzzer', 'on');
+							res.render('buzzer',{sound: 'Alarma encendida'});
+							ack = false
+						}else{
+							res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
+						}
+					},1000);
+				}else if(buzzer === 'off'){
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/buzzer/off", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/buzzer/off", "query" : null }';
+					myEmitter.emit('eventBuzzer', msg);
+					myEmitter.on('ACKBuzzerOff', function(msg){
+		    			ack = true;
+					});
+
+					myEmitter.on('ACKError', function(msg){
+		    			ack = false;
+					});
+					setTimeout(function(){
+						if(ack === true){
+							res.cookie('statusBuzzer', 'off');
+							res.render('buzzer',{sound: 'Alarma apagada'});
+							ack = false
+						}else{
+							res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
+						}
+					},1000);
 				}
-			},1000);
-		}else if(buzzer === 'off'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/buzzer/off", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/buzzer/off", "query" : null }';
-			myEmitter.emit('eventBuzzer', msg);
-			myEmitter.on('ACKBuzzerOff', function(msg){
-    			ack = true;
-			});
-
-			myEmitter.on('ACKError', function(msg){
-    			ack = false;
-			});
-			setTimeout(function(){
-				if(ack === true){
-					res.cookie('statusBuzzer', 'off');
-					res.render('buzzer',{sound: 'Alarma apagada'});
-					ack = false
-				}else{
-					res.render('buzzer',{sound: 'Error, pruebe de nuevo'});
-				}
-			},1000);
+			}else{
+				res.render('buzzer', {sound: ''});
+			}
 		}
-	}else{
-		res.render('buzzer', {sound: ''});
-	}
+	});
 });
 
 //TEMPERATURE
@@ -378,36 +390,42 @@ router.get('/temperature', function(req, res, next){
 	var temp = req.query.temp || '';
 	var id = req.query.id || '';
 	var mac = req.query.mac || '';
+	var cookiePi =JSON.parse(req.cookies.pi);
 	var hmac;
 	var hmacHash;
 
-	//SEND hmac AND id TO app.js
-	myEmitter.emit('eventId', id);
-	console.log(msg);
+		jquery.each(cookiePi, function(id,value) {
 
-    if(temp !== ''){
-		if(temp === 'on'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/temp/on", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/temp/on", "query" : null }';
-			myEmitter.emit('eventTemp', msg);
-			res.cookie('statusTemp', 'on');
-			res.render('temperature');
-		}else if(temp === 'off'){
-			pre_msg = '{"id" : "'+id+'", "path" : "/temp/off", "query" : null }';
-			hmac = crypto.createHmac('sha1', id);
-			hmac.update(pre_msg);
-			hmacHash = hmac.digest('hex');
-			msg = '{"hmac" : "'+hmacHash+'", "id" : "'+id+'", "path" : "/temp/off", "query" : null }';
-			myEmitter.emit('eventTemp', msg);
-			res.cookie('statusTemp', 'off');
-			res.render('temperature');
+		if(id === req.query.id){
+			//SEND hmac AND id TO app.js
+			myEmitter.emit('eventId', id);
+			console.log(msg);
+
+		    if(temp !== ''){
+				if(temp === 'on'){
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/temp/on", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/temp/on", "query" : null }';
+					myEmitter.emit('eventTemp', msg);
+					res.cookie('statusTemp', 'on');
+					res.render('temperature');
+				}else if(temp === 'off'){
+					pre_msg = '{"id" : "'+value.id+'", "path" : "/temp/off", "query" : null }';
+					hmac = crypto.createHmac('sha1', value.key);
+					hmac.update(pre_msg);
+					hmacHash = hmac.digest('hex');
+					msg = '{"hmac" : "'+hmacHash+'", "id" : "'+value.id+'", "path" : "/temp/off", "query" : null }';
+					myEmitter.emit('eventTemp', msg);
+					res.cookie('statusTemp', 'off');
+					res.render('temperature');
+				}
+		    }else{
+				res.render('temperature');
+			}
 		}
-    }else{
-		res.render('temperature');
-	}
+	});
 });
 
 //INFO
